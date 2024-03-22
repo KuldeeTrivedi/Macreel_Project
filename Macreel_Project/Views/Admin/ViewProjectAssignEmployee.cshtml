@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewBag.Title = "ViewProjectAssignEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 12px;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Assign Employee And Documentation</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                  
+                    <div class="card-body ">
+
+                        <div class="row">
+                          
+                            <div class="col-md-4">
+                                <label for="Employee Name">Employee Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <h5>
+                                        @if (ViewBag.Emp != null)
+                                        {
+                                            @ViewBag.Emp
+                                        }
+                                        else
+                                        {
+                                            <div>This Project Not Assign</div>
+                                        }
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="Employee Name">Description</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <h7>
+                                        @if (ViewBag.desc != null)
+                                        {
+                                            @ViewBag.desc
+                                        }
+                                    </h7>
+                                </div>
+                            </div>
+                        </div>
+                        @if (ViewBag.list != null)
+                        {
+                            <div class="row">
+                                <table id="datatable1" class="table " cellspacing="0" width="100%">
+                                    @*<thead style="background-color: #10605A;">
+            <tr class="Head1">
+                <th>EmployeeName</th>
+                <th>ProjectName</th>
+                <th>ProjectStatus</th>
+                <th>Description</th>
+                <th>Date</th>
+            </tr>
+        </thead>*@
+                                    <thead style="background-color: rgba(22,160,133,0.9); color: white;">
+                                        <tr>
+                                            <th style="padding: 5px; font-size: 14px;">EMPLOYEE NAME</th>
+                                            <th style="padding: 5px; font-size: 14px;">PROJECT NAME</th>
+                                            <th style="padding: 5px; font-size: 14px;">PROJECT STATUS</th>
+                                            <th style="padding: 5px; font-size: 14px;">DESCRIPTION</th>
+                                            <th style="padding: 5px; font-size: 14px;">DATE</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbod">
+
+                                        @if (ViewBag.list != null)
+                                        {
+
+                                            foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.Project>)
+                                            {
+                                                <tr>
+                                                    <td style="font-size:15px">@item.EmployeeName</td>
+                                                    <td style="font-size:15px">@item.ProjectName</td>
+                                                    <td style="font-size:15px">@item.ProjectStatus</td>
+                                                    <td style="font-size:15px">@item.Description</td>
+                                                    <td style="font-size:15px">@item.Date</td>
+                                                </tr>
+
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        }
+                        <div class="row">
+                            <table id="datatable1" class="table " cellspacing="0" width="100%">
+                                @*<thead>
+            <tr class="Head1">
+                <th>Documentation Name</th>
+                <th>Download</th>
+            </tr>
+        </thead>*@
+                                <thead style="background-color: rgba(22,160,133,0.9); color: white;">
+                                    <tr>
+                                        <th style="padding: 5px; font-size: 14px;">DOCUMENTATION NAME</th>
+                                        <th style="padding: 5px; font-size: 14px;">DOWNLOAD</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody class="tbod">
+
+                                    @if (ViewBag.Document != null)
+                                    {
+
+                                        foreach (var item in ViewBag.Document as List<Macreel_Project.Models.Bussiness.Project>)
+                                        {
+                                            <tr>
+                                                <td style="font-size:15px">@item.Document</td>
+                                                <td style="font-size:15px"><a href="@item.Document" download="">DownLoad</a></td>
+                                            </tr>
+
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+
+
+
+

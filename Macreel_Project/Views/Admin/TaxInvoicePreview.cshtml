@@ -1,0 +1,390 @@
+﻿@model Macreel_Project.Models.Bussiness.performa
+@{
+    ViewBag.Title = "TaxInvoicePreview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/assets/css/pricing.css" rel="stylesheet" />
+<style>
+    .gstrate {
+        font-size: 12px !important;
+        font-weight: 600;
+        font-family: monospace;
+        font-style: italic;
+    }
+
+    .ht-gap {
+        height: 100px;
+    }
+
+    .pay-amt {
+        text-align: right;
+        padding-right: 10px;
+        padding: 4px !important;
+    }
+</style>
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="container">
+    <div class="wapper-content box-shadow print-page">
+        <h4 class="tax-invoice-title text-center">Tax Invoice Preview</h4>
+        <div>
+            @if (ViewBag.company != null)
+            {
+                foreach (var item in ViewBag.company as List<Macreel_Project.Models.Bussiness.Company>)
+                {
+                    <header>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="company-logo">
+                                    <img src="~/assets/img/logo.png" alt="TIS" class="img-fluid">
+                                </div>
+                            </div>
+                            <div class="col-md-7">
+                                <h1 class="title">@item.CompanyName</h1>
+                                <address>
+                                    <p>@item.Address</p>
+                                    <p class="phone-title">Phone : @item.Phone <span>Email-id : @item.Email</span></p>
+                                </address>
+                            </div>
+                            <div class="col-md-2"></div>
+                        </div>
+                    </header>
+                    <div class="clearfix"></div>
+                    <section id="GST-grid">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ul class="list-inline list-item">
+                                    <li>GST No : @item.GSTNo </li>
+                                    <li>CTIN No : @item.TINNO </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-4">
+                                <ul class="list-inline list-item">
+                                    <li>STATE : @item.State </li>
+                                    <li>PAN No : @item.PanNo </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                }
+            }
+        </div>
+        <!-- Invoice company-->
+        <section id="company-name">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="client-details">
+                        <h3 class="cmp-title">@Model.ClientName</h3>
+                        <ul class="list-inline address">
+                            <li>@Model.Address</li>
+                            <li>Tel/Fax : @Model.ClientPhone</li>
+                            <li>Email-id : @Model.ClientEmail</li>
+                            <li>GSTNo : @Model.ClientGST</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-4" style="border-left:1px solid #333;">
+                    <div class="invoice-no">
+                        <ul class="list-inline ">
+                            <li class="client-invoice">Invoice No :<span class="number-title">@Model.InvoiceNo</li>
+                            <li class="client-invoice">Date:<span class="number-title">@Model.Date1</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- client-gst information--->
+        <!-- Product table-->
+        <section id="product-value">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (Model.Type == "Other")
+                    {
+                        <table class="table" style="margin-bottom:0px;">
+                            <thead style="border: 1px solid #444444f7;">
+                                <tr>
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Product Name</th>
+                                    <th scope="col">Duration</th>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border:1px solid #333;">
+                                @if (ViewBag.product != null)
+                                {
+                                    var sn = 1;
+                                    foreach (var pro in ViewBag.product as List<Macreel_Project.Models.Bussiness.performa>)
+                                    {
+                                        <tr>
+                                            <td scope="row">@sn</td>
+                                            <td style="width:400px;">@pro.Servicesnm<p>@pro.Description1</p></td>
+                                            <td class="text-center">@pro.Durationtm</td>
+                                            <td class="text-center" style="width:120px;">@pro.Date1</td>
+                                            <td class="text-right">@pro.Amount1</td>
+                                        </tr>
+                                        sn++;
+                                    }
+
+                                }
+                                <tr class="ht-gap">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt">Total Before Tax</td>
+                                    <td></td>
+                                    <td class="pay-amt">@Model.TotalAmount</td>
+                                </tr>
+                                @if (Model.IGST != 0)
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">Igst @Model.IGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.IgstAmount</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">SGST @Model.SGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.SgstAmount</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">CGST @Model.CGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.CgstAmount</td>
+                                    </tr>
+                                }
+
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Tax</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.TaxAmount</b></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;line-height:1;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Amout (After Tax)</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.AfterTaxAmount</b></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+                    else if (Model.Type == "Software")
+                    {
+                        <table class="table" style="margin-bottom:0px;">
+                            <thead style="border: 1px solid #444444f7;">
+                                <tr>
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Unit Price</th>
+                                    <th scope="col">Unit</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border:1px solid #333;">
+                                @if (ViewBag.products != null)
+                                {
+                                    var sn = 1;
+                                    foreach (var pro in ViewBag.products as List<Macreel_Project.Models.Bussiness.performa>)
+                                    {
+                                        <tr>
+                                            <td scope="row">@sn</td>
+                                            <td style="width:300px;">@pro.SoftName<p>@pro.SoftDescription</p></td>
+                                            <td class="text-center">@pro.SoftAmount</td>
+                                            <td class="text-right">@pro.SoftUnit</td>
+                                            <td class="text-right">@pro.SoftTotal</td>
+                                        </tr>
+                                        sn++;
+                                    }
+
+                                }
+                                <tr class="ht-gap">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt">Total Before Tax</td>
+                                    <td></td>
+                                    <td class="pay-amt">@Model.TotalAmount</td>
+                                </tr>
+                                @if (Model.IGST != 0)
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">Igst @Model.IGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.IgstAmount</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">SGST @Model.SGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.SgstAmount</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">CGST @Model.CGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.CgstAmount</td>
+                                    </tr>
+                                }
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Tax</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.TaxAmount</b></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;line-height:1;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Amout (After Tax)</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.AfterTaxAmount</b></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    }
+                    else if (Model.Type == "Hardware")
+                    {
+                        <table class="table" style="margin-bottom:0px;">
+                            <thead style="border: 1px solid #444444f7;">
+                                <tr>
+                                    <th scope="col">S.No</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Unit Price</th>
+                                    <th scope="col">Unit</th>
+                                    <th scope="col">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody style="border:1px solid #333;">
+                                @if (ViewBag.productH != null)
+                                {
+                                    var sn = 1;
+                                    foreach (var pro in ViewBag.productH as List<Macreel_Project.Models.Bussiness.performa>)
+                                    {
+                                        <tr>
+                                            <td scope="row">@sn</td>
+                                            <td style="width:300px;">@pro.ProductName<p>@pro.HNaration</p></td>
+                                            <td class="text-center">@pro.HUnitAmount</td>
+                                            <td class="text-right">@pro.HwUnit</td>
+                                            <td class="text-right">@pro.HwTotal</td>
+                                        </tr>
+                                        sn++;
+                                    }
+
+                                }
+                                <tr class="ht-gap">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt">Total Before Tax</td>
+                                    <td></td>
+                                    <td class="pay-amt">@Model.TotalAmount</td>
+                                </tr>
+                                @if (Model.IGST != 0)
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">Igst @Model.IGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.IgstAmount</td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">SGST @Model.SGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.SgstAmount</td>
+                                    </tr>
+                                    <tr style="border-top:1px solid #333;">
+
+                                        <td colspan="3" class="pay-amt">CGST @Model.CGST%</td>
+                                        <td></td>
+                                        <td class="pay-amt">@Model.CgstAmount</td>
+                                    </tr>
+                                }
+
+                                <tr style="border-top:1px solid #333;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Tax</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.TaxAmount</b></td>
+                                </tr>
+                                <tr style="border-top:1px solid #333;line-height:1;">
+
+                                    <td colspan="3" class="pay-amt"><b>Total Amout (After Tax)</b></td>
+                                    <td></td>
+                                    <td class="pay-amt"><b>@Model.AfterTaxAmount</b></td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    }
+                </div>
+            </div>
+            <footer style="padding:10px;border:1px solid #333;">
+                <p style="font-weight:400;"><b>Amount Chargeable (In words): @Model.Amountword Only</b></p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="place" style="margin-bottom:2px;font-size:18px;font-weight:600;">Company's Bank Details :</p>
+                        <p class="account" style="font-size:15px;">
+                            <strong>
+                                Bank Name : IDBI Bank</br>A / c No: 0873102000000578  </ br > Branch & IFS Code: Indrapuram Branch, Ghaziabad  & IBKL0000873 </br >
+                            </strong>
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="signature-grid">
+                            <h5>For Macreel Infosoft Pvt Ltd.</h5>
+                            <p>Authorised Signature</p>
+                            <div class="sign-box" style="border:1px solid #000; width:200px;height:50px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="Declaration page-break">
+                    <h5 style="margin-bottom:6px;"> Declaration :-</h5>
+                    <p style="margin-top:2px;font-size:14px;">
+                        TDS Declaration : In Terms of Notification No. 21/2012 (F.No. 142/10/2012-SO(TPL)) S.O. 1323 (E) Dated 13-06-2012 hereby Declare that transation with Remarks "Ref.TDS Declaration" is Software aquired in a subsequent
+                        transfer and is transferred without any modification U/S 194 J on payment for any previous transfer of sach software or Tax Deducted at Source U/S 195 on payment for any previous transfer of sach software.you are not Required to educt TDS on this Account.PAN :AAECT9624Q
+                    </p>
+                </div>
+            </footer>
+        </section>
+        <div class="print-btn text-right">
+            @using (Html.BeginForm("QuatationPreview", "Admin", FormMethod.Post))
+            {
+                <input type="hidden" value="http://localhost:2054/Admin/TaxPdf?InvoiceNo=@Model.InvoiceNo" name="TxtUrl" />
+                <button type="submit" class="btn btn-success" style="font-size:16px;">Download Tax Invoice</button>
+                <a href="/Admin/GanratedInvoice"><button type="button" class="btn btn-danger" style="font-size:16px;">Cancel</button></a>
+            }
+        </div>
+    </div>
+</div>
+

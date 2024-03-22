@@ -1,0 +1,105 @@
+﻿@{
+    ViewBag.Title = "Invoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .thead {
+        font-size: 11px;
+    }
+
+    .card-body .Head1 th {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 11px;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">GENERATE INVOICE LIST</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="toolbar">
+                    </div>
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container ">
+                                <section class="content">
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr  style="background-color: #3f838d;color:white">
+                                                <th>
+                                                    SR NO.
+                                                </th>
+                                                <th>
+                                                   INVOICE NO
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME
+                                                </th>
+                                                <th>
+                                                    TOTAL AMOUNT
+                                                </th>
+                                                <th>
+                                                    AFTER TAX AMOUNT
+                                                </th>
+                                                <th>
+                                                    VIEW INVOICE
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.LIST != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.LIST as List<Macreel_Project.Models.Bussiness.performa>)
+                                                {
+                                                    <tr>
+                                                        <td>@sn</td>
+                                                        <td>@item.InvoiceNo</td>
+                                                        <td>@item.CompanyName</td>
+                                                        <td>@item.TotalAmount</td>
+                                                        <td>@item.AfterTaxAmount</td>
+                                                        <td style="width:169px;">
+                                                            <a href="/Admin/TaxInvoicePreview?InvoiceNo=@item.InvoiceNo" class="btn btn-round btn-info btn-icon btn-sm like" data-toggle="tooltip" data-placement="bottom" data-original-title="Preview" title="Preview"><i class="fas fa-file-pdf" style="color:red;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                            </section></div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+
+
+

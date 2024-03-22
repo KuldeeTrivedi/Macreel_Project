@@ -1,0 +1,181 @@
+﻿@{
+    ViewBag.Title = "GanratedInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .thead {
+        font-size: 11px;
+    }
+
+    .card-body .Head1 th {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 15px;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">GENRATED INVOICE LIST</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+              
+                <div class="card-body">
+                    <div class="toolbar">
+
+                    </div>
+                    
+                        @*<thead>
+            <tr class="Head1">
+                <th style="width:50px;">S.No</th>
+                <th>InvoiceNo</th>
+                <th style="width:250px;">CompanyName</th>
+                <th>Total Amount</th>
+                <th>After TaxAmount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>*@
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container">
+                                <section class="content">
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead style="line-height: normal; height: 1px !important;">
+                                            <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                                <th style="padding:5px;">
+                                                    Sr No.
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Invoice No
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Company Name
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Amount
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Tax Amount
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Status
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Action
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.LIST != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.LIST as List<Macreel_Project.Models.Bussiness.performa>)
+                                                {
+                                                    <tr>
+                                                        <td style="width:50px;">@sn</td>
+                                                        <td>@item.InvoiceNo</td>
+                                                        <td style="width:250px;">@item.CompanyName</td>
+                                                        <td>@item.TotalAmount</td>
+                                                        <td>@item.AfterTaxAmount</td>
+                                                        <td>
+                                                            <div>Invoice Ganrated</div>
+                                                        </td>
+                                                        <td style="width:169px;">
+                                                            <a href="/Admin/TaxInvoicePreview?InvoiceNo=@item.InvoiceNo" data-toggle="tooltip" data-placement="bottom" data-original-title="Preview" title="Preview"><i class="fas fa-file-pdf mr-2" style="color:red;"></i></a>
+                                                            <a href="/Admin/UpdateInvoice?InvoiceNo=@item.InvoiceNo" class="edit" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="fa fa-pencil mr-2" style="color: darkgreen !important;"></i></a>
+                                                            <a userId="@item.InvoiceNo" class="sn-delete"><i class="fas fa-trash mr-2" style="color:red;"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                            </div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('.sn-delete').click(function () {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger mr-2'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be Delete!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                var me = $(this);
+                var userId = me.attr('userid');
+                var cateogy = {
+                    InvoiceNo: userId,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteInvoice",
+                    data: JSON.stringify(cateogy),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (message) {
+                        window.location.href = "/Admin/GanratedInvoice";
+                    }
+                });
+                swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                  'Cancelled',
+                  'Your file is safe :)',
+                  'error'
+                )
+            }
+        })
+    });
+</script>
+

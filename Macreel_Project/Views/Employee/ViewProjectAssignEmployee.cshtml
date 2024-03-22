@@ -1,0 +1,135 @@
+﻿
+@{
+    ViewBag.Title = "ViewProjectAssignEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Assign Employee And Documentation</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+
+<div class="panel-header panel-header-sm">
+
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                    
+                    <div class="card-body ">
+
+                        <div class="row">
+                       
+                            <div class="col-md-2">
+                                <label for="employeename">Employee Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <h5>
+                                        @if (ViewBag.Emp != null)
+                                        {
+                                            @ViewBag.Emp
+                                        }
+                                        else
+                                        {
+                                            <div>This Project Not Assign</div>
+                                        }
+                                    </h5>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            
+                            <div class="col-md-2">
+                                <label for="admindescription">Admin Description</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <h7>
+                                        @if (ViewBag.desc != null)
+                                        {
+                                            @ViewBag.desc
+                                        }
+                                    </h7>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                      
+                            <div class="col-md-2">
+                                <label for="yourdescription">Your Description</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <h7>
+                                        @if (ViewBag.YourDescript != null)
+                                        {
+                                            @ViewBag.YourDescript
+                                        }
+                                        else
+                                        {
+                                            <div>No Description</div>
+                                        }
+                                    </h7>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <table id="datatable1" class="table " cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="Head1">
+                                        <th>Documentation Name</th>
+                                        <th>Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbod">
+
+                                    @if (ViewBag.Document != null)
+                                    {
+
+                                        foreach (var item in ViewBag.Document as List<Macreel_Project.Models.Bussiness.Project>)
+                                        {
+                                            <tr>
+                                                <td>@item.Document</td>
+                                                <td><a href="@item.Document" download="">DownLoad</a></td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+

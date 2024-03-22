@@ -1,0 +1,879 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title> Macreel | Dashboard </title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/assets/Plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" href="~/assets/Plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="~/assets/css/adminlte.min.css">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="~/assets/css/datepicker.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+    <style>
+        .container-fluid {
+            padding-right: 8.5px;
+            padding-left: 10.5px;
+        }
+
+        .form_button_box {
+            text-align: center;
+            margin: 15px;
+        }
+
+            .form_button_box button {
+                width: 200px;
+                height: 45px;
+            }
+
+        .content-header {
+            background-color: #6a90d1;
+            padding: 4px;
+            color: white;
+            text-align: center;
+            margin: 0 3px 20px 3px;
+        }
+
+            .content-header h1 {
+                font-weight: bolder;
+            }
+
+        .list_table table {
+            background-color: white;
+        }
+
+            .list_table table tr:first-child {
+                background-color: #3f838d;
+                color: white;
+            }
+            /* .list_table table td a {
+            margin: 5px;
+        }*/
+            .list_table table tr:hover {
+                background-color: #c5c7cb;
+            }
+
+        footer {
+            padding: 12px;
+        }
+
+        .badge {
+            color: white;
+            height: 20px;
+        }
+        .brand-link .brand-image {
+            margin-left:0px !important;
+        }
+    </style>
+</head>
+@{ 
+    if (Session["Login"] == null)
+    {
+        Response.Redirect("/Account/Login");
+    }
+    <body class="white-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed sidebar-collapse">
+        @{Macreel_Project.Models.Bussiness.Login obj = (Macreel_Project.Models.Bussiness.Login)Session["Login"];
+            <div class="wrapper">
+                <!-- Navbar -->
+                <nav class="main-header navbar navbar-expand navbar-white">
+                    <!-- Left navbar links -->
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" data-widget="pushmenu" href="" role="button"><i class="fas fa-bars"></i></a>
+                                </li>
+                                <li class="nav-item d-none d-sm-inline-block">
+                                    <a href="" class="nav-link">Home</a>
+                                </li>
+                            </ul>
+                    <!-- Right navbar links -->
+                    <ul class="navbar-nav ml-auto">
+                        <!-- Navbar Search -->
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="navbar-search" href="" role="button">
+                                <i class="fas fa-search"></i>
+                            </a>
+                            <div class="navbar-search-block">
+                                <form class="form-inline">
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-navbar" type="submit">
+                                                <i class="fas fa-search"></i>
+                                            </button>
+                                            <button class="btn btn-navbar" type="button" data-widget="navbar-search">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#" role="button">
+                                <i class="fas fa-th-large"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.navbar -->
+                <!-- Main Sidebar Container -->
+                <aside class="main-sidebar sidebar-white-primary elevation-4" style="background-color:white">
+                    <!-- Brand Logo -->
+                    <a href="" class="brand-link">
+                        <img src="~/assets/img/macreel.png" alt="Logo" class="brand-image  elevation-1" style="width:60px;height: 38px;padding:5px 0px 0px 5px !important">
+                        @*<span class="brand-text font-weight-light">Macreel</span>*@
+                    </a>
+                    <!-- Sidebar -->
+                    <div class="sidebar">
+                        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                            <div class="image">
+                                <a href="/Admin/EmpView?Id=@obj.EmpId"><img src="@obj.Image" class="img-circle elevation-2" alt="User Image"></a>
+                            </div>
+                            <div class="info">
+                                <a href="#" class="d-block">@obj.UserName</a>
+                            </div>
+                        </div>
+                        <!-- SidebarSearch Form -->
+                        <div class="form-inline">
+
+                            <div class="input-group" data-widget="sidebar-search">
+                                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-sidebar">
+                                        <i class="fas fa-search fa-fw"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Sidebar Menu -->
+                        @if (obj.Type == "Admin")
+                        {
+                            <nav class="mt-2">
+                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                                    <li class="nav-item">
+                                        <a href="/Admin/Index" class="nav-link">
+                                            <i class="nav-icon fas fa-home"  style="color: #6ac3ef"></i>
+                                            <p>
+                                                Dashboard
+                                            </p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-id-card" style="color: #8bc34a !important"></i>
+                                            <p>
+                                                Designation Managment
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/AddDesignation" class="nav-link">
+                                                    <i class="far fa-plus"></i>
+                                                    <p>Add Designation</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-id-card" style="color:#dd4b39;"></i>
+                                            <p>
+                                                Department Managment
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/AddDepartment" class="nav-link">
+                                                    <i class="far fa-plus"></i>
+                                                    <p>Add Department</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-users" style="color:#e451fd;"></i>
+                                            <p>
+                                                Employee Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Employee/AddEmployee" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Employee</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/AllEmployeeList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Employee</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-book" style="color:#ffc107;"></i>
+                                            <p>
+                                                Client Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/AddClient" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Client</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/ClientList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Client</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-book" style="color:#b6ff00;"></i>
+                                            <p>
+                                                Project Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AddProject" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Project</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/ProjectList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Project</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Admin/AssignProject" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Assign Project</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/AssignProjectList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>AssignProjectList</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+
+                                    </li>
+
+
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fa fa-wrench" style="color:#00c0ef;"></i>
+                                            <p>
+                                                Services Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/Service" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Services</p>
+                                                </a>
+                                            </li>
+
+                                            @*<li class="nav-item">
+                                                <a href="/admin/Service" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Services</p>
+                                                </a>
+                                            </li>*@
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                           <i class="nav-icon fa-solid fa-person-through-window" style="color:#f44336;"></i>
+                                            <p>
+                                                Leave Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AddLeaveType" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Leave Type</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AssignLeave" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Assign Leave</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/ApplyLeaveForAdmin" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Applied Leave</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AllEmployeeLeave" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>All Employee Leave</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <p>
+                                                Task Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/Create_Task" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Create & Assign Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/task_view" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>List Of Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/approved_task" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Approval Task</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <p>
+                                                Task Report
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reports?status=Pending" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Pending Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reports?status=Closed" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Closed Task</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reports?status=Not Response" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Not Response Task</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/admin/emp_PerformanceList" class="nav-link">
+                                            <i class="nav-icon fas fa-percentage" style="color: #ab4949 "></i>
+                                            <p>
+                                                Employee Performance
+                                            </p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-person-walking-arrow-right" style="color: #f75a2b "></i>
+                                            <p>
+                                                Lead Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/CreateLead" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Lead</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AllLead" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>All Lead</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AssignedLead" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>AssignedLead</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/AllAssignLeave" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>All Assign Lead</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--quatation Management-->
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-quote-left" style="color: #2091eb"></i>
+                                            <p>
+                                                Quatation Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/GenrateQuatation" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Quatation</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/GenrateQuatationList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Quatation</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--End Quatation Management-->
+                                    <!--Performa Invoice-->
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-masks-theater" style="color: #edc14d"></i>
+                                            <p>
+                                                Performa Invoice
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/GanratePI" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Performa Invoice</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/PIList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Performa Invoice</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+                                    <!--End Performa invoice-->
+                                    <!--Tax Invoice-->
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fas fa-book"></i>
+                                            <p>
+                                                Tax Invoice
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/GanrateTaxInvoice" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Add Tax Invoice</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                        <ul class="nav nav-treeview">
+
+                                            <li class="nav-item">
+                                                <a href="/admin/GanratedInvoice" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>View Tax Invoice</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <!--End Tax invoice-->
+                                    <!--End Tax invoice-->
+
+                                    <li class="nav-item">
+                                        <a href="/admin/PurchaseOrder" class="nav-link">
+                                            <i class="nav-icon fas fa-book"></i>
+                                            <p>
+                                                Purchase Order
+                                            </p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="/admin/AddPayment" class="nav-link">
+                                            <i class="nav-icon fas fa-book"></i>
+                                            <p>
+                                                Add Payment
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/admin/Reports" class="nav-link">
+                                            <i class="nav-icon fas fa-book"></i>
+                                            <p>
+                                                Reports
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="SupportTicket" class="nav-link">
+                                            <i class="nav-icon fas fa-book"></i>
+                                            <p>
+                                                Supports
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/admin/Update_password" class="nav-link">
+                                            <i class="nav-icon fas fa-lock"></i>
+                                            <p>
+                                                Update Password
+                                            </p>
+                                        </a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a href="/account/login" class="nav-link">
+                                            <i class="nav-icon fas fa-power-off" style="color: #094e99"></i>
+                                            <p>
+                                                Logout
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </nav>
+                        }
+                        else if (obj.Type == "Emp")
+                        {
+
+                            <nav class="mt-2">
+
+                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                                    <li class="nav-item">
+                                        <a href="/Admin/UserDashboard" class="nav-link">
+                                            <i class="nav-icon fas fa-home" style="color: #6ac3ef"></i>
+                                            <p>
+                                                Dashboard
+                                            </p>
+                                        </a>
+                                    </li>
+
+                                    <!--Employee Interface-->
+                                    <!--Start Task Management-->
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <p>
+                                                Task Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/TaskAssigned_list" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Show Assign Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Employee/Comptask_view" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Complete Task</p>
+                                                </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </li>
+
+                                    <!--End Task Management-->
+                                    <!--Start For Employee Interface-->
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-person-through-window" style="color:#f44336;"></i>
+                                            <p>
+                                                Leave Management
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/Employee/ApplyLeave" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>
+                                                        Apply Leave
+                                                    </p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Employee/ApplyLeaveList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Apply Leave List</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Admin/PendingLeaveList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Pending Leave List</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Admin/ApproveLeaveList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Approvel Leave List</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/Admin/RejectLeaveList" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>UnApprovel Leave List</p>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Employee/EmployeeAssignProject" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-user-shield" style="color:lightblue"></i>
+                                            <p>
+                                                Assigned Project
+                                            </p>
+                                        </a>
+                                    </li>
+
+
+                                    <li class="nav-item">
+                                        <a href="/admin/ApplyLeaveForReportingManager" class="nav-link">
+                                            <i class="nav-icon fas fa-lock" style="color:lightcoral"></i>
+                                            <p>
+                                                Applied Leave Request
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/admin/Update_password" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-key" style="color:orangered"></i>
+                                            <p>
+                                                Update Password
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <!--End Interface-->
+                                    <li class="nav-item">
+                                        <a href="/account/login" class="nav-link">
+                                            <i class="nav-icon fas fa-power-off" style="color: #094e99 "></i>
+                                            <p>
+                                                Logout
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </nav>
+                            <!--End  For Employee Interface-->
+                        }
+                        else if (obj.Type == "Client")
+                        {
+
+                            <nav class="mt-2">
+
+                                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                                    <!-- Add icons to the links using the .nav-icon class
+                                with font-awesome or any other icon font library -->
+                                    <li class="nav-item">
+                                        <a href="/Client/ClientDashBoard" class="nav-link">
+                                            <i class="nav-icon fas fa-home"></i>
+                                            <p>
+                                                Dashboard
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <!--start for Client Interface-->
+
+
+                                    <li class="nav-item">
+                                        <a href="/Client/Invoice" class="nav-link">
+                                            <i class="nav-icon fas fa-lock"></i>
+                                            <p>
+                                                Invoice
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/Employee/Inbox" class="nav-link">
+                                            <i class="nav-icon fas fa-lock"></i>
+                                            <p>
+                                                Support
+                                            </p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/account/login" class="nav-link">
+                                            <i class="nav-icon fas fa-power-off"></i>
+                                            <p>
+                                                Logout
+                                            </p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                            <!--End For Client Inter Face-->
+                            <!-- /.sidebar-menu -->
+                        }
+                    </div>
+
+                    <!-- /.sidebar -->
+                </aside>
+
+                <script src="~/assets/js/jquery-1.11.3.min.js"></script>
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+                <aside class="control-sidebar control-sidebar-dark">
+                    <!-- Control sidebar content goes here -->
+                </aside>
+
+                <footer class="main-footer">
+                    <strong>Copyright &copy; 2012-2023 <a href="https://www.macreel.co.in">Macreel Info.io</a>.</strong>
+                    All rights reserved.
+                    <div class="float-right d-none d-sm-inline-block">
+                        <b>Version</b> 3.2.0
+                    </div>
+                </footer>
+
+            </div>
+
+            <!-- jQueryDataTable -->
+            <script src="~/assets/Plugins/jquery/jquery.min.js"></script>
+            <link href="~/assets/DataTables-1.13.6/css/jquery.dataTables.css" rel="stylesheet" />
+            <script src="~/assets/DataTables-1.13.6/js/jquery.dataTables.js"></script>
+            <script>
+                $(document).ready(function () {
+                    $('#datatable').DataTable();
+                });
+            </script>
+            <!-- Bootstrap -->
+            <script src="~/assets/Plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <!-- overlayScrollbars -->
+            <script src="~/assets/Plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+            <!-- AdminLTE App -->
+            <script src="~/assets/js/adminlte.js"></script>
+            <!--  DataTables.net Plugin, full documentation here: https://datatables.net/    -->
+            <script src="~/assets/js/plugins/jquery.dataTables.min.js"></script>
+            <!-- PAGE PLUGINS -->
+            <!-- jQuery Mapael -->
+            <script src="~/assets/Plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+            <script src="~/assets/Plugins/raphael/raphael.min.js"></script>
+            <script src="~/assets/Plugins/jquery-mapael/jquery.mapael.min.js"></script>
+            <script src="~/assets/Plugins/jquery-mapael/maps/usa_states.min.js"></script>
+        }
+    </body>
+}
+</html>

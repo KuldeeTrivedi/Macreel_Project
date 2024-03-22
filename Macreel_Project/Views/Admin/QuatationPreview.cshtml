@@ -1,0 +1,563 @@
+﻿@model Macreel_Project.Models.Bussiness.quatation
+@{
+    ViewBag.Title = "QuatationPreview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    body {
+        font-family: time-roman;
+    }
+
+    .quatation {
+        max-width: 950px;
+        margin: auto;
+        padding: 10px;
+    }
+
+        .quatation h1 {
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 1px solid #333;
+            padding: 5px;
+            margin-bottom: 0px;
+        }
+
+    .company-logo img {
+        height: 58px !important;
+        margin-left: 10px !important;
+    }
+
+    address {
+        margin-bottom: 10px;
+    }
+
+    .table td, .table th {
+        padding: 5px !important;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: 500;
+    }
+
+    .ma-grid p {
+        margin-bottom: 0px;
+    }
+
+    .print-in {
+        border: 1px solid #333;
+        padding: 0px;
+    }
+
+    #GST-grid {
+        border-top: 1px solid #111;
+        border-bottom: 1px solid #111;
+    }
+
+    .list-item {
+        margin-bottom: 0px;
+        padding: 5px 0px 6px 9px;
+    }
+
+    .table-bordered td, .table-bordered th {
+        border: 1px solid #0d0e0e !important;
+    }
+
+    .cmp-title {
+        font-size: 17px;
+        font-weight: 500;
+        margin-bottom: 2px;
+    }
+
+    .client-details {
+        padding-left: 9px;
+        padding-top: 8px;
+    }
+
+    .address2 {
+        margin-bottom: 10px;
+    }
+
+    .number-title {
+        padding-left: 9px;
+        line-height: 1.7;
+    }
+
+    .item-row p {
+        margin-bottom: 0px;
+        font-style: italic;
+    }
+
+    .sn-1 {
+        width: 70px;
+        text-align: center;
+    }
+
+    .all-amt {
+        text-align: right;
+    }
+
+    .head-row {
+        text-align: center;
+    }
+
+    .months {
+        width: 140px;
+        text-align: center;
+    }
+
+    .all-amt {
+        width: 164px;
+    }
+
+    .ht-gap {
+        height: 100px;
+    }
+
+    .inr {
+        padding-right: 10px !important;
+    }
+
+    .head-row th {
+        text-transform: uppercase !important;
+        font-size: 13px !important;
+        font-weight: 300 !important;
+        letter-spacing: 1.1px !important;
+    }
+
+    .total-amt {
+        text-align: right;
+        font-weight: 600;
+        font-size: 16px;
+        padding-right: 4px;
+    }
+
+    .amt-word {
+        margin-bottom: 7px;
+        padding-left: 10px;
+        border-bottom: 1px solid #333;
+        padding-right: 10px;
+        padding-bottom: 5px;
+    }
+
+    .table {
+        width: 100%;
+        margin-bottom: 5px;
+        color: #212529;
+    }
+
+    .signature-grid {
+        text-align: right;
+    }
+
+    .sign-box {
+        height: 40px;
+        border: 1px solid #333;
+        width: 200px;
+        float: right;
+    }
+
+    .signature-grid h5 {
+        font-size: 17px;
+    }
+
+    .signature-grid p {
+        margin-bottom: 9px;
+        font-size: 14px;
+    }
+
+    .declaration h5 {
+        font-size: 15px;
+    }
+
+    .br {
+        border-right: 1px solid #000 !important;
+    }
+
+    .bl {
+        border-left: 1px solid #fff !important;
+    }
+
+    .bt {
+        border-top: 1px solid #000 !important;
+    }
+
+    .bb {
+        border-bottom: 1px solid #000 !important;
+    }
+
+    .nbr {
+        border-right: 1px solid #fff !important;
+    }
+
+    .nbl {
+        border-left: 1px solid #fff !important;
+    }
+
+    .nbt {
+        border-top: 1px solid #fff !important;
+    }
+
+    .nbb {
+        border-bottom: 1px solid #fff !important;
+    }
+
+    .table-bordered td.br {
+        border-right: 1px solid #000 !important;
+    }
+
+    .table-bordered td.bl {
+        border-left: 1px solid #fff !important;
+    }
+
+    .table-bordered td.bt {
+        border-top: 1px solid #000 !important;
+    }
+
+    .table-bordered td.bb {
+        border-bottom: 1px solid #000 !important;
+    }
+
+    .table-bordered td.nbr {
+        border-right: 1px solid #fff !important;
+    }
+
+    .table-bordered td.nbl {
+        border-left: 1px solid #fff !important;
+    }
+
+    .table-bordered td.nbt {
+        border-top: 1px solid #fff !important;
+    }
+
+    .table-bordered td.nbb {
+        border-bottom: 1px solid #fff !important;
+    }
+
+    .ht-gap td {
+        border-left: 1px solid #fff !important;
+    }
+
+    @@media print {
+        .table-bordered td, .table-bordered th {
+            border: 1px solid #000 !important;
+        }
+
+            .table-bordered td.br {
+                border-right: 1px solid #000 !important;
+            }
+
+            .table-bordered td.bl {
+                border-left: 1px solid #fff !important;
+            }
+
+            .table-bordered td.bt {
+                border-top: 1px solid #000 !important;
+            }
+
+            .table-bordered td.bb {
+                border-bottom: 1px solid #000 !important;
+            }
+
+            .table-bordered td.nbr {
+                border-right: 1px solid #fff !important;
+            }
+
+            .table-bordered td.nbl {
+                border-left: 1px solid #fff !important;
+            }
+
+            .table-bordered td.nbt {
+                border-top: 1px solid #fff !important;
+            }
+
+            .table-bordered td.nbb {
+                border-bottom: 1px solid #fff !important;
+            }
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Quatation Preview</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<!-- Bootstrap core CSS -->
+<div class="container">
+    <div class="quatation bg-white">
+        <div class="print-in">
+            <h1 style="background-color: #10605A; color:white">QUATATION PREVIEW</h1>
+            <div>
+                @if (ViewBag.company != null)
+                {
+                    foreach (var item in ViewBag.company as List<Macreel_Project.Models.Bussiness.Company>)
+                    {
+                        <header>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <div class="company-logo">
+                                        <img src="~/assets/img/logo.png" alt="TIS" class="img-fluid">
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="ma-grid text-center">
+                                        <div class="title">@item.CompanyName</div>
+                                        <address>
+                                            <p>@item.Address</p>
+                                            <p class="phone-title">Phone : +(91) @item.Phone <span>Email-id : @item.Email</span></p>
+                                        </address>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"></div>
+                            </div>
+
+                        </header>
+                        <section id="GST-grid">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <ul class="list-inline list-item">
+                                        <li>GST No : @item.GSTNo </li>
+                                        <li>CTIN No : @item.TINNO </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-4">
+                                    <ul class="list-inline list-item">
+                                        <li>STATE : @item.State </li>
+                                        <li>PAN No : @item.PanNo </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </section>
+                    }
+                }
+            </div>
+            <section id="company-name">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="client-details">
+                            <h3 class="cmp-title">@Model.ClientName</h3>
+                            <ul class="list-inline address2">
+                                <li>@Model.Address</li>
+                                <li>Tel/Fax : @Model.ClientPhone</li>
+                                <li>Email-id : @Model.ClientEmail</li>
+                                <li>GSTNo : @Model.ClientGST</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-4" style="border-left:1px solid #333;margin-left: -1px;">
+                        <div class="invoice-no">
+                            <ul class="list-inline ">
+                                <li class="client-invoice">Quatation No :<span class="number-title">@Model.QuatationNo</span></li>
+                                <li class="client-invoice">Date:<span class="number-title">@Model.Date1</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="product-item">
+                @if (Model.Type == "Other")
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="head-row">
+                                <th scope="col" style="border-left: 1px solid #fff !important;">Sr No </th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col" style="border-right: 1px solid #fff !important;">Amount</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.product != null)
+                            {
+                                var sn = 1;
+                                foreach (var pro in ViewBag.product as List<Macreel_Project.Models.Bussiness.quatation>)
+                                {
+                                    <tr class="item-row">
+
+                                        <td class="nbb sn-1 bl">@sn</td>
+                                        <td class="item-name nbb pts">
+                                            @pro.Services1
+                                            <p>@pro.Description1</p>
+                                        </td>
+                                        <td class="prod nbb months"> @pro.Duration1</td>
+                                        <td class="inr nbb all-amt" style="border-right: 1px solid #fff !important;">@pro.Amount1</td>
+
+                                    </tr>
+                                    sn++;
+                                }
+                            }
+                            <tr class="ht-gap">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="border-right: 1px solid #fff !important;"></td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="footer-btm">
+                                <td style="  border-left: 1px solid #fff !important;"></td>
+                                <td></td>
+                                <td><div class="total-amt text-uppercase">Total</div></td>
+                                <td style="border-right: 1px solid #fff !important;"><div class="total-amt">Rs.@Model.TotalAmount</div></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                }
+                else if (Model.Type == "Software")
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="head-row">
+                                <th scope="col" style="border-left: 1px solid #fff !important;">Sr No </th>
+                                <th scope="col"> Name</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col" style="border-right: 1px solid #fff !important;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.product2 != null)
+                            {
+                                var sn = 1;
+                                foreach (var pro in ViewBag.product2 as List<Macreel_Project.Models.Bussiness.quatation>)
+                                {
+                                    <tr class="item-row">
+
+                                        <td class="nbb sn-1 bl">@sn</td>
+                                        <td class="item-name nbb pts">
+                                            @pro.SoftName
+                                            <p>@pro.SoftDescription</p>
+                                        </td>
+                                        <td class="prod nbb months"> @pro.SoftAmount</td>
+                                        <td class="prod nbb months"> @pro.SoftUnit</td>
+                                        <td class="inr nbb all-amt" style="border-right: 1px solid #fff !important;">@pro.SoftTotal</td>
+
+                                    </tr>
+                                    sn++;
+                                }
+                            }
+                            <tr class="ht-gap">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="border-right: 1px solid #fff !important;"></td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="footer-btm">
+                                <td style="border-left: 1px solid #fff !important;"></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="total-amt text-uppercase">Total</div></td>
+                                <td style="border-right: 1px solid #fff !important;"><div class="total-amt">Rs.@Model.TotalAmount</div></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                }
+                else if (Model.Type == "Hardware")
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="head-row">
+                                <th scope="col" style="border-left: 1px solid #fff !important;">Sr No </th>
+                                <th scope="col">Product Name</th>
+                                <th scope="col">Unit Price</th>
+                                <th scope="col">Unit</th>
+                                <th scope="col" style="border-right: 1px solid #fff !important;">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (ViewBag.Hproduct1 != null)
+                            {
+                                var sn = 1;
+                                foreach (var pro in ViewBag.Hproduct1 as List<Macreel_Project.Models.Bussiness.quatation>)
+                                {
+                                    <tr class="item-row">
+
+                                        <td class="nbb sn-1 bl">@sn</td>
+                                        <td class="item-name nbb pts">
+                                            @pro.ProductName
+                                            <p>@pro.HNaration</p>
+                                        </td>
+                                        <td class="prod nbb months"> @pro.HUnitAmount</td>
+                                        <td class="prod nbb months"> @pro.HwUnit</td>
+                                        <td class="inr nbb all-amt" style="border-right: 1px solid #fff !important;">@pro.HwTotal</td>
+
+                                    </tr>
+                                    sn++;
+                                }
+                            }
+                            <tr class="ht-gap">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td style="border-right: 1px solid #fff !important;"></td>
+
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr class="footer-btm">
+                                <td style="  border-left: 1px solid #fff !important;"></td>
+                                <td></td>
+                                <td></td>
+                                <td><div class="total-amt text-uppercase">Total</div></td>
+                                <td style="border-right: 1px solid #fff !important;"> <div class="total-amt">Rs.@Model.TotalAmount</div></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                }
+                <p class="amt-word"><strong>Amount in Word</strong> - <span>@Model.Amountword Only</span></p>
+            </div>
+            <footer style="padding:10px;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p class="place" style="margin-bottom:2px;font-size:16px;font-weight:600;">Company's Bank Details :</p>
+                        <p class="account" style="font-size:14px;">
+                            <strong>
+                                Bank Name : IDBI Bank</br>A / c No: 0873102000000578  </br> Branch & IFS Code: Indrapuram Branch, Ghaziabad  & IBKL0000873 </br>
+                            </strong>
+                        </p>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <div class="signature-grid">
+                            <h5>For Macreel Infosoft Pvt Ltd.</h5>
+                            <p>Authorised Signature</p>
+                            <div class="sign-box"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="declaration page-break">
+                    <h5 style="margin-bottom:6px;"> Declaration :-</h5>
+                    <p style="margin-top:2px;font-size:13px;">
+                        TDS Declaration : In Terms of Notification No. 21/2012 (F.No. 142/10/2012-SO(TPL)) S.O. 1323 (E) Dated 13-06-2012 hereby Declare that transation with Remarks "Ref.TDS Declaration" is Software aquired in a subsequent
+                        transfer and is transferred without any modification U/S 194 J on payment for any previous transfer of sach software or Tax Deducted at Source U/S 195 on payment for any previous transfer of sach software.you are not Required to educt TDS on this Account.PAN :AAECT9624Q
+                    </p>
+                </div>
+            </footer>
+            <div class="print-btn text-right">
+                @using (Html.BeginForm("QuatationPreview", "Admin", FormMethod.Post))
+                {
+                    <input type="hidden" value="http://localhost:2054/Admin/QuatationPdf?QuatationNo=@Model.QuatationNo" name="TxtUrl" />
+                    <button type="submit" class="btn btn-success" style="font-size:16px;">Download Quatation</button>
+                    <a href="/Admin/GenrateQuatationList"><button type="button" class="btn btn-danger" style="font-size:16px;">Cancel</button></a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Bootstrap core JavaScript -->
+<script src="~/scripts/jquery.slim.min.js"></script>
+<script src="~/scripts/bootstrap.bundle.min.js"></script>

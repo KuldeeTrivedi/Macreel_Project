@@ -1,0 +1,489 @@
+﻿@model Macreel_Project.Models.Bussiness.Employee
+@{
+    ViewBag.Title = "EmpView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+
+    #wrapper {
+        width: 100%;
+        height: 100vh;
+        background-color: dimgray;
+    }
+
+    #left {
+        width: calc(30% - 40px);
+        height: calc(100% - 40px);
+        background-color: whitesmoke;
+        float: left;
+        margin: 20px;
+        border-radius: 20px;
+    }
+
+    #right {
+        width: calc(70% - 23px);
+        height: calc(100% - 80px);
+        background-color: white;
+        float: right;
+        margin: 20px 20px 50px 0px;
+        border-radius: 20px;
+        padding: 20px;
+    }
+
+    #left_content {
+        width: calc(100% - 10px);
+        height: calc(100% - 40px);
+        background-color: white;
+        margin: 5px;
+        border-radius: 20px;
+        display: table;
+        justify-content: center;
+    }
+
+    input {
+        width: 80%;
+        height: 30px;
+        border: none;
+        outline: none;
+        background-color: whitesmoke;
+        border-radius: 10px;
+        padding: 5px 10px;
+    }
+    #left label {
+        font-weight: 400 !important;
+        margin-left: 10%;
+        margin-bottom: 0.2rem;
+    }
+        #left label i {
+            margin: 5px;
+        }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 style="font-size:17px" class="m-0"><b>Employee View</b></h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+@*<div id="wrapper">*@
+<div id="left">
+    <div id="left_content">
+        <img src="@Model.ImagePath" width="100%" height="300px" style="border-radius: 20px;">
+        <h3 align="center" style="font-weight: bolder;">Contact Information</h3>
+        <hr />
+        <label><i class="fas fa-user"></i>@Model.EmployeeName</label>
+        <br/>
+        <label><i class="fas fa-envelope"></i>@Model.EmailId</label><br />
+        <label><i class="fas fa-phone"></i>@Model.Mobile</label><br />
+        @*<label><i class="fas fa-book"></i>@Model</label><br />*@
+        <label><i class="fas fa-address-card"></i>@Model.PresentAddress</label><br />
+        <label style="margin-left:40px;">@Model.State, @Model.City</label><br />
+    </div>
+</div>
+<div id="right">
+    <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+        <div class="container-fluid">
+            <div class="">
+                <div class="col-sm-12">
+                    <h1 style="font-size:20px;">Employee Details</h1>
+                </div><!-- /.col -->
+                <!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="form-group">
+                <label>Code:-&nbsp;</label>
+                <span>@Model.EmployeeCode</span>
+            </div>
+        </div>
+        <div class="col-sm-4" style="max-width: 380px;">
+            <div class="form-group">
+                <label>UserName:&nbsp;</label>
+                <span>@Model.UserName</span>
+            </div>
+        </div>
+        <div class="col-sm-4" style="max-width: 380px;">
+            <div class="form-group">
+                <label>Password:&nbsp;</label>
+                <span>@Model.Password</span>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="">Designation:-&nbsp;</label>
+                <span>@Model.Designation</span>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label for="">Department:-&nbsp;</label>
+                <span>@Model.Department</span>
+            </div>
+        </div>
+        </div>
+    <div class="row">
+        <div class="col-md-6">
+            <label for="">Email Id:&nbsp;</label>
+            <span style="white-space:nowrap">@Model.EmailId</span>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Aadhar No:&nbsp;</label>
+                <span>@Model.adharno</span>
+            </div>
+        </div>
+        @*<div class="col-md-4">
+            <label>Joining Date:&nbsp;</label>
+            <span>@Model.DOJ</span>
+        </div>
+        <div class="col-md-4">
+            <label>Pan No:&nbsp;</label>
+            <span>@Model.PanNo</span>
+        </div>*@
+    </div>
+        <div class="form-row">
+            <div class="col-sm-4">
+                <div class="form-group">
+                    <label>Date Of Birth:&nbsp;</label>
+                    <span>@Model.DOB</span>
+                </div>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Gender:&nbsp;</label>
+                <span>@Model.Sex</span>
+            </div>
+            <div class="form-group col-md-4">
+                <label>Passport NO:&nbsp;</label>
+                <span>@Model.Passport</span>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-md-6">
+                   <label>Joining Date:&nbsp;</label>
+                   <span>@Model.DOJ</span>
+               </div>
+                    <div class="col-md-6">
+            <label>Pan No:&nbsp;</label>
+            <span>@Model.PanNo</span>
+        </div>
+        </div>
+
+               <div class="form-row">
+                   <div class="col-sm-6">
+                       <div class="form-group">
+                           <label>Age:&nbsp;</label>
+                           <span>@Model.Age</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-6">
+                       <div class="form-group">
+                           <label>Reporting Manager:&nbsp;</label>
+                           <span>@Model.ReportingManager</span>
+                       </div>
+                   </div>
+               </div>
+               <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                   <div class="container-fluid">
+                       <div class="">
+                           <div class="col-sm-12">
+                               <h1 style="font-size:20px;">Biographical Details</h1>
+                           </div><!-- /.col -->
+                           <!-- /.col -->
+                       </div><!-- /.row -->
+                   </div><!-- /.container-fluid -->
+               </div>
+               <div class="form-row">
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>DOB:&nbsp;</label>
+                           <span>@Model.DOB</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>Age:&nbsp;</label>
+                           <span>@Model.Age</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>Sex:&nbsp;</label>
+                           <span>@Model.Sex</span>
+                       </div>
+                   </div>
+               </div>
+
+               <div class="form-row">
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>Nationality:&nbsp;</label>
+                           <span>@Model.Nationality</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>Religion:&nbsp;</label>
+                           <span>@Model.Religion</span>
+                       </div>
+                   </div>
+                   <div class="col-sm-4" style="max-width: 380px;">
+                       <div class="form-group">
+                           <label>Marital Status:&nbsp;</label>
+                           <span>@Model.MaritalStatus</span>
+                       </div>
+                   </div>
+               </div>
+
+               @*<h3 align="center" style=" margin-top: 20px; font-weight: bolder;">Address</h3>*@
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Address</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+
+            <div class="form-row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Present Address:&nbsp;</label>
+                        <span>@Model.PresentAddress</span>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label>Area Code:&nbsp;</label>
+                        <span>@Model.Pin</span>
+                    </div>
+                </div>
+            </div>
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Professional Qualification</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Pro. Qualification:</label><br />
+                        <span>@Model.Degree</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Name Of Institute:</label><br />
+                        <span>@Model.ProfessionalInstitution</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Passing Year:</label><br />
+                        <span>@Model.ProfessionalPassingYear</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Specialization:</label><br />
+                        <span>@Model.ProfessionalSpecilization</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Academic Qualification (10TH)</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Academic Qualification:</label>
+                        <span>@Model.Board10</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Name Of Institute:</label><br />
+                        <span>@Model.Institution10</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Passing Year:</label><br />
+                        <span>@Model.PassingYear10</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Percentage:</label><br />
+                        <span>@Model.Specilization10</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Academic Qualification (12TH)</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <div class="form-row">
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Academic Qualification:</label><br />
+                        <span>@Model.Board12</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Name Of Institute:</label><br />
+                        <span>@Model.Institution12</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Passing Year:</label><br />
+                        <span>@Model.PassingYear12</span>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="form-group">
+                        <label>Percentage:</label><br />
+                        <span>@Model.Specilization12</span>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Bank Details</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <label for="">Bank Name:-</label>
+                        <span>@Model.BankName</span>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="">Bank Branch Name:-</label>
+                        <span>@Model.BankBranch</span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="inputEmployeeName">Account No</label>
+
+                    <span>@Model.AccountNo</span>
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="inputUsername">IFSC Code</label>
+                    <span>@Model.IFSC</span>
+                </div>
+            </div>
+
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Emergency Contact</h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+
+            <div class="form-row">
+
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label for="">Emr Contact Person:-&nbsp;</label>
+                        <span>@Model.EmergencyContactPerson</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputContact">Emr Contact Number:-&nbsp;</label>
+                    <span>@Model.EmergencyContactNumber</span>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label for="inputQualification">Emr Contact Address:-&nbsp;</label>
+                    <span>@Model.EmergencyContectAddress</span>
+                </div>
+            </div>
+
+
+
+            <div style="background-color: rgba(22,160,133,0.9); color: white; text-align: center; font-size: 50px; border-radius: 5px" ">
+                <div class="container-fluid">
+                    <div class="">
+                        <div class="col-sm-12">
+                            <h1 style="font-size:20px;">Reference </h1>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <hr />
+            <div class="form-row">
+                <div class="col-sm-4">
+                    <div class="form-group">
+                        <label>References Name:&nbsp;</label>
+                        <span>@Model.ReferencesName</span>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label>Contact Number:&nbsp;</label>
+                    <span>@Model.ContactNo</span>
+                </div>
+
+                <div class="form-group col-md-4">
+                    <label>Company Name:&nbsp;</label>
+                    <span>@Model.CompanyName</span>
+                </div>
+            </div>
+        </div>
+

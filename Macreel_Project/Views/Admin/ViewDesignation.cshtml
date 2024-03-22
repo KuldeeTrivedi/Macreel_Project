@@ -1,0 +1,67 @@
+﻿
+@model Macreel_Project.Models.Bussiness.Deprtment
+@{
+    ViewBag.Title = "AddDepartment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    table tr:hover {
+        background-color: #c5c7cb;
+    }
+</style>
+
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Designation List</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+
+<section class="content" style="padding: 0 0.2rem;">
+    <div class="container list_table">
+
+        <section class="content">
+            <table class="table">
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        Designation
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+
+                @*@foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Designation)
+                            </td>
+                            <td>
+
+                                <a href="/admin/Create_Designation?id=@(item.id)"><i class="fas fa-edit"></i></a>
+                                <a href="/admin/delet_designation?id=@(item.id)"><i class="fas fa-trash" style="color:red;"></i></a>
+
+
+                            </td>
+                        </tr>
+                    }*@
+
+            </table>
+
+
+        </section>
+    </div>
+</section>
+
+

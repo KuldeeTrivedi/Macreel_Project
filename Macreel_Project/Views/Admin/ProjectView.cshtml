@@ -1,0 +1,155 @@
+﻿
+@model Macreel_Project.Models.Bussiness.Project
+@{
+    ViewBag.Title = "ProjectView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-required {
+        color: #000000;
+    }
+</style>
+@*<div class="content-header">*@
+    @*<div class="container-fluid">*@
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h3 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9); color:white">Project Profile</h3>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        <!--</div>--><!-- /.container-fluid -->
+    <!--</div>-->
+<div class="panel-header panel-header-sm">
+
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                   
+                    <div class="card-body ">
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="inputUsername">Company Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.CompanyName" id="CompanyName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="inputUsername">ClientName</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.ClientName" id="ContactPerson" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="inputUsername">Project Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.ProjectName" id="ContactNo" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="inputUsername">Project Code</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.ProjectCode" id="GSTNo" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="inputUsername">Project Starting Date</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.ProjectStartingDate" id="CompanyName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                          
+                            <div class="col-md-2">
+                                <label for="inputUsername">Project Completion Date</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.CompletionDate" id="CompanyName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="inputUsername">Project Delivery Date</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group sn-required">
+                                    <input class="form-control sn-required" readonly value="@Model.ProjectDeliveryDate" id="CompanyName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label for="inputUsername">Total Amount</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.TotalAmount" id="Statecode" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="inputUsername">Status</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.ProjectStatus" id="Pincode" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="inputUsername">Employee's</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @if (ViewBag.Emp != null)
+                                    {
+                                        @ViewBag.Emp
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+

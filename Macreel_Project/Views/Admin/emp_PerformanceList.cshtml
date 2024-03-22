@@ -1,0 +1,181 @@
+﻿@model IEnumerable<Macreel_Project.Models.Bussiness.Employee>
+@{
+    ViewBag.Title = "emp_PerformanceList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    table tr:hover {
+        background-color: #c5c7cb;
+    }
+
+    .progress-group {
+        margin-bottom: 0.3rem;
+    }
+
+        .progress-group .progress-sm {
+            height: 6px;
+            border-radius: 10px;
+        }
+
+    .form_button_box {
+        margin: 0;
+    }
+
+        .form_button_box button {
+            height: 38px;
+        }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Employee List With Performance</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+
+<section class="content" style="padding: 0 0.2rem;">
+    @using (Html.BeginForm("emp_PerformanceList", "admin", FormMethod.Post))
+    {
+        <div class="form-row" style=" margin: 12px;">
+            <div class="form-group col-md-6" style="text-align: center; margin-bottom: 0.4rem; ">
+                <input type="date" class="form-control" id="perform_date" name="perform_date" value="@Session["perform_date"]" />
+            </div>
+            <div class="form_button_box">
+                <input type="hidden" name="id" />
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    }
+
+    <div class="container">
+
+        <section class="content">
+            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                    <th>
+                        EMPLOYEE NAME
+                    </th>
+                    <th>
+                        DESIGNATION
+                    </th>
+                    <th>
+                        IS ACTIVE
+                    </th>
+                    <th>
+                        Performance
+                    </th>
+                    <th>
+                        Action
+                    </th>
+                </tr>
+                    </thead>
+                </table>
+        </section>
+    </div>
+</section>
+
+
+
+
+@*<script>
+        // Get the current month (0-indexed, where January is 0)
+        var currentMonth = new Date().getMonth();
+
+        // Set the value of the select element based on the current month
+        var monthSelect = document.getElementById('monthSelect');
+        monthSelect.selectedIndex = currentMonth;
+    </script>*@
+
+@*<script>
+        function fetchData() {
+
+            var selectedMonth = document.getElementById('monthSelect').value;
+
+             /*   $(".autocompletelist").css('display', 'none')*/
+
+            Swal.fire({
+                title: 'Please wait!',
+                html: 'We are validating your details',
+                timer: 200000000,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+                didOpen: () => {
+                    Swal.showLoading()
+                },
+                willClose: () => {
+                    clearInterval(timerInterval)
+                }
+            });
+
+            $.ajax({
+                async: true,
+                url: "/admin/admin_Login",
+                type: 'POST',
+                data: { month: selectedMonth },
+                headers: { "Accept": "application/json" },
+
+                processData: false,
+                beforeSend: function () {
+                },
+                success: function (data, textStatus, xhr) {
+                    console.log(data);
+                    if (data.success == true) {
+
+                        window.location.href = data.message;
+                    }
+                    else {
+                        Swal.fire({
+                            icon: 'error',
+                            html: '<p style="font-size: 17px;">' + data.message + '</p>',
+                            returnFocus: true,
+                            returnFocus: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+
+                                return false;
+                            }
+                        })
+                    }
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    Swal.fire({
+                        icon: 'error',
+                        html: '<p style="font-size: 17px;">An Error Occured try again later or contact website administration.</p>',
+                        returnFocus: true,
+                        returnFocus: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            return false;
+                        }
+                    })
+
+                },
+                complete: function () {
+                }
+            });
+
+        }
+        var currentMonth = new Date().getMonth();
+        var monthSelect = document.getElementById('monthSelect');
+        monthSelect.selectedIndex = currentMonth;
+        fetchData();
+    </script>*@
+
+
+
+
+

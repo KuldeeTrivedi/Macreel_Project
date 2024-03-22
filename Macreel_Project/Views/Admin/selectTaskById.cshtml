@@ -1,0 +1,264 @@
+﻿@model Macreel_Project.Models.Bussiness.TaskManage
+@{
+    ViewBag.Title = "selectTaskById";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .dwnld {
+        margin: 30px;
+    }
+
+        .dwnld i {
+            margin: 5px;
+        }
+    .btn-primary {
+        background-color: rgba(22,160,133,0.9) !important;
+        color: white !important;
+        border-color: rgba(22,160,133,0.9) !important;
+    }
+</style>
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Task</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+            <table class="table">
+                <tr>
+                    <th>Task Title</th>
+                    <td>@Model.title</td>
+
+                </tr>
+
+                <tr>
+                    <th>Assigned Date</th>
+                    <td>@Model.current_date</td>
+                    <th>Completion Date</th>
+                    <td>@Model.complete_date</td>
+                </tr>
+
+                <tr>
+                    <th>Task Status</th>
+                    <td>@Model.task_status</td>
+                </tr>
+
+                <tr>
+                    <th>Description</th>
+                    <td>@Model.description</td>
+                </tr>
+
+                <tr>
+                    @if (Model.attachment1 != null && Model.attachment1 != "")
+                    {
+                        <th>Attachment 1</th>
+                        <td>
+                            <img src="@Model.attachment1" style="width:250px;" />
+                            <br />
+                            <a href="~/admin/Download?ImageName=@Model.attachment1" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                    @if (Model.attachment2 != null && Model.attachment2 != "")
+                    {
+                        <th>Attachment 2</th>
+                        <td>
+                            <img src="@Model.attachment2" style="width:250px;" /><br />
+                            <a href="~/admin/Download?ImageName=@Model.attachment2" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+
+                        </td>
+                        <br />
+                    }
+                    @if (Model.attachment3 != null && Model.attachment3 != "")
+                    {
+                        <th>Attachment 3</th>
+                        <td>
+                            <img src="@Model.attachment3" style="width:250px;" />
+                            <br />
+                            <a href="~/admin/Download?ImageName=@Model.attachment3" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                    @if (Model.attachment4 != null && Model.attachment4 != "")
+                    {
+                        <th>Attachment 4</th>
+                        <td>
+                            <img src="@Model.attachment4" style="width:250px;" />
+                            <br />
+                            <a href="~/admin/Download?ImageName=@Model.attachment4" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                        <br />
+                    }
+                    @if (Model.attachment5 != null && Model.attachment5 != "")
+                    {
+                        <th>Attachment 5</th>
+                        <td>
+                            <img src="@Model.attachment5" style="width:250px;" />
+                            <br />
+                            <a href="~/admin/Download?ImageName=@Model.attachment5" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                </tr>
+
+
+
+                @*<tr>
+                        <th>Remark</th>
+                        <td><textarea id="remark"></textarea></td>
+                    </tr>
+
+
+                    <tr>
+                        <th><button>Approve</button> </th>
+                        <td>@Model.reason</td>
+                    </tr>*@
+            </table>
+
+        </section>
+    </div>
+
+
+</section>
+
+@*<section class="content">
+        <div class="container-fluid">
+
+            <section class="content">
+
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="" class="heading">Mark To Complete This Task:-</label>
+                           <input type="checkbox" name="checked" id="checked"/>
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="id" id="id" value="@Model.id" />
+                    <div class="form-row form_button_box" style=" TEXT-ALIGN: center;">
+
+                        <div class="form-group col-md-6">
+                            <input type="button" class="btn btn-success update_btn" id="approve_btn" value="Update">
+                        </div>
+
+
+
+                    </div>
+                </form>
+
+            </section>
+        </div>
+    </section>*@
+
+
+<script src="~/assets/Plugins/jquery/jquery.min.js"></script>
+
+<script>
+
+
+    $("#approve_btn").click(function () {
+
+        var id = $('#id').val();
+
+        var check = "In-Complete";
+
+        if ($('#checked').prop('checked')) {
+            check = "Complete";
+        }
+
+
+        Swal.fire({
+            title: 'Please wait!',
+            html: 'We are validating your details',
+            timer: 200000000,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading()
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        });
+
+
+
+        $.ajax({
+
+            url: "/admin/update_assignedTask",
+            async: true,
+            data: "{ 'id': '" + id + "', 'check': '" + check + "'}",
+            type: 'POST',
+            headers: { "Accept": "application/json" },
+            processData: false,
+            beforeSend: function () {
+                console.log(id);
+                console.log(checked);
+            },
+            contentType: 'application/json',
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                if (data.success == true) {
+
+                    Swal.fire({
+                        icon: 'success',
+                        html: '<p style="font-size: 17px;">Updated Successfully</p>',
+                        returnFocus: true,
+                        returnFocus: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            window.location.href = data.message;
+                        }
+                    })
+                }
+                else {
+                    Swal.fire({
+                        icon: 'error',
+                        html: '<p style="font-size: 17px;">' + data.message + '</p>',
+                        returnFocus: true,
+                        returnFocus: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+
+                            return false;
+                        }
+                    })
+                }
+            },
+            error: function (xhr, textStatus, errorThrown) {
+                Swal.fire({
+                    icon: 'error',
+                    html: '<p style="font-size: 17px;">An Error Occured try again later or contact website administration.</p>',
+                    returnFocus: true,
+                    returnFocus: false,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        return false;
+                    }
+                })
+
+            },
+            complete: function () {
+            }
+        });
+
+        return false;
+
+    });
+</script>
+
+
+
+
+

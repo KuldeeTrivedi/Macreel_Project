@@ -1,0 +1,86 @@
+﻿@model Macreel_Project.Models.Bussiness.Lead
+@{
+    ViewBag.Title = "ViewLead";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">View Lead</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                    @*<div class="card-header ">
+                        <h4 class="card-title">Lead View</h4>
+                    </div>*@
+                    <div class="card-body ">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Lead Type</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly value="@Model.LeadType" class="form-control sn-required" id="LeadDescription" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Company Name</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly class="form-control sn-required" value="@Model.ClientName" id="ClientName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Contect Person</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly class="form-control sn-required" value="@Model.ContectPerson" id="ClientName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Contect No</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly value="@Model.MobileNo" class="form-control sn-required" id="MobileNo" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <label class="col-sm-2 col-form-label">Client Email</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly value="@Model.ClientEmail" class="form-control sn-required" id="ClientEmail" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input readonly value="@Model.Address" class="form-control sn-required" id="Address" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Lead Description</label>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <textarea class="sn-required" readonly id="LeadDescription" type="text" name="required" required="true" style="width:100%;">@Model.LeadDescription</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+
+</div>
+
+

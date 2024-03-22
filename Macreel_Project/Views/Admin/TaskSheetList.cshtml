@@ -1,0 +1,190 @@
+﻿@{
+    ViewBag.Title = "TaskSheetList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 12px;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+</style>
+<div class="panel-header panel-header-sm">
+    <div class="panel-header panel-header-sm">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0">TASK SHEET LIST</h1>
+                    </div><!-- /.col -->
+                    <!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+            
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="text-center">
+                            <select id="EmployeeName" class="border-success sn-required" style="height:28px;width:200px;">
+                                <option value="">Select Employee</option>
+                                @if (ViewBag.emp != null)
+                                {
+                                    foreach (var item in ViewBag.emp as List<SelectListItem>)
+                                    {
+
+                                        <option value="@item.Value">@item.Text</option>
+                                    }
+                                }
+                            </select>
+                            <input type="text" id="date1" class="border-success sn-required datepicker" placeholder="dd-mm-yyyy">
+                            <input type="text" id="date2" class="border-success sn-required datepicker" placeholder="dd-mm-yyyy">
+                            <button type="button" id="btnSend" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+              
+                    <section class="content" style="padding: 0 0.2rem;">
+                        <div class="container ">
+                            <section class="content">
+                                <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead style="background-color: #3f838d;color:white">
+                                        <tr >
+                                            <th>
+                                                SR NO.
+                                            </th>
+                                            <th>
+                                                EMP NAME
+                                            </th>
+                                            <th>
+                                                DATE
+                                            </th>
+                                            <th>
+                                                PROJECT NAME
+                                            </th>
+                                            <th>
+                                                TASK
+                                            </th>
+                                            <th>
+                                                HOUR
+                                            </th>
+                                            <th>
+                                                DESCRIPTION
+                                            </th>
+                                            <th>
+                                                STATUS
+                                            </th>
+                                            <th>
+                                                REMARK
+                                            </th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody class="tbod">
+                                        @if (ViewBag.list != null)
+                                        {
+                                            var sn = 1;
+                                            foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.TaskSheets>)
+                                            {
+                                                <tr>
+                                                    <td>@sn</td>
+                                                    <td>@item.EmpName</td>
+                                                    <td>@item.Date1</td>
+                                                    <td>@item.Project1</td>
+                                                    <td>@item.Task1</td>
+                                                    <td>@item.Hour1</td>
+                                                    <td>@item.Description1</td>
+                                                    <td>@item.Status1</td>
+                                                    <td>@item.Remark1</td>
+                                                </tr>
+                                                sn++;
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                        </section></div><!-- end content--></section>
+                </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+        $('#btnSend').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
+                    swal.fire({
+                        title: "Error",
+                        text: "Something is missing",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            if (flag == 1) return;
+            var fulldate = $('#date1').val();
+            var fulldate1 = $('#date2').val();
+            var Date1= fulldate;
+            var Date2 = fulldate1;
+            var EmployeeId = $('#EmployeeName').val();
+            window.location.href = "/Admin/DatewiseTaskSheet?Date1=" + Date1 + "&Date2=" + Date2 + "&EmployeeId=" + EmployeeId;
+        });
+</script>
+
+

@@ -1,0 +1,179 @@
+﻿
+@{
+    ViewBag.Title = "selectTaskViewById";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Task</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+            <table class="table">
+                <tr>
+                    <th>Assigned Employee</th>
+                    <td>@Model.assigned_emp</td>
+                    <th>Task Title</th>
+                    <td>@Model.title</td>
+
+                </tr>
+
+                <tr>
+                    <th>Assigned Date</th>
+                    <td>@Model.current_date</td>
+                    <th>Completion Date</th>
+                    <td>@Model.complete_date</td>
+
+                </tr>
+
+                <tr>
+                    <th>Task Status</th>
+                    <td>
+                        @{ var status = @Html.Raw(Model.task_status).ToString(); }
+
+                        @if (status == "Closed")
+                        {
+                            <span class="badge badge-success">@Html.Raw(Model.task_status)</span>
+                        }
+                        else if (status == "Pending")
+                        {
+                            <span class="badge badge-warning">@Html.Raw(Model.task_status)</span>
+                        }
+                        else if (status == "Not Responding")
+                        {
+                            <span class="badge badge-danger">@Html.Raw(Model.task_status)</span>
+                        }
+                    </td>
+
+                    <th>Employee Status</th>
+                    <td>
+                        @{ var emp_status = @Html.Raw(Model.emp_status).ToString(); }
+
+                        @if (emp_status == "Complete")
+                        {
+                            <span class="badge badge-success">@Html.Raw(Model.emp_status)</span>
+                        }
+                        else if (emp_status == "Pending")
+                        {
+                            <span class="badge badge-warning">@Html.Raw(Model.emp_status)</span>
+                        }
+                        else if (emp_status == "Not Complete")
+                        {
+                            <span class="badge badge-danger">@Html.Raw(Model.emp_status)</span>
+                        }
+                    </td>
+
+
+                </tr>
+
+                <tr>
+                    <th>Employee Updated Date</th>
+                    <td>@Model.updatedDateEmp</td>
+                </tr>
+
+                <tr>
+                    <th>Description</th>
+                    <td style=" width: 400px;">@Model.description</td>
+                </tr>
+
+                <tr>
+                    <th>Comments By Employee</th>
+                    <td style=" width: 400px;">@Model.commentTask</td>
+                </tr>
+
+                <tr>
+                    @if (Model.attachment1 != null && Model.attachment1 != "")
+                    {
+                        <th>Attachment 1</th>
+                        <td><img src="@Model.attachment1" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment2 != null && Model.attachment2 != "")
+                    {
+                        <th>Attachment 2</th>
+                        <td><img src="@Model.attachment2" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment3 != null && Model.attachment3 != "")
+                    {
+                        <th>Attachment 3</th>
+                        <td><img src="@Model.attachment3" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment4 != null && Model.attachment4 != "")
+                    {
+                        <th>Attachment 4</th>
+                        <td><img src="@Model.attachment4" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment5 != null && Model.attachment5 != "")
+                    {
+                        <th>Attachment 5</th>
+                        <td><img src="@Model.attachment5" style="width:250px;" /></td>
+                    }
+                </tr>
+
+
+
+                @*<tr>
+                        <th>Remark</th>
+                        <td><textarea id="remark"></textarea></td>
+                    </tr>
+
+
+                    <tr>
+                        <th><button>Approve</button> </th>
+                        <td>@Model.reason</td>
+                    </tr>*@
+            </table>
+
+        </section>
+    </div>
+
+
+</section>
+
+@*<section class="content">
+        <div class="container-fluid">
+
+            <section class="content">
+
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-md-10">
+                            <label for="" class="heading">Mark To Complete This Task:-</label>
+                            <input type="checkbox" name="checked" id="checked" />
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="id" id="id" value="@Model.id" />
+                    <div class="form-row form_button_box" style=" TEXT-ALIGN: center;">
+
+                        <div class="form-group col-md-6">
+                            <input type="button" class="btn btn-success update_btn" id="approve_btn" value="Update">
+                        </div>
+
+
+
+                    </div>
+                </form>
+
+            </section>
+        </div>
+    </section>*@
+
+
+<script src="https://localhost:44373/assets/Plugins/jquery/jquery.min.js"></script>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,157 @@
+﻿@model Macreel_Project.Models.Bussiness.Client
+@{
+    ViewBag.Title = "ClientView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-required {
+        color: #000000;
+    }
+</style>
+@*<div class="content-header">
+    <div class="container-fluid">*@
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h3 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white">Client Profile</h3>
+    </div><!-- /.col -->
+</div><!-- /.row -->
+
+<div class="panel-header panel-header-sm"></div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Company Name:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.CompanyName</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Contact Person:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.ContactPerson</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Contact No:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.ContactNo</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>GST No:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.GSTNo</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>State:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.State</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>City:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.City</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Address:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.Address</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Statecode:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.Statecode</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>Pincode:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.Pincode</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Pan No:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.PanNo</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>E-mail Id:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.EmailId</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Designation:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.Designation</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label>UserName:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.UserName</p>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label>Password:</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <p class="form-control-static">@Model.Password</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

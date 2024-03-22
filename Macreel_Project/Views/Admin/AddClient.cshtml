@@ -1,0 +1,363 @@
+﻿@model Macreel_Project.Models.Bussiness.Client
+@{
+    ViewBag.Title = "AddClient";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Create Client</h1>
+            </div>--><!-- /.col -->
+
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                    @*<div class="card-header ">
+                        <h4 class="card-title">Add Client</h4>
+                    </div>*@
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputUsername">Company Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.CompanyName" id="CompanyName" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputPassword">Contact Person</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.ContactPerson" id="ContactPerson" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputUsername">Designation</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.Designation" id="Designation" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputPassword">Contact No</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.ContactNo" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="10" id="ContactNo" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputUsername">E-mail Id</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.EmailId" id="EmailId" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputPassword">Pincode</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.Pincode" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="6" id="Pincode" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputUsername">GST No</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.GSTNo" maxlength="15" id="GSTNo" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputPassword">Pan No</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.PanNo" maxlength="10" id="PanNo" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                    <div class="col-md-2">
+            <label for="inputUsername">State</label>
+        </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <select id="State" class="form-control sn-required">
+                                <option>--Select State--</option>
+                                @if (ViewBag.STATE != null)
+                                {
+                                    foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                    {
+                                        if (Model.State == item.Value)
+                                        {
+                                            <option selected value="@item.Value">@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+
+                                    }
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                                <label for="inputPassword">City</label>
+                            </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <select id="City" class="form-control sn-required">
+                                <option>--Select City--</option>
+                                @if (ViewBag.City != null)
+                                {
+                                    foreach (var item in ViewBag.City as List<SelectListItem>)
+                                    {
+                                        if (Model.City == item.Value)
+                                        {
+                                            <option selected value="@item.Value">@item.Text</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="inputUsername">Address</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="form-group sn-required">
+                                    <textarea style="width: 100%;" class="sn-required" id="Address">@Model.Address</textarea>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="inputUsername">State Code</label>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="2" value="@Model.Statecode" id="Statecode" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center px-5">
+                        @if (Model.Id != 0)
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Update</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+                        }
+
+                    </div>
+                    <input hidden type="text" value="@Model.Id" id="Id" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<style type="text/css">
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+</style>
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('#State').change(function () {
+        $.ajax({
+            url: '/Employee/City',
+            datatype: 'json',
+            data: { StateId: $(this).val() },
+            method: 'Post',
+            success: function (data) {
+                $('#City').empty();
+                $('#City').append('<option value=""> Select City </option>');
+                $(data).each(function (index, item) {
+                    $('#City').append($('<option/>', { Value: item.Value, text: item.Text }))
+                });
+            }
+        });
+    });
+    $("#btnSubmit").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        if (flag == 1) return;
+        var client = {
+            Id: $("#Id").val(),
+            CompanyName: $("#CompanyName").val(),
+            ContactPerson: $("#ContactPerson").val(),
+            ContactNo: $("#ContactNo").val(),
+            GSTNo: $("#GSTNo").val(),
+            State: $("#State").val(),
+            City: $("#City").val(),
+            StateName: $("#State").find("option:selected").text(),
+            CityName: $("#City").find("option:selected").text(),
+            Address: $("#Address").val(),
+            Statecode: $("#Statecode").val(),
+            Pincode: $("#Pincode").val(),
+            PanNo: $("#PanNo").val(),
+            EmailId: $("#EmailId").val(),
+            Designation: $("#Designation").val(),
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: client,
+            url: "/Admin/InsertClient",
+            Contenttype: "application/json; charset=utf-8",
+            success: function (message) {
+                if (message == "success") {
+                    swal.fire({
+                        title: "Success",
+                        text: "Successfully Added!",
+                        icon: "success",
+                        timer: 6000,
+                    });
+                    reset();
+                }
+                else if (message == "update") {
+                    swal.fire({
+                        title: "Success",
+                        text: "Successfully Updated!",
+                        icon: "success",
+                        timer: 6000,
+                    });
+                   window.location.href = "/Admin/ClientList";
+                }
+                else {
+                    swal.fire({
+                        title: "Error",
+                        text: "Something Wrong!",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+
+            }
+        });
+    });
+    function reset()
+    {
+       $("#CompanyName").val(''),
+       $("#ContactPerson").val(''),
+       $("#ContactNo").val(''),
+       $("#GSTNo").val(''),
+       $("#State").val(''),
+       $("#City").val(''),
+       $("#Address").val(''),
+       $("#Statecode").val(''),
+       $("#Pincode").val(''),
+       $("#PanNo").val(''),
+       $("#EmailId").val(''),
+       $("#Designation").val('')
+    }
+</script>
+
+
+

@@ -1,0 +1,207 @@
+﻿@{
+    ViewBag.Title = "PurchaseList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+
+    .thead {
+        font-size: 11px;
+    }
+
+    .card-body .Head1 th {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #08638e;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 11px;
+    }
+</style>
+
+<div class="panel-header panel-header-sm">
+    <div class="panel-header panel-header-sm">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0">PURCHASE LIST</h1>
+                    </div><!-- /.col -->
+                    <!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Purchase List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="toolbar">
+                        <div class="text-center">
+
+                            <input type="text" id="date1" class="border-success  datepicker" @*value="@System.DateTime.Now.ToString("dd-MM-yyyy")"*@ placeholder="dd-mm-yyyy">
+                            <input type="text" id="date2" class="border-success  datepicker" @*value="@System.DateTime.Now.ToString("dd-MM-yyyy")"*@ placeholder="dd-mm-yyyy">
+                            <button type="button" id="btnSend" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+    
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container">
+                                <section class="content">
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead style="background-color: #3f838d;color:white">
+                                            <tr>
+                                                <th>
+                                                    SR NO.
+                                                </th>
+                                                <th>
+                                                    DATE
+                                                </th>
+                                                <th>
+                                                    COMPANY NAME
+                                                </th>
+                                                <th>
+                                                    INVOICE NO
+                                                </th>
+                                                <th>
+                                                    TOTAL AMOUNT
+                                                </th>
+                                                <th>
+                                                    TAX TYPE
+                                                </th>
+                                                <th>
+                                                    AFTER TAX AMOUNT
+                                                </th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.list != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.Purchase>)
+                                                {
+                                                    <tr>
+                                                        <td>@sn</td>
+                                                        <td>@item.Date</td>
+                                                        <td>@item.CompanyName</td>
+                                                        <td>@item.InvoiceNo</td>
+                                                        <td>@item.AmtBeforeTax</td>
+                                                        <td>@item.TaxType</td>
+                                                        <td>@item.AmtAfterTax</td>
+                                                        <td style="width:169px;">
+                                                            <a href="/Admin/PurchaseView?Id=@item.Id" class="btn btn-round btn-info btn-icon btn-sm like" data-toggle="tooltip" data-placement="bottom" data-original-title="Preview" title="Preview"><i class="fas fa-file-pdf" style="color:red;"></i></a>
+                                                            <a href="/Admin/PurchaseOrder?Id=@item.Id" class="btn btn-round btn-warning btn-icon btn-sm edit" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="far fa-edit"></i></a>
+                                                            <a userId="@item.Id" class="btn btn-round btn-danger btn-icon btn-sm remove sn-delete"><i class="fas fa-times" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete" title="Delete"></i></a>
+
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                    <span>
+                                        <b>Before Tax Amount:</b>
+                                        @if (ViewBag.Before != null)
+                                        {
+                                            <b>@ViewBag.Before</b>
+                                        }
+                                        else
+                                        {
+                                            <div><b>0</b></div>
+                                        }
+                                    </span>
+                                    <span></span>
+                                    <span style="float:right;">
+                                        <b>After Tax Amount:</b>
+                                        @if (ViewBag.After != null)
+                                        {
+                                            <b>@ViewBag.After</b>
+                                        }
+                                        else
+                                        {
+                                            <div><b>0</b></div>
+                                        }
+                                    </span>
+                            </section></div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+
+        $('#btnSend').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+            });
+            var flag = 0;
+            var cntrl;
+            var fulldate = $('#date1').val();
+            var fulldate1 = $('#date2').val();
+            var Date1= fulldate;
+            var Date2 = fulldate1;
+
+            window.location.href = "/Admin/DatewisePurchase?Date1=" + Date1 + "&Date2=" + Date2;
+            //$.ajax({
+            //    type: "POST",
+            //    url: "/Admin/DatewiseSearch",
+            //    data: Product,
+            //    success: function (data) {
+            //    }
+            //});
+        });
+</script>
+
+

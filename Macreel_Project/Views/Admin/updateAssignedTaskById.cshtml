@@ -1,0 +1,282 @@
+﻿@model Macreel_Project.Models.Bussiness.TaskManage
+@{
+    ViewBag.Title = "updateAssignedTaskById";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+
+<style>
+
+    .col-md-2 {
+        margin: 15px;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+ 
+</style>
+
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Update Task</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+
+            <form>
+                <div class="form-row">
+
+                    <div class="form-group col-md-2" style="margin: 0;">
+                        <label for="inputEmployeeName">Task Status</label>
+                        <input type="text" class="form-control" id="s_no" name="s_no" value="@Model.task_status" required readonly>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <label for="inputEmployeeName">Task Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Task Title" value="@Model.title" required readonly>
+                    </div>
+
+
+                </div>
+
+                <div class="form-row">
+
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeName">Assigned Date</label>
+                        <input type="text" class="form-control" id="" name="" value="@Model.current_date" required readonly>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeName">Completion Date</label>
+                        <input type="text" class="form-control" id="" name="" value="@Model.complete_date" required readonly>
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputPasDesignationsword4">Description</label>
+                        <textarea class="form-control" id="description" name="description" placeholder="Task Description" readonly>@Model.description</textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment1</label>
+                        <input type="file" id="fileupload1" name="fileupload1" class="dropify" />
+                        <input type="hidden" name="attachment1" value="@Model.attachment1" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment2</label>
+                        <input type="file" id="fileupload2" name="fileupload2" class="dropify" />
+                        <input type="hidden" name="attachment2" value="@Model.attachment2" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment3</label>
+                        <input type="file" id="fileupload3" name="fileupload3" class="dropify" />
+                        <input type="hidden" name="attachment3" value="@Model.attachment3" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment4</label>
+                        <input type="file" id="fileupload4" name="fileupload4" class="dropify" />
+                        <input type="hidden" name="attachment4" value="@Model.attachment4" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment5</label>
+                        <input type="file" id="fileupload5" name="fileupload5" class="dropify" />
+                        <input type="hidden" name="attachment5" value="@Model.attachment5" />
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Comment Regarding this task(If Any)</label>
+                        <input type="text" class="form-control" id="commentTask" name="commentTask" placeholder="Enter any Comments">
+                    </div>
+                </div>
+
+
+                <div class="form-row">
+                    <div class="form-group col-md-10">
+                        <label for="" class="heading">Mark To Complete This Task:-</label>
+                        <input type="checkbox" name="checked" id="check" />
+                    </div>
+                </div>
+
+
+                <div class="form_button_box">
+                    <input type="hidden" name="id" id="id" value="@Model.id" />
+                    <button type="submit" id="approve_btn" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+
+        </section>
+
+
+
+
+        <!-- Main row -->
+    </div>
+    <!--/. container-fluid -->
+</section>
+
+
+<script src="~/assets/js/jquery-ui.js"></script>
+
+
+@* Dropify *@
+<script>
+    $('.dropify').dropify();
+
+</script>
+
+
+<script>
+
+
+    $("#approve_btn").click(function () {
+        
+        //var id = $('#id').val();
+
+        //var check = "In-Complete";
+
+        //if ($('#checked').prop('checked')) {
+        //    check = "Complete";
+        //}
+
+
+        Swal.fire({
+            title: 'Please wait!',
+            html: 'Data Updated Successfully',
+            timer: 700,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading()
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        });
+
+        var formdata = new FormData();
+
+        var check = $('#check').prop('checked') ? 1 : 0;
+
+        formdata.append("id", $('#id').val());
+        formdata.append("commentTask", $('#commentTask').val());
+        formdata.append("check", check);
+
+
+        var files1 = $("#fileupload1").get(0).files;
+        var files2 = $("#fileupload2").get(0).files;
+        var files3 = $("#fileupload3").get(0).files;
+        var files4 = $("#fileupload4").get(0).files;
+        var files5 = $("#fileupload5").get(0).files;
+
+        formdata.append("fileupload1", files1[0]);
+        formdata.append("fileupload2", files2[0]);
+        formdata.append("fileupload3", files3[0]);
+        formdata.append("fileupload4", files4[0]);
+        formdata.append("fileupload5", files5[0]);
+
+
+        $.ajax({
+            type: "POST",
+            url: "/admin/update_assignedTask",
+            data: formdata,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                if (data.success == true) {
+                    Swal.fire({
+                        icon: 'success',
+                        html: '<p style="font-size: 17px;">Updated Successfully</p>',
+                        returnFocus: true,
+                    }).then((data) => {
+                        if (data.isConfirmed) {
+                            window.location.href = data.redirectUrl; // Use the redirect URL from the server response
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        html: '<p style="font-size: 17px;">' + data.message + '</p>',
+                    });
+                }
+            },
+            //error: function (xhr, textStatus, errorThrown) {
+            //    Swal.fire({
+            //        icon: 'error',
+            //        html: '<p style="font-size: 17px;">An Error Occured try again later or contact website administration.</p>',
+            //        returnFocus: true,
+            //        returnFocus: false,
+            //    }).then((result) => {
+            //        if (result.isConfirmed) {
+
+            //            return false;
+            //        }
+            //    })
+
+            //},
+            complete: function () {
+            }
+        });
+
+        return false;
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {<text >
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                {
+                    var tt = @TempData["para"];
+                    if (tt == true) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Success",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                      else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Success",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                });
+            }); </text>
+    }
+</script>
+
+
+
+
+

@@ -1,0 +1,43 @@
+/* Your custom styles */
+#plc-reg{background:url(../img/banner-bg.jpg)no-repeat;background-size: cover;background-position:fixed;}
+.menu-list{padding: 10px;}
+.menu-top{background:#00BCD4;}
+.helpline h4 {color:#fff;font-size:20px;}
+.main-title{padding:9em 0em;}
+.logo-title {font-size: 28px;font-weight: 500;color: #fff;}
+.main-title h1 { font-size: 56px; font-weight: 700; text-transform: uppercase; color: #b1314c;font-family: time-roman;}
+.main-title:before {content: '';position: absolute; width: 500px; height: 100%; background:#98132f; border-radius: 50%; left: -45%; z-index: 0;top: 0%;}
+.menu-bottom {background: #2f1957;padding: 5px 0px;}
+.footer-tag{justify-content:center;background: #e8e4e3f7;padding: 11px;margin-top: -30px;border-radius: 20px;}
+.footer-tag li{padding:0px 20px;font-size:15px;}
+.footer-tag li a{color:#fff;text-decoration:none;}
+.log-btn{width:80px;}
+.icon-fb {color: #01266a;border: 2px solid #01266a; padding: 4px 6px;border-radius: 35px;margin: 4px;}
+.school-logo img{height:90px;}
+.login-btn img{height:65px;}
+
+@media only screen and (max-width: 768px) {
+	.main-title:before {
+    width: 500px;
+    height: 100%;
+    background:transparent;  
+}
+.main-title:before {content: '';position: relative; width: 500px; height: 100%; background:#98132f; border-radius: 50%; left: -45%; z-index: 0;top: 0%;}
+}
+@media (min-width: 576px){
+.modal-dialog {
+    max-width: 435px;
+    margin: 1.75rem auto;
+}
+.main-title:before {content: '';position: relative; width: 500px; height: 100%; background:#98132f; border-radius: 50%; left: -45%; z-index: 0;top: 0%;}
+
+}
+
+/* ---======== Add Results section ------=======*/
+.result-grid{padding:20px ;}
+.grad{width:170px;}
+.devison{font-weight:600;font-size:18px;}
+.devison-title{font-size:15px; font-weight:600;}
+.result-view {max-width:500px;width:100%;margin:auto;}
+.all-no.course-title{margin-bottom:1px ;}
+

@@ -1,0 +1,2290 @@
+﻿
+@{
+    ViewBag.Title = "GanrateTaxInvoice";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/assets/css/fSelect.css" rel="stylesheet" />
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .Description {
+        transition: transform .2s;
+        margin: 0 auto;
+    }
+
+        .Description:hover {
+            -ms-transform: scale(1.9); /* IE 9 */
+            -webkit-transform: scale(1.9); /* Safari 3-8 */
+            transform: scale(1.9);
+        }
+
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .font {
+        font-size: 11px;
+        font-weight: 700 !important;
+        background: #08638e;
+        color: #fff;
+    }
+
+    .edit-box h5 {
+        font-size: 19px;
+        text-align: center;
+    }
+
+    .edit-box {
+        padding: 25px 0px;
+    }
+
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .head-title th {
+        font-size: !important;
+        font-size: 14px !important;
+        color: #fff;
+        padding: 6px !IMPORTANT;
+        font-weight: 700 !IMPORTANT;
+    }
+
+    .bg-info {
+        background-color: #08638e !important;
+        /* padding: 6px !IMPORTANT; */
+    }
+
+    .table-bg {
+        border: 1px solid #08638e;
+        margin-bottom: 30px;
+    }
+
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+
+    .fs-wrap {
+        display: inline-block;
+        cursor: pointer;
+        line-height: 1;
+        width: 100%;
+    }
+
+    .fs-label-wrap .fs-label {
+        padding: 10px 18px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .fs-dropdown {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #8a8a8a;
+        width: 100%;
+        margin-top: 5px;
+        z-index: 1000;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+<!--<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Update Performa Invoice</h4>
+    </div>--><!-- /.col -->
+    <!-- /.col -->
+<!--</div>-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                   
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="companyname">Company Name<div class="badge badge-pill badge-success ml-auto px-1 py-1"><i class="sn-Pluse  mdi mdi-plus font-weight-bold fa fa-plus" style="cursor:pointer"></i></div></label>
+
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="CompanyName" class="form-control sn-required">
+                                        <option value="">--Select Client--</option>
+                                        @if (ViewBag.client != null)
+                                        {
+                                            foreach (var item in ViewBag.client as List<SelectListItem>)
+                                            {
+                                                if (Model.CompanyId == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+
+                                <label for="services">Services</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="Services" class="form-control sn-required" multiple="multiple">
+                                        <option value="SerSEO473798">Services</option>
+                                        <option value="SerHar493914">Hardware  </option>
+                                        <option value="SerSof178709">Software  </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Clients" style="display:none;">
+                            <h6 style="text-align:center;">
+                                Company Detail
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="table-bg">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                @*<thead class="bg-info">
+            <tr class="head-title">
+                <th>Comapny Name</th>
+                <th>Contect Person</th>
+                <th>Mobile</th>
+                <th>Email-Id</th>
+                <th>StateName</th>
+                <th>CityName</th>
+                <th>GSTN</th>
+            </tr>
+        </thead>*@
+                                                
+                                                <thead style="line-height: normal; height: 1px !important;">
+                                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                                        <th style="padding:5px;">
+                                                            Company Name
+                                                        </th>
+                                                        <th style="padding:5px;">
+                                                            Contact Person
+                                                        </th>
+                                                        <th style="padding:5px;">
+                                                            Mobile
+                                                        </th>
+
+                                                        <th style="padding:5px;">
+                                                            Email Id
+                                                        </th>
+                                                        <th style="padding:5px;">
+                                                            State Name
+                                                        </th>
+                                                        <th style="padding:5px;">
+                                                            City Name
+                                                        </th>
+                                                        <th style="padding:5px;">
+                                                            GSTN
+                                                        </th>
+
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><span id="Company"></span>  </td>
+                                                        <td><span id="ContectPerson"></span></td>
+                                                        <td><span id="Mobile"></span></td>
+                                                        <td><span id="EmailId"></span></td>
+                                                        <td><span id="StateName"></span></td>
+                                                        <td><span id="CityName"></span></td>
+                                                        <td><span id="Gst"></span></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="display:none;" id="tblIndentFiles1">
+                            <h6 style="text-align:center;">
+                                Add Services
+                            </h6>
+                            <table id="tblIndentFiles" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%; ">
+                                @*<thead>
+            <tr class="font">
+                <th>
+                    Services
+                </th>
+                <th>
+                    Duration
+                </th>
+                <th>Date</th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Description
+                </th>
+                <th></th>
+            </tr>
+        </thead>*@
+                                <thead style="line-height: normal; height: 1px !important;">
+                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                        <th style="padding:5px;">
+                                            Services
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Duration
+                                        </th>
+                                        <th style="padding:5px;">Date
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Amount
+                                        </th>
+
+                                        <th style="padding:5px;">
+                                            Description
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class='selectWrapper'></tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            <a id="LnkAddFileRow" style="margin: 10px 15px;" class="btn btn-info btn-sm badge-success icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div style="display:none;" id="tblIndentFilesS1">
+                            <h6 style="text-align:center;">
+                                Add Software
+                            </h6>
+                            <table id="tblIndentFilesS" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
+                                @*<thead>
+            <tr class="font">
+                <th>
+                    SoftWare Name
+                </th>
+                <th>
+                    Amount
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Total
+                </th>
+                <th>
+                </th>
+            </tr>
+        </thead>*@
+                                <thead style="line-height: normal; height: 1px !important;">
+                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                        <th style="padding:5px;">
+                                            Software Name
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Amount
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Unit
+                                        </th>
+
+                                        <th style="padding:5px;">
+                                            Description
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Total
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class='selectWrapper'></tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            <a id="LnkAddFileRowS" style="margin: 10px 15px;" class="btn btn-info btn-sm badge-success icon-btn ml-2 mb-2 SoftwareServices" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus SoftwareServices"></i></a>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div style="display:none;" id="tblIndentFilesH1">
+                            <h6 style="text-align:center;">
+                                Add Hardware
+                            </h6>
+                            <table id="tblIndentFilesH" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
+                                @*<thead>
+            <tr class="font">
+                <th>
+                    Product Name
+                </th>
+                <th>
+                    Unit Price
+                </th>
+                <th>
+                    Unit
+                </th>
+                <th>
+                    Total
+                </th>
+                <th>Naration</th>
+                <th>
+                </th>
+            </tr>
+        </thead>*@
+                                <thead style="line-height: normal; height: 1px !important;">
+                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                        <th style="padding:5px;">
+                                            Product Name
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Unit Price
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Unit
+                                        </th>
+
+                                        <th style="padding:5px;">
+                                            Total
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Naration
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class='selectWrapper'></tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th colspan="6" class="text-right">
+                                            <a id="LnkAddFileRowH" style="margin: 10px 15px;" class="btn btn-info btn-sm badge-success icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div style="padding:7px;">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="taxtype">Tax Type</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <select id="TaxType" style="height:36px; text-align:center;" class="form-control sn-required">
+                                        <option value="">Select Type</option>
+                                        <option value="NoTax">NoTax</option>
+                                        <option value="InState">InState</option>
+                                        <option value="OutState">OutState</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label for="taxtype">Tax%</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <input type="text" class="form-control sn-required" id="Tax" value="18" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="taxtype">Tax Amount</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly id="TaxAmount" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="taxtype">Total Amount</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input type="text" readonly class="form-control sn-required" id="TotalAmount" name="required" required="true" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="taxtype">After Tax Amount</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly id="AfterTaxAmount" type="text" name="required" required="true" />
+                                    <input type="text" hidden id="InvoiceNo" value="@Model.InvoiceNo" />
+                                </div>
+                            </div>
+
+                            <input type="text" value="0" hidden class="form-control sn-required" id="ProjectAmount" />
+
+                        </div>
+                        <div class="row" id="InstatePanel" style="display:none;">
+
+                            <div class="col-md-2">
+                                <label for="taxtype">CGST</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly id="CGST" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">CGST Amount </label>
+                            <div class="col-md-2">
+                                <label for="taxtype">CGST Amount</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input type="text" readonly class="form-control sn-required" id="CGSTAmount" name="required" required="true" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="taxtype">SGST</label>
+                            </div>
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly id="SGST" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="taxtype">SGST Amount</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input type="text" readonly class="form-control sn-required" id="SGSTAmount" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer text-center">
+                        <button type="button" class="btn btn-primary" id="btnSave">Genrate Tax Invoice</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="~/scripts/fSelect.js"></script>
+<script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script src="~/scripts/alert.js" defer></script>
+<script>
+    $('#TaxType').change(function () {
+        var me = $(this);
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+                me.attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $(".processing").hide();
+                me.attr('disabled', false);
+            }
+        });
+
+        var TaxType = $(this).val();
+        if (TaxType == "InState")
+        {
+            $('#Tax').val(18);
+            $('#TaxAmount').val();
+            var Discount = {
+                Discount: $('#Tax').val(),
+                Amount: $("#TotalAmount").val()
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DiscountPercentage",
+                data: JSON.stringify(Discount),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData != null) {
+                        $('#TaxAmount').val(resultData);
+                        var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                        $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                    }
+                }
+            });
+
+            var SGST = 0;
+            var CGST = 0;
+            var CGSTAmount = "";
+            var SGSTAmount = "";
+            var taxvalue = parseInt($('#Tax').val());
+            SGST = taxvalue / 2;
+            CGST = taxvalue / 2;
+            $('#SGST').val(SGST);
+            $('#CGST').val(CGST);
+            CGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+            SGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+            $('#CGSTAmount').val(CGSTAmount);
+            $('#SGSTAmount').val(SGSTAmount);
+            $('#InstatePanel').show();
+        }
+        else if (TaxType == "OutState")
+        {
+            $('#InstatePanel').hide();
+            $('#Tax').val(18);
+            $('#TaxAmount').val();
+            var Discount = {
+                Discount: $('#Tax').val(),
+                Amount: $("#TotalAmount").val()
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Admin/DiscountPercentage",
+                data: JSON.stringify(Discount),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData != null) {
+                        $('#TaxAmount').val(resultData);
+                        var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                        $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                    }
+                }
+            });
+
+        }
+        else if (TaxType == "NoTax") {
+            $('#Tax').val(0);
+            $('#TaxAmount').val(0);
+                var Discount = {
+                    Discount: $('#Tax').val(),
+                    Amount: $("#TotalAmount").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DiscountPercentage",
+                    data: JSON.stringify(Discount),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (resultData) {
+                        if (resultData != null) {
+                            $('#TaxAmount').val(resultData);
+                            var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                            $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                        }
+                    }
+                });
+                $('#InstatePanel').hide();
+            }
+    });
+    $('#Tax').change(function () {
+        var me = $(this);
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+                me.attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $(".processing").hide();
+                me.attr('disabled', false);
+            }
+        });
+        var TaxType = $('#TaxType').val();
+        var Discount = {
+            Discount: $('#Tax').val(),
+            Amount: $("#TotalAmount").val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/DiscountPercentage",
+            data: JSON.stringify(Discount),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+                    $('#TaxAmount').val(resultData);
+                    var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                    $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                }
+                if (TaxType == "InState") {
+
+                    var SGST = 0;
+                    var CGST = 0;
+                    var CGSTAmount = "";
+                    var SGSTAmount = "";
+                    var taxvalue = parseInt($('#Tax').val());
+                    SGST = taxvalue / 2;
+                    CGST = taxvalue / 2;
+                    $('#SGST').val(SGST);
+                    $('#CGST').val(CGST);
+                    CGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+                    SGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+                    $('#CGSTAmount').val(CGSTAmount);
+                    $('#SGSTAmount').val(SGSTAmount);
+                    $('#InstatePanel').show();
+                }
+            }
+        });
+    });
+</script>
+<script>
+    jQuery(document).ready(function ($) {
+        $('#Services').fSelect({
+            placeholder: 'Select Services',
+            numDisplayed: 3,
+            overflowText: '{n} selected',
+            noResultsText: 'No results found',
+            searchText: 'Search',
+            showSearch: true,
+
+        })
+    });
+
+    $('#Services').change(function (e) {
+        var val = '';
+        val = $('#Services').val();
+        var ddcount = $("#Services :selected").length;
+        if (val == "SerHar493914") {
+            $('#tblIndentFiles1').hide();
+            $('#tblIndentFilesS1').hide();
+            $('#tblIndentFilesH1').show();
+            e.preventDefault()
+            var counts = 1;
+            $('#tblIndentFilesH tbody tr').each(function () {
+                counts++;
+            });
+            var NewRow = '<tr class=selectWrapper id="counts">';
+            NewRow += '<td><input type="text" class="form-control ProductName" value="" id="Amounts" placeholder="ProductName"></td>';
+            NewRow += '<td><input type="text" class="form-control Amounts" value="" id="Amounts" placeholder="Amount"></td>';
+            NewRow += '<td><input type="text" class="form-control Unit" value="" id="Unit" placeholder="Unit"></td>';
+            NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
+            NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Naration" id="Description" rows="2" style="width:100%;"></textarea></td>';
+            NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+            NewRow += '</tr>';
+            var count = 0;
+            $('#tblIndentFilesH tbody tr').each(function () {
+                count++;
+                counts++;
+            });
+            if (count <= 18)
+            $('#tblIndentFilesH tbody').append(NewRow);
+            $("#tblIndentFilesH tbody tr .LnkDeleteFileRow").unbind("click");
+            rebindLastSelectBox3();
+            function rebindLastSelectBox3() {
+                $('input.Unit').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Unit").val();
+                    var Price = parseFloat(currentRow.find("input.Amounts").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.Amount').val(resultData.toFixed(2));
+                            TotalofEachRowForHardware();
+                            Discount();
+                        }
+                    });
+                    rebindLastSelectBox3();
+                })
+                $('input.Amounts').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Unit").val();
+                    var Price = parseFloat(currentRow.find("input.Amounts").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.Amount').val(resultData.toFixed(2));
+                            TotalofEachRowForHardware();
+                            Discount();
+                        }
+                    });
+                    rebindLastSelectBox3();
+                })
+            }
+            rebindLastSelectBox3();
+            ImplementDeleteFileRowForH();
+            function TotalofEachRowForHardware() {
+                var sum = 0;
+                var totalwithtax = 0;
+                var sum = 0;
+                $('#tblIndentFilesH .Amount').each(function () {
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sum += parseFloat(this.value);
+                    }
+                    var ProjectAmount = '';
+                    var Total = '';
+                    ProjectAmount = 0;
+                    Total = parseFloat(ProjectAmount) + sum;
+                    $('#TotalAmount').val(Total.toFixed(2));
+                    $('#AfterTaxAmount').val(Total.toFixed(2));
+                });
+
+            }
+            function ImplementDeleteFileRowForH() {
+                $("#tblIndentFilesH tbody tr .LnkDeleteFileRow").click(function (e) {
+                    e.preventDefault();
+                    var CurrRow = $(this).closest("tr");
+                    CurrRow.remove();
+                    TotalofEachRowForHardware();
+                    Discount();
+                });
+            }
+            function Discount() {
+                var Discount = {
+                    Discount: $('#Tax').val(),
+                    Amount: $("#TotalAmount").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DiscountPercentage",
+                    data: JSON.stringify(Discount),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (resultData) {
+                        if (resultData != null) {
+                            $('#TaxAmount').val(resultData);
+                            var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                            $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                        }
+                    }
+                });
+            }
+            $("#LnkAddFileRowH").unbind("click");
+            $("#LnkAddFileRowH").click(function (e) {
+                e.preventDefault();
+                var counts = 1;
+                $('#tblIndentFilesH tbody tr').each(function () {
+                    counts++;
+                });
+                var NewRow = '<tr class=selectWrapper id="counts">';
+                NewRow += '<td><input type="text" class="form-control ProductName" value="" id="ProductName" placeholder="ProductName"></td>';
+                NewRow += '<td><input type="text" class="form-control Amounts" value="" id="Amounts" placeholder="Amount"></td>';
+                NewRow += '<td><input type="text" class="form-control Unit" value="" id="Unit" placeholder="Unit"></td>';
+                NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
+                NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Naration" id="Description" rows="2" style="width:100%;"></textarea></td>';
+                NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+                NewRow += '</tr>';
+                var count = 0;
+                $('#tblIndentFilesH tbody tr').each(function () {
+                    count++;
+                    counts++;
+                });
+                if (count <= 18)
+                    $('#tblIndentFilesH tbody').append(NewRow);
+                $("#tblIndentFilesH tbody tr .LnkDeleteFileRow").unbind("click");
+                ImplementDeleteFileRowForH();
+                rebindLastSelectBox4();
+                function rebindLastSelectBox4() {
+                    $('input.Unit').change(function () {
+                        $(this).unbind('change');
+                        $.ajaxSetup({
+                            beforeSend: function () {
+                                $(".processing").show();
+                            },
+                            complete: function () {
+                                $(".processing").hide();
+                            }
+                        });
+                        var currentRow = $(this).closest("tr");
+                        var unit = currentRow.find("input.Unit").val();
+                        var Price = parseFloat(currentRow.find("input.Amounts").val());
+                        var Product = {
+                            Price: Price,
+                            Unit: unit,
+                        };
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: Product,
+                            url: "/Admin/TotalAmountOfProduct",
+                            Contenttype: "application/json; charset=utf-8",
+                            success: function (resultData) {
+                                currentRow.find('input.Amount').val(resultData.toFixed(2));
+                                TotalofEachRowForHardware();
+                                Discount();
+                            }
+                        });
+                        rebindLastSelectBox4();
+                    })
+                    $('input.Amounts').change(function () {
+                        $(this).unbind('change');
+                        $.ajaxSetup({
+                            beforeSend: function () {
+                                $(".processing").show();
+                            },
+                            complete: function () {
+                                $(".processing").hide();
+                            }
+                        });
+                        var currentRow = $(this).closest("tr");
+                        var unit = currentRow.find("input.Unit").val();
+                        var Price = parseFloat(currentRow.find("input.Amounts").val());
+                        var Product = {
+                            Price: Price,
+                            Unit: unit,
+                        };
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: Product,
+                            url: "/Admin/TotalAmountOfProduct",
+                            Contenttype: "application/json; charset=utf-8",
+                            success: function (resultData) {
+                                currentRow.find('input.Amount').val(resultData.toFixed(2));
+                                TotalofEachRowForHardware();
+                                Discount();
+                            }
+                        });
+                        rebindLastSelectBox4();
+                    })
+                }
+                rebindLastSelectBox4();
+                function TotalofEachRowForHardware() {
+                    var sum = 0;
+                    var totalwithtax = 0;
+                    var sum = 0;
+                    $('#tblIndentFilesH .Amount').each(function () {
+                        if (!isNaN(this.value) && this.value.length != 0) {
+                            sum += parseFloat(this.value);
+                        }
+                        var ProjectAmount = '';
+                        var Total = '';
+                        ProjectAmount = 0;
+                        Total = parseFloat(ProjectAmount) + sum;
+                        $('#TotalAmount').val(Total.toFixed(2));
+                        $('#AfterTaxAmount').val(Total.toFixed(2));
+                    });
+
+                }
+                function ImplementDeleteFileRowForH() {
+                    $("#tblIndentFilesH tbody tr .LnkDeleteFileRow").click(function (e) {
+                        e.preventDefault();
+                        var CurrRow = $(this).closest("tr");
+                        CurrRow.remove();
+                        TotalofEachRowForHardware();
+                        Discount();
+                    });
+                }
+                function Discount() {
+                    var Discount = {
+                        Discount: $('#Tax').val(),
+                        Amount: $("#TotalAmount").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DiscountPercentage",
+                        data: JSON.stringify(Discount),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (resultData) {
+                            if (resultData != null) {
+                                $('#TaxAmount').val(resultData);
+                                var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                                $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else if (val == "SerSof178709") {
+            $('#tblIndentFiles1').hide();
+            $('#tblIndentFilesH1').hide();
+            $('#tblIndentFilesS1').show();
+            e.preventDefault()
+            var counts = 1;
+            $('#tblIndentFilesS tbody tr').each(function () {
+                counts++;
+            });
+            var NewRow = '<tr class=selectWrapper id="counts">';
+            NewRow += '<td>  <input type="text" class="form-control Software"  placeholder="Software Name"></td>';
+            NewRow += '<td><input type="text" class="form-control Amounts" value="" id="Amounts" placeholder="Amount"></td>';
+            NewRow += '<td><input type="text" class="form-control Unit" value="" id="Unit" placeholder="Unit"></td>';
+            NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
+            NewRow += '<td><input type="text" class="form-control SAmount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
+            NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+            NewRow += '</tr>';
+            var count = 0;
+            $('#tblIndentFilesS tbody tr').each(function () {
+                count++;
+                counts++;
+            });
+            if (count <= 18)
+                $('#tblIndentFilesS tbody').append(NewRow);
+            $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").unbind("click");
+            ImplementDeleteFileRowForsW();
+            rebindLastSelectBox2();
+            function rebindLastSelectBox2() {
+                $('input.Unit').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Unit").val();
+                    var Price = parseFloat(currentRow.find("input.Amounts").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.SAmount').val(resultData.toFixed(2));
+                            TotalofEachRowForSoftware();
+                            Discount();
+                        }
+                    });
+                    rebindLastSelectBox2();
+                })
+                $('input.Amounts').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Unit").val();
+                    var Price = parseFloat(currentRow.find("input.Amounts").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.SAmount').val(resultData.toFixed(2));
+                            TotalofEachRowForSoftware();
+                            Discount();
+                        }
+                    });
+                    rebindLastSelectBox2();
+                })
+            }
+            rebindLastSelectBox2();
+            function TotalofEachRowForSoftware() {
+                var sum = 0;
+                var totalwithtax = 0;
+                var sum = 0;
+                $('#tblIndentFilesS .SAmount').each(function () {
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sum += parseFloat(this.value);
+                    }
+                    var ProjectAmount = '';
+                    var Total = '';
+                    ProjectAmount = 0;
+                    Total = parseFloat(ProjectAmount) + sum;
+                    $('#TotalAmount').val(Total.toFixed(2));
+                    $('#AfterTaxAmount').val(Total.toFixed(2));
+                });
+
+            }
+            function ImplementDeleteFileRowForsW() {
+                $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").click(function (e) {
+                    e.preventDefault();
+                    var CurrRow = $(this).closest("tr");
+                    CurrRow.remove();
+                    TotalofEachRowForSoftware();
+                    Discount();
+                });
+            }
+            function Discount() {
+                var Discount = {
+                    Discount: $('#Tax').val(),
+                    Amount: $("#TotalAmount").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DiscountPercentage",
+                    data: JSON.stringify(Discount),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (resultData) {
+                        if (resultData != null) {
+                            $('#TaxAmount').val(resultData);
+                            var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                            $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                        }
+                    }
+                });
+            }
+            $("#LnkAddFileRowS").unbind("click");
+            $("#LnkAddFileRowS").click(function (e) {
+                e.preventDefault()
+                var counts = 1;
+                $('#tblIndentFilesS tbody tr').each(function () {
+                    counts++;
+                });
+                var NewRow = '<tr class=selectWrapper id="counts">';
+                NewRow += '<td>  <input type="text" class="form-control Software"  placeholder="Software Name"></td>';
+                NewRow += '<td><input type="text" class="form-control Amounts" value="" id="Amounts" placeholder="Amount"></td>';
+                NewRow += '<td><input type="text" class="form-control Unit" value="" id="Unit" placeholder="Unit"></td>';
+                NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
+                NewRow += '<td><input type="text" class="form-control SAmount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
+                NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+                NewRow += '</tr>';
+                var count = 0;
+                $('#tblIndentFilesS tbody tr').each(function () {
+                    count++;
+                    counts++;
+                });
+                if (count <= 18)
+                    $('#tblIndentFilesS tbody').append(NewRow);
+                $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").unbind("click");
+                ImplementDeleteFileRowForsW();
+                rebindLastSelectBox2();
+                function rebindLastSelectBox2() {
+                    $('input.Unit').change(function () {
+                        $(this).unbind('change');
+                        $.ajaxSetup({
+                            beforeSend: function () {
+                                $(".processing").show();
+                            },
+                            complete: function () {
+                                $(".processing").hide();
+                            }
+                        });
+                        var currentRow = $(this).closest("tr");
+                        var unit = currentRow.find("input.Unit").val();
+                        var Price = parseFloat(currentRow.find("input.Amounts").val());
+                        var Product = {
+                            Price: Price,
+                            Unit: unit,
+                        };
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: Product,
+                            url: "/Admin/TotalAmountOfProduct",
+                            Contenttype: "application/json; charset=utf-8",
+                            success: function (resultData) {
+                                currentRow.find('input.SAmount').val(resultData.toFixed(2));
+                                TotalofEachRowForSoftware();
+                                Discount();
+                            }
+                        });
+                        rebindLastSelectBox2();
+                    })
+                    $('input.Amounts').change(function () {
+                        $(this).unbind('change');
+                        $.ajaxSetup({
+                            beforeSend: function () {
+                                $(".processing").show();
+                            },
+                            complete: function () {
+                                $(".processing").hide();
+                            }
+                        });
+                        var currentRow = $(this).closest("tr");
+                        var unit = currentRow.find("input.Unit").val();
+                        var Price = parseFloat(currentRow.find("input.Amounts").val());
+                        var Product = {
+                            Price: Price,
+                            Unit: unit,
+                        };
+                        $.ajax({
+                            type: "POST",
+                            dataType: "json",
+                            data: Product,
+                            url: "/Admin/TotalAmountOfProduct",
+                            Contenttype: "application/json; charset=utf-8",
+                            success: function (resultData) {
+                                currentRow.find('input.SAmount').val(resultData.toFixed(2));
+                                TotalofEachRowForSoftware();
+                                Discount();
+                            }
+                        });
+                        rebindLastSelectBox2();
+                    })
+                }
+                rebindLastSelectBox2();
+                function TotalofEachRowForSoftware() {
+                    var sum = 0;
+                    var totalwithtax = 0;
+                    var sum = 0;
+                    $('#tblIndentFilesS .SAmount').each(function () {
+                        if (!isNaN(this.value) && this.value.length != 0) {
+                            sum += parseFloat(this.value);
+                        }
+                        var ProjectAmount = '';
+                        var Total = '';
+                        ProjectAmount = 0;
+                        Total = parseFloat(ProjectAmount) + sum;
+                        $('#TotalAmount').val(Total.toFixed(2));
+                        $('#AfterTaxAmount').val(Total.toFixed(2));
+                    });
+
+                }
+                function ImplementDeleteFileRowForsW() {
+                    $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").click(function (e) {
+                        e.preventDefault();
+                        var CurrRow = $(this).closest("tr");
+                        CurrRow.remove();
+                        TotalofEachRowForSoftware();
+                        Discount();
+                    });
+                }
+                function Discount() {
+                    var Discount = {
+                        Discount: $('#Tax').val(),
+                        Amount: $("#TotalAmount").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DiscountPercentage",
+                        data: JSON.stringify(Discount),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (resultData) {
+                            if (resultData != null) {
+                                $('#TaxAmount').val(resultData);
+                                var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                                $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                            }
+                        }
+                    });
+                }
+            });
+        }
+        else if (val == "SerSEO473798") {
+            $('#tblIndentFiles1').show();
+            $('#tblIndentFilesH1').hide();
+            $('#tblIndentFilesS1').hide();
+            e.preventDefault()
+            var counts = 1;
+            $('#tblIndentFiles tbody tr').each(function () {
+                counts++;
+            });
+            var NewRow = '<tr class=selectWrapper id="counts">';
+            NewRow += '<td> <select class="form-control  Services" value="" id="Services" ></select></td>';
+            NewRow += '<td> <select class="form-control Duration" id="Duration"  ><option value="0">Select Duration</option><option value="1">Monthly</option><option value="12">Yearly</option></select></td>';
+            NewRow += '<td>  <input type="text" class="form-control Date datepicker1" value="@System.DateTime.Now.ToString("MM-dd-yyyy")" id="Dates_'+counts+'" placeholder="Date"></td>';
+            NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amount" placeholder="Amount"></td>';
+            NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
+            NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+            NewRow += '</tr>';
+            var count = 0;
+            $('#tblIndentFiles tbody tr').each(function () {
+                count++;
+                counts++;
+            });
+            if (count <= 18)
+                $('#tblIndentFiles tbody').append(NewRow);
+            $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+            BindServices();
+            ImplementDeleteFileRow();
+            $(function () {
+            $(".datepicker1").datepicker({
+                dateFormat: 'mm-dd-yy',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "c-100:c+100",
+            });
+            });
+            $('#tblIndentFiles tbody tr').each(function () {
+                if (count > ddcount) {
+                    var lastval = '';
+                    lastval = $("#tblIndentFiles").find("tr").last();
+                    lastval.remove();
+                    count--;
+                }
+            });
+            function BindServices() {
+
+                $.ajax({
+                    type: "GET",
+                    url: "/Admin/BindServices",
+                    success: function (resultData) {
+                        // $('.projects').empty();
+                        var row = '';
+                        $('.Services').append("<option>Select</option>");
+                        $.each(resultData, function (key, value) {
+                            row += '<option value="' + value.Value + '">' + value.Text + '</option>';
+                        });
+                        $('.Services').append(row);
+                    }
+                });
+            }
+            function ImplementDeleteFileRow() {
+                $("#tblIndentFiles tbody tr .LnkDeleteFileRow").click(function (e) {
+                    e.preventDefault();
+                    var CurrRow = $(this).closest("tr");
+                    CurrRow.remove();
+                    TotalofEachRow();
+                    Discount();
+                });
+            }
+            function Discount() {
+                var Discount = {
+                    Discount: $('#Tax').val(),
+                    Amount: $("#TotalAmount").val()
+                }
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DiscountPercentage",
+                    data: JSON.stringify(Discount),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (resultData) {
+                        if (resultData != null) {
+                            $('#TaxAmount').val(resultData);
+                            var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                            $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                        }
+                    }
+                });
+            }
+            $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+            $("#tblIndentFiles tbody tr .input.Task").unbind("keyup");
+            $("#tblIndentFiles tbody tr .input.Hour").unbind("keyup");
+            ImplementDeleteFileRow();
+            $("#LnkAddFileRow").unbind("click");
+            $("#LnkAddFileRow").click(function (e) {
+                e.preventDefault();
+                var counts = 1;
+                $('#tblIndentFiles tbody tr').each(function () {
+                    counts++;
+                });
+                var NewRow = '<tr class=selectWrapper id="counts">';
+                NewRow += '<td> <select class="form-control  Services" value="" id="Services" ></select></td>';
+                NewRow += '<td> <select class="form-control Duration" id="Duration"  ><option value="0">Select Duration</option><option value="1">Monthly</option><option value="12">Yearly</option></select></td>';
+                NewRow += '<td>  <input type="text" class="form-control Date datepicker1" value="@System.DateTime.Now.ToString("MM-dd-yyyy")" id="Dates_'+counts+'" placeholder="Date"></td>';
+                NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amount" placeholder="Amount"></td>';
+                NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
+                NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+                NewRow += '</tr>';
+                var count = 0;
+                $('#tblIndentFiles tbody tr').each(function () {
+                    count++;
+                    counts++;
+                });
+                if (count <= 18)
+                    $('#tblIndentFiles tbody').append(NewRow);
+                $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+                BindServices();
+                ImplementDeleteFileRow();
+                function Discount() {
+                    var Discount = {
+                        Discount: $('#Tax').val(),
+                        Amount: $("#TotalAmount").val()
+                    }
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DiscountPercentage",
+                        data: JSON.stringify(Discount),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (resultData) {
+                            if (resultData != null) {
+                                $('#TaxAmount').val(resultData);
+                                var totalwithtax = parseFloat($('#TaxAmount').val()) + parseFloat($('#TotalAmount').val());
+                                $("#AfterTaxAmount").val(totalwithtax.toFixed(2)).val();
+                            }
+                        }
+                    });
+                }
+                $(function () {
+                    $(".datepicker1").datepicker({
+                        dateFormat: 'mm-dd-yy',
+                        changeMonth: true,
+                        changeYear: true,
+                        yearRange: "c-100:c+100",
+                    });
+                });
+            });
+        }
+    });
+    $('i.sn-Pluse').click(function () {
+        var me = $(this);
+        var Id = me.attr('UserId');
+        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
+    });
+    $('i.sn-pro').click(function () {
+        var me = $(this);
+        var Id = me.attr('UserId');
+        $('#modal-primary1').modal({ backdrop: 'static', keyboard: true });
+    });
+    $('#CompanyName').change(function () {
+        var me = $(this);
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+                me.attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $(".processing").hide();
+                me.attr('disabled', false);
+            }
+        });
+        var ClientId = {
+            ClientId: $(this).val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/GetCompanyDetail",
+            data: JSON.stringify(ClientId),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+                    $('#Company').text(resultData.CompanyName);
+                    $('#ContectPerson').text(resultData.ContactPerson);
+                    $('#Mobile').text(resultData.ContactNo);
+                    $('#Gst').text(resultData.GSTNo);
+                    $('#EmailId').text(resultData.EmailId);
+                    $('#StateName').text(resultData.StateName);
+                    $('#CityName').text(resultData.CityName);
+                    $("#ClientName").val(resultData.ContactPerson);
+                    $("#Clients").show();
+
+                }
+            }
+        });
+
+    });
+    function Discount() {
+        var Discount = {
+            Discount: $('#Discount').val(),
+            Amount: $("#Total").val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/DiscountPercentage",
+            data: JSON.stringify(Discount),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+                    $('#DiscountAmount').val(resultData);
+                    // $('#AfterDiscountAmount').val(resultData.FinalTotal)
+                    var totalwithtax = parseFloat($('#Total').val()) - parseFloat($('#DiscountAmount').val());
+                    $("#AfterDiscountAmount").val(totalwithtax.toFixed(2)).val();
+                }
+            }
+        });
+    }
+    function ImplementDeleteFileRow() {
+        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").click(function (e) {
+            e.preventDefault();
+            var CurrRow = $(this).closest("tr");
+            CurrRow.remove();
+            TotalofEachRow();
+            Discount();
+        });
+    }
+    $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+    $("#tblIndentFiles tbody tr .input.Task").unbind("keyup");
+    $("#tblIndentFiles tbody tr .input.Hour").unbind("keyup");
+    ImplementDeleteFileRow();
+    $("#LnkAddFileRow").unbind("click");
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'mm-dd-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+    function TotalofEachRow() {
+        var sum = 0;
+        var totalwithtax = 0;
+        var sum = 0;
+        $('#tblIndentFiles .Amount').each(function () {
+            if (!isNaN(this.value) && this.value.length != 0) {
+                sum += parseFloat(this.value);
+            }
+            var ProjectAmount = '';
+            var Total = '';
+            ProjectAmount = 0;
+            Total = parseFloat(ProjectAmount) + sum;
+            $('#TotalAmount').val(Total.toFixed(2));
+            $('#AfterTaxAmount').val(Total.toFixed(2));
+        });
+
+    }
+    rebindLastSelectBox();
+    function rebindLastSelectBox() {
+        $("#tblIndentFiles").on('change', '.Amount', function () {
+            TotalofEachRow();
+            var Total = '';
+            var Discount = '';
+            var Afterdis = '';
+            var disamt = '';
+            Discount = $('#Tax').val(),
+            Total = $("#TotalAmount").val()
+            disamt = parseFloat(Discount) * parseFloat(Total) / 100;
+            Afterdis = parseFloat(Total) + disamt;
+            $('#TaxAmount').val(disamt.toFixed(2));
+            $("#AfterTaxAmount").val(Afterdis.toFixed(2)).val();
+        });
+        rebindLastSelectBox();
+    }
+</script>
+<script>
+    $("#btnSave").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        if (flag == 1) return;
+        var IGST = 0;
+        var SGST = 0;
+        var CGST = 0;
+        var CGSTAmount = "";
+        var SGSTAmount = "";
+        var IGSTAmount = "";
+        var Taxtype = "";
+        var Taxtype = $("#TaxType").val();
+        if (Taxtype == 'InState') {
+            var taxvalue = parseInt($('#Tax').val());
+            SGST = taxvalue / 2;
+            CGST = taxvalue / 2;
+            CGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+            SGSTAmount = parseFloat($('#TaxAmount').val()) / 2;
+            Taxtype = "InState";
+        }
+        else if (Taxtype == 'OutState') {
+            IGST = parseInt($('#Tax').val());
+            IGSTAmount = parseFloat($('#TaxAmount').val());
+            Taxtype = "OutState";
+        }
+        else if (Taxtype == '0') {
+            IGST = parseInt($('#Tax').val());
+            IGSTAmount = parseInt($('#TaxAmount').val());
+            Taxtype = "0";
+            SGST = 0;
+            CGST = 0;
+            CGSTAmount = 0;
+            SGSTAmount = 0;
+        }
+        var val = '';
+        var Type = '';
+        val = $('#Services').val();
+        if (val == "SerSof178709") {
+            var SoftwareName = [];
+            var SAmount = [];
+            var SUnit = [];
+            var SDescription = [];
+            var STotal = [];
+            $('table#tblIndentFilesS > tbody > tr').each(function () {
+                SoftwareName.push($('td input[type="text"].Software', this).val());
+                SAmount.push($('td input[type="text"].Amounts', this).val());
+                SUnit.push($('td input[type="text"].Unit', this).val());
+                SDescription.push($('td textarea.Description', this).val());
+                STotal.push($('td input[type="text"].SAmount', this).val());
+            });
+            Type = "Software";
+        }
+        else if (val == "SerHar493914") {
+            var HardWareName = [];
+            var HardWareId = [];
+            var HSNNo = [];
+            var HAmount = [];
+            var HUnit = [];
+            var HTotal = [];
+            var HDescription = [];
+            $('table#tblIndentFilesH > tbody > tr').each(function () {
+                HardWareName.push($('td input[type="text"].ProductName', this).val());
+                HAmount.push($('td input[type="text"].Amounts', this).val());
+                HUnit.push($('td input[type="text"].Unit', this).val());
+                HTotal.push($('td input[type="text"].Amount', this).val());
+                HDescription.push($('td textarea.Description', this).val());
+            });
+            Type = "Hardware";
+        }
+        else if (val == "SerSEO473798") {
+            var Services = [];
+            var Duration = [];
+            var ServicesName = [];
+            var DurationTime = [];
+            var Date = [];
+            var Amount = [];
+            var Description = [];
+            $('table#tblIndentFiles > tbody > tr').each(function () {
+                Services.push($('td select.Services', this).val());
+                ServicesName.push($('td select.Services option:selected', this).text());
+                Duration.push($('td select.Duration', this).val());
+                DurationTime.push($('td select.Duration option:selected', this).text());
+                Amount.push($('td input[type="text"].Amount', this).val());
+                Date.push($('td input[type="text"].Date', this).val());
+                Description.push($('td textarea.Description', this).val());
+            });
+            Type = "Other";
+        }
+        var service = {
+            Services: Services,
+            Duration: Duration,
+            Amount: Amount,
+            Description: Description,
+            ServicesName: ServicesName,
+            DurationTime: DurationTime,
+            Date: Date,
+            TotalAmount: $('#TotalAmount').val(),
+            Tax: $('#Tax').val(),
+            TaxAmount: $('#TaxAmount').val(),
+            AfterTaxAmount: $('#AfterTaxAmount').val(),
+            CompanyId: $('#CompanyName').val(),
+            CompanyName: $('#CompanyName').find("option:selected").text(),
+            InvoiceNo: $('#InvoiceNo').val(),
+            /*alert(InvoiceNo);*/
+            SGST: SGST,
+            CGST: CGST,
+            CGSTAmount: CGSTAmount,
+            SGSTAmount: SGSTAmount,
+            Taxtype: Taxtype,
+            IGST: IGST,
+            IGSTAmount: IGSTAmount,
+            SoftwareName: SoftwareName,
+            SAmount: SAmount,
+            SUnit: SUnit,
+            SDescription: SDescription,
+            STotal: STotal,
+            HardWareId: HardWareId,
+            HardWareName: HardWareName,
+            HSNNo: HSNNo,
+            HAmount: HAmount,
+            HUnit: HUnit,
+            HTotal: HTotal,
+            Type: Type,
+            Naration: HDescription,
+        }
+        try {
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GanrateTaxInvoices",
+                data: JSON.stringify(service),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData.split(',')[1] == "danger")
+                        MsgBox(resultData.split(',')[0], resultData.split(',')[1]);
+
+                    else {
+                        MsgBoxRedirect(resultData.split(',')[0], resultData.split(',')[1], "/Admin/GanratedInvoice");
+
+                    }
+                }
+            });
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    });
+    function MsgBox(message, atype) {
+        $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+    }
+    function MsgBoxRedirect(message, atype, location) {
+        $.alert(message, {
+            title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+        });
+    }
+</script>
+<div id="modal-primary" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-left: -107px; width: 972px; border-color: rgba(44,169,145,1) !important;">
+            <div class="modal-header " style="background: rgba(44,169,145,1) !important; color: white; height: 50px; padding: 15px;">
+
+                <h4 class="modal-title">Add Company </h4><span id="Errer" style="color:red"></span>
+                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+            </div>
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="TypeValidation" class="form-horizontal">
+                            <div class="card ">
+                                @*<div class="card-header ">
+                                    <h4 class="card-title">Add Company</h4>
+                                </div>*@
+                                <div class="card-body ">
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="companyname">Company Name</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter Company Name" id="CompanyName1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="contactperson">Contact Person</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter Contact Person" id="ContactPerson1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="contactno">Contact No</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter Contact No" id="ContactNo1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="gstno">GST No</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter GST NO" id="GSTNo1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="state">State</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select id="State1" class="form-control sn-required1">
+                                                    <option>--Select State--</option>
+                                                    @if (ViewBag.STATE != null)
+                                                    {
+                                                        foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                                        {
+
+                                                            <option value="@item.Value">@item.Text</option>
+
+                                                        }
+                                                    }
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="city">City</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select id="City1" class="form-control sn-required1">
+                                                    <option>--Select City--</option>
+                                                    @if (ViewBag.City != null)
+                                                    {
+                                                        foreach (var item in ViewBag.City as List<SelectListItem>)
+                                                        {
+
+                                                            <option value="@item.Value">@item.Text</option>
+
+                                                        }
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="address">Address</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group sn-required1">
+                                                <textarea style="width: 100%;" class="sn-required1" id="Address1"></textarea>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="statecode">Statecode</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter StateCode" id="Statecode1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="statecode">Pincode</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter PIN CODE" id="Pincode1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="panno">Pan No</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter PAN NO" id="PanNo1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <div class="col-md-2">
+                                            <label for="emailid">E-mail Id</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter Email ID" id="EmailId1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-2">
+                                            <label for="designation">Designation</label>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required1" placeholder="Enter Designation" id="Designation1" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+
+                                    <button type="button" class="btn btn-primary" id="btnSubmit1">Submit</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modal-primary1" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-left: -107px;width: 972px;border-color: #75ccce;">
+            <div class="modal-header bg-primary" style="background: rgba(44,169,145,1) !important; color: white; height: 50px; padding: 15px;">
+
+                <h4 class="modal-title">Add Project </h4><span id="Errer" style="color:red"></span>
+                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+            </div>
+
+            <div class="content">
+                <div class="row">
+                    <div class="col-md-12">
+                        <form id="TypeValidation" class="form-horizontal">
+                            <div class="card ">
+                                <div class="card-header ">
+                                    <h4 class="card-title">Add Project</h4>
+                                </div>
+                                <div class="card-body ">
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">Company Name</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <select id="CompanyName2" class="form-control sn-required2">
+                                                    <option>--Select Client--</option>
+                                                    @if (ViewBag.client != null)
+                                                    {
+                                                        foreach (var item in ViewBag.client as List<SelectListItem>)
+                                                        {
+
+                                                            <option value="@item.Value">@item.Text</option>
+
+                                                        }
+                                                    }
+                                                </select>
+
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 col-form-label">Client Name</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2" readonly id="ClientName2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="Clients2" style="display:none;">
+                                        <h4 style="text-align:center;">
+                                            Company Detail
+                                        </h4>
+                                        <div class="row">
+                                            <div class="col-md-12 ">
+                                                <div class="table-bg">
+                                                    <div class="table-responsive">
+                                                        <table class="table">
+                                                            <thead class="bg-info">
+                                                                <tr class="head-title">
+                                                                    <th>Comapny Name</th>
+                                                                    <th>Contect Person</th>
+                                                                    <th>Mobile</th>
+                                                                    <th>Email-Id</th>
+                                                                    <th>StateName</th>
+                                                                    <th>CityName</th>
+                                                                    <th>GSTN</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><span id="Company2"></span>  </td>
+                                                                    <td><span id="ContectPerson2"></span></td>
+                                                                    <td><span id="Mobile2"></span></td>
+                                                                    <td><span id="EmailId2"></span></td>
+                                                                    <td><span id="StateName2"></span></td>
+                                                                    <td><span id="CityName2"></span></td>
+                                                                    <td><span id="Gst2"></span></td>
+                                                                </tr>
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">Project Name</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2" id="ProjectName2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+
+                                        <label class="col-sm-2 col-form-label">Project Starting Date</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2 datepicker" id="ProjectStartingDate2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+
+                                        <label class="col-sm-2 col-form-label">Completion Date</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2 datepicker" id="CompletionDate2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 col-form-label">Project Delivery Date</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2 datepicker" id="ProjectDeliveryDate2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">Total Amount</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+                                                <input class="form-control sn-required2" id="TotalAmount2" type="text" name="required" required="true" />
+                                            </div>
+                                        </div>
+                                        <label class="col-sm-2 col-form-label">Add Documentation</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+
+                                                <div class="form-group form-file-upload form-file-multiple">
+                                                    <input type="file" id="Documentation2" name="Documentation2" multiple="" class="inputFileHidden">
+                                                    <input type="text" class="form-control inputFileVisible" placeholder="Please Select Project Documentation" multiple="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <label class="col-sm-2 col-form-label">Project Status</label>
+                                        <div class="col-sm-4">
+                                            <div class="form-group">
+
+                                                <select id="ProjectStatus2" class="form-control sn-required2">
+                                                    <option value="Pending">select Status</option>
+                                                    <option value="Pending">Pending</option>
+                                                    <option value="Working">Working</option>
+                                                    <option value="Completed">Completed</option>
+                                                    <option value="Delivered">Delivered</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+
+                                    <button type="button" class="btn btn-primary" id="btnSubmit2">Submit</button>
+
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#State1').change(function () {
+        $.ajax({
+            url: '/Employee/City',
+            datatype: 'json',
+            data: { StateId: $(this).val() },
+            method: 'Post',
+            success: function (data) {
+                $('#City1').empty();
+                $('#City1').append('<option value=""> Select City </option>');
+                $(data).each(function (index, item) {
+                    $('#City1').append($('<option/>', { Value: item.Value, text: item.Text }))
+                });
+            }
+        });
+    });
+    $("#btnSubmit1").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required1,select.sn-required1,textarea.sn-required1').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        if (flag == 1) return;
+        var client = {
+            Id: $("#Id").val(),
+            CompanyName: $("#CompanyName1").val(),
+            ContactPerson: $("#ContactPerson1").val(),
+            ContactNo: $("#ContactNo1").val(),
+            GSTNo: $("#GSTNo1").val(),
+            State: $("#State1").val(),
+            City: $("#City1").val(),
+            StateName: $("#State1").find("option:selected").text(),
+            CityName: $("#City1").find("option:selected").text(),
+            Address: $("#Address1").val(),
+            Statecode: $("#Statecode1").val(),
+            Pincode: $("#Pincode1").val(),
+            PanNo: $("#PanNo1").val(),
+            EmailId: $("#EmailId1").val(),
+            Designation: $("#Designation1").val(),
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: client,
+            url: "/Admin/InsertClient",
+            Contenttype: "application/json; charset=utf-8",
+            success: function (message) {
+                if (message == "success") {
+                    swal.fire({
+                        title: "Success",
+                        text: "Successfully Added!",
+                        icon: "success",
+                        timer: 6000,
+                    });
+                    window.location.href = "/Admin/GenrateQuatation";
+                }
+                else {
+                    swal.fire({
+                        title: "Error",
+                        text: "Something Wrong!",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+
+            }
+        });
+    });
+    $('#CompanyName2').change(function () {
+        var me = $(this);
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+                me.attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $(".processing").hide();
+                me.attr('disabled', false);
+            }
+        });
+        var ClientId = {
+            ClientId: $(this).val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/GetCompanyDetail",
+            data: JSON.stringify(ClientId),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+
+                    $('#Company2').text(resultData.CompanyName);
+                    $('#ContectPerson2').text(resultData.ContactPerson);
+                    $('#Mobile2').text(resultData.ContactNo);
+                    $('#Gst2').text(resultData.GSTNo);
+                    $('#EmailId2').text(resultData.EmailId);
+                    $('#StateName2').text(resultData.StateName);
+                    $('#CityName2').text(resultData.CityName);
+                    $("#ClientName2").val(resultData.ContactPerson);
+                    $("#Clients2").show();
+
+                }
+            }
+        });
+
+    });
+    $("#btnSubmit2").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required2,select.sn-required2,textarea.sn-required2').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        // var EmployeeId = []
+        //// var EmployeeName = []
+        // $("#EmployeeName :selected").map(function (i, el) {
+        //     var emp = $(el).val();
+        //    // var emname = $(el).find("option:selected").text()
+        //     EmployeeId.push(emp)
+        //    // EmployeeName.push(emname)
+
+        // });
+        if (flag == 1) return;
+        if (window.FormData !== undefined) {
+            //var fileUpload = $("#Documentation").get(0);
+            //var files = fileUpload.files;
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+            var totalFiles = document.getElementById("Documentation2").files.length;
+            for (var i = 0; i < totalFiles; i++) {
+                var file = document.getElementById("Documentation2").files[i];
+                fileData.append("Documentation2", file);
+            }
+        }
+        fileData.append("Id", $("#Id").val()),
+        fileData.append("CompanyId", $("#CompanyName2").val()),
+        fileData.append("CompanyName", $('#CompanyName2').find("option:selected").text()),
+        fileData.append("ClientName", $("#ClientName2").val()),
+        fileData.append("ProjectName", $("#ProjectName2").val()),
+        fileData.append("ProjectStartingDate", $("#ProjectStartingDate2").val()),
+        fileData.append("CompletionDate", $("#CompletionDate2").val()),
+        fileData.append("ProjectDeliveryDate", $("#ProjectDeliveryDate2").val()),
+        fileData.append("TotalAmount", $("#TotalAmount2").val()),
+        fileData.append("ProjectStatus", $("#ProjectStatus2").val()),
+        fileData.append("ProjectCode", $("#ProjectCode2").val()),
+      $.ajax
+      ({
+          type: "Post",
+          url: "/Admin/InsertProject",
+          data: fileData,
+          contentType: false,
+          dataType: "json",
+          processData: false,
+          success: function (message) {
+              if (message == "success") {
+                  swal.fire({
+                      title: "Success",
+                      text: "Successfully Added!",
+                      icon: "success",
+                      timer: 6000,
+                  });
+                  window.location.href = "/Admin/GenrateQuatation";
+              }
+              else {
+                  swal.fire({
+                      title: "Error",
+                      text: "Something Wrong!",
+                      icon: "error",
+                      timer: 6000,
+                  });
+              }
+
+          }
+      });
+    });
+</script>
+

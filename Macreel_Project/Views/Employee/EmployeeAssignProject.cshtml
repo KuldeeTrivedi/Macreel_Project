@@ -1,0 +1,248 @@
+﻿@{
+    ViewBag.Title = "EmployeeAssignProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style>
+    .thead {
+        font-size: 12px;
+    }
+</style>
+<style>
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 15px;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">PROJECT LIST</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                @*<div class="card-header">
+                    <h4 class="card-title">Project List</h4>
+                </div>*@
+                <div class="card-body">
+                    <div class="toolbar">
+                    </div>
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container">
+                                <section class="content">
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead style="padding-bottom: 0; height: 1px !important;">
+                                            <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                                <th style="padding:5px;">
+                                                    Sr No.
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Project Name
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Company Name
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Start Date
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Completion Date
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Delivery Date
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Status
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    View
+                                                </th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.gtlst != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.gtlst as List<Macreel_Project.Models.Bussiness.Project>)
+                                                {
+                                                    <tr>
+                                                        <td>@sn</td>
+                                                        <td>@item.ProjectName</td>
+                                                        <td>@item.CompanyName</td>
+                                                        <td>@item.ProjectStartingDate</td>
+                                                        <td>@item.CompletionDate</td>
+                                                        <td>@item.ProjectDeliveryDate</td>
+                                                        <td>@item.ProjectStatus</td>
+                                                        <td @*class="text-right"*@>
+                                                            <a href="/Employee/ViewProjectAssignEmployee?ProjectCode=@item.ProjectCode"><i class="fas fa-eye"></i></a>
+                                                            <a userId="@item.ProjectCode" ProjectName="@item.ProjectName" class="sn-approve"><i class="fa fa-check-square" style="color:black" aria-hidden="true"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                            </section></div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<div id="modal-primary" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 522px;border-color: #102945;border: 1px solid rgb(30, 59, 93);">
+            <div class="modal-header bg-primary" style="background: rgba(22,160,133,0.9) !important; color: white; padding: 7px;">
+
+                <h4 class="modal-title">Project Status</h4><span id="Errer" style="color:red"></span>
+                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+            </div>
+            <div class="modal-body" style="margin-top:10px;">
+                <div class="form-group row">
+                    <div class="col-6 col-md-12">
+                        <select id="Approved" class="form-control sn-required">
+                            <option value="">select Status</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Working">Working</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-6 col-md-12">
+                        <textarea class="sn-required" style="width:100%;" id="Description" placeholder="Remark" rows="2"></textarea>
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-6 col-md-12">
+                        <input class="form-control sn-required datepicker" id="Date" type="text" placeholder="dd-mm-yyyy" name="required" required="true" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary" id="btnSend">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/alert.js" defer></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script>
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd-mm-yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+    $('.sn-approve').click(function () {
+        var currentRow = $(this).closest("tr");
+        var me = $(this);
+        var ProjectCode = me.attr('userId');
+        var ProjectName = me.attr('ProjectName');
+        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
+        $('#btnSend').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
+                    swal.fire({
+                        title: "Error",
+                        text: "Please Select Status",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            if (flag == 1) return;
+            Product = {
+                ProjectCode: ProjectCode,
+                ProjectName:ProjectName,
+                ProjectStatus: $('#Approved').val(),
+                Description: $('#Description').val(),
+                Date: $('#Date').val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Employee/UpdateProjectStatus",
+                data: Product,
+                success: function (data) {
+                    if (data.split(',')[1] == 'danger') {
+                        MsgBox(data.split(',')[0], data.split(',')[1]);
+                    }
+                    else {
+                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Employee/EmployeeAssignProject");
+                    }
+                }
+                ,
+                error: function (ex) {
+                    alert(ex);
+                }
+            })
+        });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+        }
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+    });
+</script>
+
+
+
+

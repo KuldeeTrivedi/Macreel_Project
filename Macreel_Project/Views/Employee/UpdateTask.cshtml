@@ -1,0 +1,314 @@
+﻿
+@model Macreel_Project.Models.Bussiness.TaskSheets
+@{
+    ViewBag.Title = "UpdateTask";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .font {
+        font-size: 11px;
+        font-weight: 700 !important;
+        background: #112d4f;
+        color: #fff;
+    }
+</style>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .Description {
+        transition: transform .2s;
+        margin: 0 auto;
+    }
+
+        .Description:hover {
+            -ms-transform: scale(1.9); /* IE 9 */
+            -webkit-transform: scale(1.9); /* Safari 3-8 */
+            transform: scale(1.9);
+        }
+</style>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Task Sheet</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                                <section class="content" style="padding: 0 0.2rem;">
+                                    <div class="container ">
+                                        <section class="content">
+                                            <table id="tblIndentFiles" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
+
+                                                <thead  style="background-color: #3f838d;color:white">
+                                                    <tr>
+                                                        <th>
+                                                            SR NO.
+                                                        </th>
+                                                        <th>
+                                                            DATE
+                                                        </th>
+                                                        <th>
+                                                            PROJECT 
+                                                        </th>
+                                                        <th>
+                                                            TASK HOURS
+                                                        </th>
+                                                        <th>
+                                                           WORK HOUR
+                                                        </th>
+                                                        <th>
+                                                            DESCRIPTION
+                                                        </th>
+
+                                                        <th>
+                                                            STATUS
+                                                        </th>
+                                                        <th>
+                                                            REMARK
+                                                        </th>
+                                                       
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @if (ViewBag.list != null)
+                                                    {
+                                                        var sn = 1;
+                                                        foreach (var ct in ViewBag.list as List<Macreel_Project.Models.Bussiness.TaskSheets>)
+                                                        {
+                                                            Model.Project1 = @ct.Project1;
+                                                            <tr class='selectWrapper'>
+
+                                                                <td>
+                                                                    <input type="text" class="form-control  Date" value="@System.DateTime.Now.ToString("dd-MM-yyyy")" readonly id="Date" placeholder="dd/mm/yy">
+                                                                </td>
+                                                                <td>
+                                                                    <select class="form-control  Project" id="Project" style="width: 250px !important;">
+                                                                        <option value="0">Select Project</option>
+                                                                        @if (ViewBag.Project != null)
+                                                                        {
+                                                                            foreach (var item in ViewBag.Project as List<SelectListItem>)
+                                                                            {
+                                                                                if (Model.Project1 == item.Value)
+                                                                                {
+                                                                                    <option selected value="@item.Value">@item.Text</option>
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    <option value="@item.Value">@item.Text</option>
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" value="@ct.Task1" class="form-control Task" id="Task" placeholder="Enter Task">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" value="@ct.Hour1" class="form-control  Hour" id="Hour" placeholder="Work Hour">
+                                                                </td>
+                                                                <td>
+                                                                    <textarea class="form-control-sm   Description" placeholder="Description" id="Description" rows="1">@ct.Description1</textarea>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" value="@ct.Status1" class="form-control Status " id="Status" placeholder="Status">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" value="@ct.Remark1" class="form-control  Remark " id="Remark" placeholder="Remark">
+                                                                </td>
+                                                                <td>
+                                                                    <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a>
+                                                                </td>
+
+                                                            </tr>
+                                                        }
+                                                    }
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th colspan="7" class="text-right">
+                                                            <a id="LnkAddFileRow" style="margin: 10px 15px;" class="btn btn-info btn-sm icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
+                                                        </th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                            </section>
+
+</div></section>
+</div>
+                    <div class="card-footer text-center">
+
+                        <button type="button" class="btn btn-primary" id="btnSave">Update</button>
+
+                    </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+<style type="text/css">
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+</style>
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script>
+    function ImplementDeleteFileRow() {
+        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").click(function (e) {
+            e.preventDefault();
+            var CurrRow = $(this).closest("tr");
+            CurrRow.remove();
+
+        });
+    }
+    function BindProject() {
+
+        $.ajax({
+            type: "GET",
+            url: "/Employee/BindProject",
+            success: function (resultData) {
+                // $('.projects').empty();
+                var row = '';
+                $('.projects').append("<option>Select</option>");
+                $.each(resultData, function (key, value) {
+                    row += '<option value="' + value.Value + '">' + value.Text + '</option>';
+                });
+                $('.projects').append(row);
+            }
+        });
+    }
+    $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+    $("#tblIndentFiles tbody tr .input.Task").unbind("keyup");
+    $("#tblIndentFiles tbody tr .input.Hour").unbind("keyup");
+    ImplementDeleteFileRow();
+    $("#LnkAddFileRow").unbind("click");
+    $("#LnkAddFileRow").click(function (e) {
+        e.preventDefault();
+        var NewRow = '<tr class=selectWrapper>';
+        NewRow += '<td> <input type="text" class="form-control  Date"  id="Date" value="@System.DateTime.Now.ToString("dd-MM-yyyy")" readonly placeholder="dd/mm/yy"></td>';
+        NewRow += '<td> <select class="form-control  Project projects" value="" id="Project" name=Project[] style="width: 250px !important;"></select></td>';
+        NewRow += '<td> <input type="text" class="form-control Task" value="" id="Task" placeholder="Enter Task"></td>';
+        NewRow += '<td> <input type="text" class="form-control  Hour" value="" id="Hour" placeholder="Work Hour"></td>';
+        NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="1"></textarea></td>';
+        NewRow += '<td>  <input type="text" class="form-control Status" value="" id="Status" placeholder="Status" ></td>';
+        NewRow += '<td>  <input type="text" class="form-control  Remark" value="" id="Remark" placeholder="Remark"></td>';
+        NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+        NewRow += '</tr>';
+        var count = 1;
+        $('#tblIndentFiles tbody tr').each(function () {
+            count++;
+        });
+        if (count <= 18)
+            $('#tblIndentFiles tbody').append(NewRow);
+        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+        BindProject();
+        ImplementDeleteFileRow();
+    });
+</script>
+<script>
+    $("#btnSave").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var Date = [];
+        var Project = [];
+        var Task = [];
+        var Hour = [];
+        var Description = [];
+        var Status = [];
+        var Remark = [];
+        $('table#tblIndentFiles > tbody > tr').each(function () {
+            Date.push($('td input[type="text"].Date', this).val());
+            Project.push($('td select.Project', this).val());
+            Task.push($('td input[type="text"].Task', this).val());
+            Hour.push($('td input[type="text"].Hour', this).val());
+            Status.push($('td input[type="text"].Status', this).val());
+            Description.push($('td textarea.Description', this).val());
+            Remark.push($('td input[type="text"].Remark', this).val());
+        });
+        var task = {
+            Date: Date,
+            Project: Project,
+            Task: Task,
+            Hour: Hour,
+            Description: Description,
+            Status: Status,
+            Remark: Remark,
+        }
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            data: task,
+            url: "/Employee/UpdateTaskSheet",
+            Contenttype: "application/json; charset=utf-8",
+            success: function (message) {
+                if (message == "success") {
+                    swal.fire({
+                        title: "Success",
+                        text: "Successfully Updated!",
+                        icon: "success",
+                        timer: 6000,
+                    });
+                    window.location.href = "/Employee/TaskSheetList";
+                }
+                else {
+                    swal.fire({
+                        title: "Error",
+                        text: "Something Wrong!",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+
+            }
+        });
+    });
+</script>
+

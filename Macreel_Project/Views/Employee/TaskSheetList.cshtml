@@ -1,0 +1,132 @@
+﻿@{
+    ViewBag.Title = "TaskSheetList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 12px;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">TASK SHEET LIST</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="toolbar">
+                    </div>
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container ">
+                                <section class="content">
+
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead  style="background-color: #3f838d;color:white">
+                                            <tr >
+                                                <th>
+                                                    SR NO.
+                                                </th>
+                                                <th>
+                                                    DATE
+                                                </th>
+                                                <th>
+                                                    PROJECT NAME
+                                                </th>
+                                                <th>
+                                                    TASK
+                                                </th>
+                                                <th>
+                                                    HOUR
+                                                </th>
+                                                <th>
+                                                    DESCRIPTION
+                                                </th>
+
+                                                <th>
+                                                    STATUS
+                                                </th>
+                                                <th>
+                                                    REMARK
+                                                </th>
+                                                <th>
+                                                    EDIT
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.list != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.TaskSheets>)
+                                                {
+                                                    <tr>
+                                                        <td>@sn</td>
+                                                        <td>@item.Date1</td>
+                                                        <td>@item.Project1</td>
+                                                        <td>@item.Task1</td>
+                                                        <td>@item.Hour1</td>
+                                                        <td>@item.Description1</td>
+                                                        <td>@item.Status1</td>
+                                                        <td>@item.Remark1</td>
+                                                        <td>
+                                                            @if (item.DateStatus == "S")
+                                                            {
+                                                                <a href="/Employee/UpdateTask?Date=@item.Date1" class="btn btn-round btn-warning btn-icon btn-sm edit" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="far fa-edit"></i></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="btn btn-round btn-warning btn-icon btn-sm edit sn-editing" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="far fa-edit"></i></a>
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+
+                                        </tbody>
+                                    </table>
+                           </section> </div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+
+<script>
+    $('.sn-editing').click(function () {
+        swal.fire({
+            title: "Don't Edit",
+            //text: "",
+            icon: "warning",
+        });
+    });
+</script>
+
+

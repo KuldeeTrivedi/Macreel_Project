@@ -1,0 +1,484 @@
+﻿@model Macreel_Project.Models.Bussiness.AssignProject
+@{
+    ViewBag.Title = "AssignProject";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/css/fSelect.css" rel="stylesheet" />
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .head-title th {
+        font-size: !important;
+        font-size: 14px !important;
+        color: #fff;
+        padding: 9px !IMPORTANT;
+        font-weight: 700 !IMPORTANT;
+    }
+
+    .bg-info {
+        background-color: #08638e !important;
+        /* padding: 6px !IMPORTANT; */
+    }
+
+    .table-bg {
+        border: 1px solid #1a385b;
+        margin-bottom: 30px;
+    }
+
+    .fs-wrap {
+        display: inline-block;
+        cursor: pointer;
+        line-height: 1;
+        width: 100%;
+    }
+
+    .fs-label-wrap .fs-label {
+        padding: 10px 18px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    .fs-dropdown {
+        position: absolute;
+        background-color: #fff;
+        border: 1px solid #8a8a8a;
+        width: 100%;
+        margin-top: 5px;
+        z-index: 1000;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+<!--<div class="panel-header panel-header-sm">
+    <div class="panel-header panel-header-sm">
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0">Assign Project To Employee</h1>
+                    </div>-->
+<!-- /.col -->
+<!-- /.col -->
+<!--</div>--><!-- /.row -->
+<!--</div>--><!-- /.container-fluid -->
+<!--</div>
+    </div>
+</div>-->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                    @*<div class="card-header ">
+                            <h4 class="card-title">Assign Project To Employee</h4>
+                        </div>*@
+                    <div class="card-body ">
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="project name">Project Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="ProjectName" class="form-control sn-required">
+                                        <option>--Select Project--</option>
+                                        @if (ViewBag.Project != null)
+                                        {
+                                            foreach (var item in ViewBag.Project as List<SelectListItem>)
+                                            {
+                                                if (Model.ProjectCode == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="assigndate">Assign Date</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group sn-required">
+                                    <input class="form-control datepicker" id="AssignDate" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div id="Clients" style="display:none;">
+                            <h6 style="text-align:center;">
+                                Project Details
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-12 ">
+                                    <div class="table-bg">
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <thead style="background-color: #3f838d;color:white">
+                                                    <tr>
+                                                        <th>
+                                                            PROJECT NAME
+                                                        </th>
+                                                        <th>
+                                                            CLIENT NAME
+                                                        </th>
+                                                        <th>
+                                                            STARTING DATE
+                                                        </th>
+                                                        <th>
+                                                            COMPLETION DATE
+                                                        </th>
+                                                        <th>
+                                                            DELIVERY DATE
+                                                        </th>
+                                                        <th>
+                                                            AMOUNT
+                                                        </th>
+                                                        <th>
+                                                            STATUS
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+
+                                                <tbody>
+                                                    <tr>
+                                                        <td><span id="Project"></span>  </td>
+                                                        <td><span id="ClientName"></span></td>
+                                                        <td><span id="Start"></span></td>
+                                                        <td><span id="Comp"></span></td>
+                                                        <td><span id="Del"></span></td>
+                                                        <td><span id="Amount"></span></td>
+                                                        <td><span id="Status"></span></td>
+                                                    </tr>
+
+                                                </tbody>
+                                            </table>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="employeename">Employee Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="EmployeeName" class="form-control sn-required" multiple="multiple">
+                                        @if (ViewBag.emp != null)
+                                        {
+                                            foreach (var item in ViewBag.emp as List<SelectListItem>)
+                                            {
+                                                if (Model.EmployeeId == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            @*<div class="col-sm-4">
+                                    <div class="form-group">
+                                        <select id="EmployeeName" class="form-control form-control-lg sn-required" multiple="multiple">
+
+                                            @if (ViewBag.emp != null)
+                                            {
+                                                foreach (var item in ViewBag.emp as List<SelectListItem>)
+                                                {
+                                                    if (Model.EmployeeId == item.Value)
+                                                    {
+                                                        <option selected value="@item.Value">@item.Text</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Value">@item.Text</option>
+                                                    }
+
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                </div>*@
+
+                            <div class="col-md-2">
+                                <label for="description">Description</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group sn-required">
+                                    <textarea style="width: 100%;" class="sn-required " rows="3" id="Description"> @Model.Description</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        @if (Model.Id != 0)
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Update</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+                        }
+                        <input type="text" hidden value="@Model.Id" id="Id" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+<style type="text/css">
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+</style>
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="~/Content/js/fSelect.js"></script>>
+<script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script>
+    jQuery(document).ready(function ($) {
+        $('#EmployeeName').fSelect({
+            placeholder: 'Select Employee',
+            numDisplayed: 3,
+            overflowText: '{n} selected',
+            noResultsText: 'No results found',
+            searchText: 'Search',
+            showSearch: true,
+        })
+    });
+    $(document).ready(function () {
+        var Id = '';
+        Id = $("#Id").val();
+        if (Id != 0) {
+            GetDetail();
+        }
+    });
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+    $('#ProjectName').change(function () {
+        var me = $(this);
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+                me.attr('disabled', 'disabled');
+            },
+            complete: function () {
+                $(".processing").hide();
+                me.attr('disabled', false);
+            }
+        });
+        var ProjectCode = {
+            ProjectCode: $(this).val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/GetProjectDetail",
+            data: JSON.stringify(ProjectCode),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+                    $('#Project').text(resultData.ProjectName);
+                    $('#ClientName').text(resultData.ClientName);
+                    $('#Start').text(resultData.ProjectStartingDate);
+                    $('#Comp').text(resultData.CompletionDate);
+                    $('#Del').text(resultData.ProjectDeliveryDate);
+                    $('#Amount').text(resultData.TotalAmount);
+                    $('#Status').text(resultData.ProjectStatus);
+                    $("#Clients").show();
+
+                }
+            }
+        });
+    });
+    $("#btnSubmit").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        var EmployeeId = []
+        var EmployeeName = []
+        $("#EmployeeName :selected").map(function (i, el) {
+            var emp = $(el).val();
+            var emname = $(el).text();
+            EmployeeId.push(emp)
+            EmployeeName.push(emname)
+
+        });
+        if (flag == 1) return;
+        if (window.FormData !== undefined) {
+
+
+            // Create FormData object
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object
+        }
+        fileData.append("Id", $("#Id").val()),
+            fileData.append("ProjectCode", $("#ProjectName").val()),
+            fileData.append("ProjectName", $('#ProjectName').find("option:selected").text()),
+            fileData.append("EmployeeId", EmployeeId),
+            fileData.append("EmployeeName", EmployeeName),
+            fileData.append("Description", $("#Description").val()),
+            fileData.append("AssignDate", $("#AssignDate").val()),
+            $.ajax
+                ({
+                    type: "Post",
+                    url: "/Admin/InsertProjectEmployee",
+                    data: fileData,
+                    contentType: false,
+                    dataType: "json",
+                    processData: false,
+                    success: function (message) {
+                        if (message == "success") {
+                            swal.fire({
+                                title: "Success",
+                                text: "Successfully Added!",
+                                icon: "success",
+                                timer: 6000,
+                            });
+                            window.location.href = "/Admin/AssignProject";
+                        }
+                        else if (message == "update") {
+                            swal.fire({
+                                title: "Success",
+                                text: "Successfully Updated!",
+                                icon: "success",
+                                timer: 6000,
+                            });
+                            window.location.href = "/Admin/AssignProject";
+                        }
+                        else {
+                            swal.fire({
+                                title: "Error",
+                                text: "Something Wrong!",
+                                icon: "error",
+                                timer: 6000,
+                            });
+                        }
+
+                    }
+                });
+    });
+    function GetDetail() {
+        var ProjectCode = {
+            ProjectCode: $("#ProjectName").val()
+        }
+        $.ajax({
+            type: "POST",
+            url: "/Admin/GetProjectDetail",
+            data: JSON.stringify(ProjectCode),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (resultData) {
+                if (resultData != null) {
+                    $('#Project').text(resultData.ProjectName);
+                    $('#ClientName').text(resultData.ClientName);
+                    $('#Start').text(resultData.ProjectStartingDate);
+                    $('#Comp').text(resultData.CompletionDate);
+                    $('#Del').text(resultData.ProjectDeliveryDate);
+                    $('#Amount').text(resultData.TotalAmount);
+                    $('#Status').text(resultData.ProjectStatus);
+                    $("#Clients").show();
+
+                }
+            }
+        });
+    }
+</script>
+
+
+
+
+

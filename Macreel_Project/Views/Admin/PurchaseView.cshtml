@@ -1,0 +1,265 @@
+﻿@{
+    ViewBag.Title = "PurchaseView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+
+    .thead {
+        font-size: 11px;
+    }
+
+    .card-body .Head1 th {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 11px;
+    }
+</style>
+
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Purchase View</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                  
+                    <div class="card-body ">
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="companyname">Company Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.CompanyName" placeholder="Company Name" id="CompanyName" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <label for="date">Date</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required " readonly value="@Model.Date" id="Date" placeholder="Date" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="invoiceno">Invoice No</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.InvoiceNo" id="InvoiceNo" placeholder="InvoiceNo" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="amtbeforetax">Amt Before Tax</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.AmtBeforeTax" id="AmtBeforeTax" placeholder="Amount Before Tax" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="taxtype">TaxType</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="TaxType" class="form-control sn-required" readonly>
+                                        @if (Model.TaxType == null)
+                                        {
+                                            <option value="">Select </option>
+                                            <option value="Local">Local</option>
+                                            <option value="Outward">Outward</option>
+                                        }
+                                        else if (Model.TaxType == "Local")
+                                        {
+                                            <option selected value="Local">Local</option>
+                                            <option value="Outward">Outward</option>
+                                        }
+                                        else if (Model.TaxType == "Outward")
+                                        {
+                                            <option value="Local">Local</option>
+                                            <option selected value="Outward">Outward</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                         
+                            <div class="col-md-2">
+                                <label for="tax">Tax</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" readonly value="@Model.Tax" id="Tax" placeholder="Tax Value" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        @if (Model.IGST == 0)
+                        {
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <label for="cgst">CGST</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input class="form-control sn-required" readonly value="@Model.CGST%" placeholder="Amount After Tax" id="AmtAfterTax" type="text" name="required" required="true" />
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-2">
+                                    <label for="sgst">SGST</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input class="form-control sn-required" readonly value="@Model.SGST%" id="PANNo" type="text" placeholder="PanNo" name="required" required="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-2">
+                                    <label for="cgstamount">CGST Amount</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input class="form-control sn-required" readonly value="@Model.CGSTAmount" placeholder="Amount After Tax" id="AmtAfterTax" type="text" name="required" required="true" />
+                                    </div>
+                                </div>
+                               
+                                <div class="col-md-2">
+                                    <label for="sgstamount">SGST Amount</label>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <input class="form-control sn-required" readonly value="@Model.SGSTAmount" id="PANNo" type="text" placeholder="PanNo" name="required" required="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <label for="igst">IGST</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" readonly value="@Model.IGST%" placeholder="Amount After Tax" id="AmtAfterTax" type="text" name="required" required="true" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label for="igstamount">IGST Amount</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" readonly value="@Model.IGSTAmount" placeholder="Amount After Tax" id="AmtAfterTax" type="text" name="required" required="true" />
+                            </div>
+                        </div>
+                    </div>
+                        }
+
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <label for="amtaftertax">Amt After Tax</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" readonly value="@Model.AmtAfterTax" placeholder="Amount After Tax" id="AmtAfterTax" type="text" name="required" required="true" />
+                            </div>
+                        </div>
+                       
+                        <div class="col-md-2">
+                            <label for="panno">PanNo</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" readonly value="@Model.PANNo" id="PANNo" type="text" placeholder="PanNo" name="required" required="true" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+
+                        <div class="col-md-2">
+                            <label for="gstno">GSTNo</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" readonly value="@Model.GSTNo" id="PANNo" type="text" placeholder="GSTNo" name="required" required="true" />
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label for="download">Download Invoice</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <div class="form-group form-file-upload form-file-multiple">
+
+                                    <a href="@Model.UploadInvoicePath" download=""><input type="text" value="Download Invoice" style="cursor:pointer;" class="form-control inputFileVisible" placeholder="Please Select Invoice"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                       
+                        <div class="col-md-2">
+                            <label for="address">Address</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group sn-required">
+                                <textarea style="width: 100%;" class="sn-required" readonly id="Address">@Model.Address</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+</div>
+

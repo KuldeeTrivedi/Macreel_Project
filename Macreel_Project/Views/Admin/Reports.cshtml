@@ -1,0 +1,498 @@
+﻿@{
+    ViewBag.Title = "Reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">REPORTS</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-primary icon-circle">
+                                        <i class="now-ui-icons ui-2_chat-round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.TotalEmp != null)
+                                        {
+                                            @ViewBag.TotalEmp
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">All Employee</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/AllEmployeeList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-warning icon-circle">
+                                        <i class="now-ui-icons business_bank"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.TotalProject != null)
+                                        {
+                                            @ViewBag.TotalProject
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">All Project</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/ProjectList" style="cursor:pointer;"> <i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-danger icon-circle">
+                                        <i class="now-ui-icons sport_user-run"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.TotalClient != null)
+                                        {
+                                            @ViewBag.TotalClient
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">All Client</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/ClientList" style="cursor:pointer;"><i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-info icon-circle">
+                                        <i class="now-ui-icons ui-2_favourite-28"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.AssignProject != null)
+                                        {
+                                            @ViewBag.AssignProject
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">Assign Project </h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/AssignProjectList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-primary icon-circle">
+                                        <i class="now-ui-icons ui-2_chat-round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.CountQuatations != null)
+                                        {
+                                            @ViewBag.CountQuatations
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">Quatation</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/GenrateQuatationList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-warning icon-circle">
+                                        <i class="now-ui-icons business_bank"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.CountPI != null)
+                                        {
+                                            @ViewBag.CountPI
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">P I</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/PIList" style="cursor:pointer;"> <i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-danger icon-circle">
+                                        <i class="now-ui-icons sport_user-run"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.Tax != null)
+                                        {
+                                            @ViewBag.Tax
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">Tax Invoice</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/GanratedInvoice" style="cursor:pointer;"><i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-info icon-circle">
+                                        <i class="now-ui-icons ui-2_favourite-28"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.Purchase != null)
+                                        {
+                                            @ViewBag.Purchase
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">Purchase</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/PurchaseList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-primary icon-circle">
+                                        <i class="now-ui-icons ui-2_chat-round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.Task != null)
+                                        {
+                                            @ViewBag.Task
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">TaskSheet</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/TaskSheetList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-warning icon-circle">
+                                        <i class="now-ui-icons business_bank"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        @if (ViewBag.CountPI != null)
+                                        {
+                                            @ViewBag.CountPI
+                                        }
+                                        else
+                                        {
+                                            <div>0</div>
+                                        }
+                                    </h3>
+                                    <h6 class="stats-title">Applied Leave</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/ApplyLeaveForAdmin" style="cursor:pointer;"> <i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-danger icon-circle">
+                                        <i class="now-ui-icons sport_user-run"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        Due
+                                    </h3>
+                                    <h6 class="stats-title">Due Payment</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/DuePayment" style="cursor:pointer;"><i class="now-ui-icons ui-1_calendar-60"></i> View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-info icon-circle">
+                                        <i class="now-ui-icons ui-2_favourite-28"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        Ladger
+                                    </h3>
+                                    <h6 class="stats-title">Account</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/LadgerAccount">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-3 col-sm-6">
+            <div class="card card-stats">
+                <div class="card-body ">
+                    <div class="statistics statistics-horizontal">
+                        <div class="info info-horizontal">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon icon-primary icon-circle">
+                                        <i class="now-ui-icons ui-2_chat-round"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 text-right">
+                                    <h3 class="info-title">
+                                        Renew
+                                    </h3>
+                                    <h6 class="stats-title"> ProductList</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                <div class="card-footer ">
+                    <div class="stats">
+                        <a href="/Admin/RenewProductList">  <i class="now-ui-icons ui-1_calendar-60"></i>  View List</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+

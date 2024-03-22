@@ -1,0 +1,296 @@
+﻿@model List<Macreel_Project.Models.Bussiness.TaskManage>
+@{
+    ViewBag.Title = "Task_reports";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .filterdiv {
+        background: none;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+
+    #btnfilter {
+        background: rgba(22,160,133,0.9);
+        
+        padding: 8px 26px;
+        color: white;
+        border-radius: 3px;
+        cursor: pointer;
+        border: 0;
+        font-family: inherit;
+        margin: 9px 9px;
+    }
+
+    #btnclearfilter {
+        background: red;
+        padding: 8px 26px;
+        color: white;
+        border-radius: 3px;
+        cursor: pointer;
+        border: 0;
+        font-family: inherit;
+        margin: 0px 9px;
+    }
+
+    /*#btnpdf, #btnexcel, #btncsv {*/
+     /*   background: #ffaf47;*/
+        /*padding: 8px 26px;
+        color: red;
+        border-radius: 3px;
+        cursor: pointer;
+        border: 0;
+        font-family: inherit;
+        margin: 15px 9px;*/
+        /* transform:translateY(-8px);*/
+    /*}*/
+
+    #dataTables_filter label {
+        margin-right: 30px;
+        color: #000;
+    }
+
+    #dataTables_length label {
+        margin-left: 15px;
+        color: #000;
+    }
+
+    .customer-select-box label {
+        color: #000;
+        font-weight: 500;
+    }
+
+    .dataTables_wrapper {
+        width: 100%;
+        overflow: auto;
+    }
+
+    table {
+        width: 100%;
+    }
+
+    .ui-datepicker-month {
+        display: initial;
+    }
+
+    .ui-datepicker-year {
+        display: initial;
+    }
+
+    select {
+        display: inline-block;
+    }
+
+    .customer-select-box {
+        display: flex;
+        justify-content: space-around;
+        margin: 10px;
+    }
+
+    .admincontainer form #btnfilter {
+        width: 13%;
+    }
+
+    .filter_btn {
+        text-align: end;
+    }
+
+    .inputflex .inputbox {
+        display: flex;
+    }
+
+        .inputflex .inputbox select {
+            width: 40%;
+            margin-right: 10px;
+        }
+    .excel-button {
+        background-color: #2ecc71; /* A shade of green commonly associated with Excel */
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px; /* Adjust based on your design */
+        padding: 8px 20px; /* Provides ample space around the icon */
+        border-radius: 5px; /* Gives the button rounded corners */
+        transition: background-color 0.3s ease;
+        margin: 15px 9px; /* Smooth transition for hover effect */
+    }
+
+        .excel-button:hover, .excel-button:focus {
+            background-color: #27ae60; /* A darker shade for hover state */
+        }
+
+        /* If you want to remove the default button focus outline in a way that maintains accessibility, consider using a custom focus style: */
+        .excel-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(46, 204, 113, 0.5); /* Green glow effect */
+        }
+    .pdf-button {
+        background-color: #e74c3c; /* A shade of red that's often associated with PDFs */
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px; /* Adjust based on your design */
+        padding: 8px 20px; /* Provides ample space around the icon */
+        border-radius: 5px; /* Gives the button rounded corners */
+        transition: background-color 0.3s ease;
+        margin: 15px 9px; /* Smooth transition for hover effect */
+    }
+        .pdf-button:hover, .pdf-button:focus {
+            background-color: #c0392b; /* A darker shade for hover state */
+        }
+
+        /* If you want to remove the default button focus outline in a way that maintains accessibility, consider using a custom focus style: */
+        .pdf-button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(231, 76, 60, 0.5); /* Red glow effect */
+        }
+
+</style>
+    <!--<div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1 class="m-0">Task List</h1>
+                </div>--><!-- /.col -->
+                <!-- /.col -->
+            <!--</div>--><!-- /.row -->
+        <!--</div>--><!-- /.container-fluid -->
+    <!--</div>-->
+<section class="content">
+    <div class="container-fluid">
+        <section class="content">
+            @using (Html.BeginForm("Task_reports", "admin", FormMethod.Post))
+            {
+                <div class="form-row">
+                    @{
+                        var statuss = TempData["priority"];
+                        Console.WriteLine(statuss);
+                    }
+                    <div class="form-group col-md-3">
+                        <label> Search BY Employee </label>
+                        <input type="text" class="form-control" id="emp_name" value='@TempData["emp_name"]' name="emp_name" placeholder="Enter Employee Name">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>From Assigned Date</label>
+                        <input type="text" id="assigned_date" class="form-control" value='@TempData["assigned_date"]' name="assigned_date" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label>To Assigned Date</label>
+                        <input type="text" id="" class="form-control" value='@TempData["toassigned_date"]' name="toassigned_date" placeholder="dd/mm/yyyy">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label></label>
+                        @*@<input type="hidden" name="userid" value="@" />@*@
+                        <input type="submit" class="form-control" id="btnfilter" value="Get Report">
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+
+</section>
+
+<div class="filterdiv">
+    @using (Html.BeginForm("task_pdfdownload", "admin", FormMethod.Post))
+    {
+        <input type="hidden" id="download_drpstatus" name="status" value='@TempData["status"]' />
+        <input type="hidden" id="download_agencyid" name="priority" value='@TempData["priority"]' />
+        <input type="hidden" id="download_txtdeparture_from" name="comp_name value='@TempData["comp_name"]' /">
+        <input type="hidden" id="download_txtdeparture_to" name="del_date" value='@TempData["del_date"]' />
+        <button type="submit" @*id="btnpdf"*@ class="pdf-button">
+            <i class="fa fa-file-pdf"></i>
+        </button>
+
+    }
+
+    @using (Html.BeginForm("taskreport_exceldownload", "admin", FormMethod.Post))
+    {
+        <input type="hidden" id="download_drpstatus" name="status" value='@TempData["status"]' />
+        <input type="hidden" id="download_agencyid" name="priority" value='@TempData["priority"]' />
+        <input type="hidden" id="download_txtdeparture_from" name="comp_name value='@TempData["comp_name"]' /">
+        <input type="hidden" id="download_txtdeparture_to" name="del_date" value='@TempData["del_date"]' />
+
+        <button type="submit" id="btnexcel" class="excel-button">
+            <i class="fa fa-file-excel"></i>
+        </button>
+
+    }
+
+</div>
+
+<section class="content" id="report_data" style="padding: 0 0.2rem;">
+    <div class="container">
+
+        <section class="content">
+            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                @*<thead>
+                        <tr>
+                            <th>Sr. No.</th>
+                            <th>Title</th>
+                            <th>Assigned Employee</th>
+                            <th>Completion Date</th>
+                            <th>Assigned Date</th>
+                            <th>Status</th>
+                            <th>View</th>
+                        </tr>
+                    </thead>*@
+             <thead style="padding-bottom: 0; height: 1px !important;">
+                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                        <th style="padding:5px;">Sr. No.</th>
+                        <th style="padding:5px;">Title</th>
+                        <th style="padding:5px;">Assigned Employee</th>
+                        <th style="padding:5px;">Completion Date</th>
+                        <th style="padding:5px;">Assigned Date</th>
+                        <th style="padding:5px;">Status</th>
+                        <th style="padding:5px;">View</th>
+                    </tr>
+                 </thead>
+                <tbody>
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        var i = 1;
+
+                        foreach (var item in Model)
+                        {
+                            var d = i++;
+                            <tr>
+                                <td>@Html.Raw(item.s_no)</td>
+                                <td>@Html.Raw(item.title)</td>
+                                <td>@Html.Raw(item.assigned_emp)</td>
+                                <td>@Html.Raw(item.complete_date)</td>
+                                <td>@Html.Raw(item.current_date)</td>
+                                <td>
+                                    @{ var status = @Html.Raw(item.task_status).ToString(); }
+
+                                    @if (status == "Closed")
+                                    {
+                                        <span class="badge badge-success">@Html.Raw(item.task_status)</span>
+                                    }
+                                    else if (status == "Pending")
+                                    {
+                                        <span class="badge badge-warning">@Html.Raw(item.task_status)</span>
+                                    }
+                                    else if (status == "Not Responding")
+                                    {
+                                        <span class="badge badge-danger">@Html.Raw(item.task_status)</span>
+                                    }
+
+                                </td>
+                                <td>
+                                    <a href="/admin/selectTaskViewById?id=@(item.id)"><i class="fas fa-eye"></i></a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </section>
+    </div>
+</section>
+<script>$('#btngeneralsubmit').click(function () {
+        $('#report_data').show();
+
+    });</script>
+

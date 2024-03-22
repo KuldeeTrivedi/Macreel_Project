@@ -1,0 +1,87 @@
+﻿
+@{
+    ViewBag.Title = "ViewEmpWPL";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #08638e;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 11px;
+    }
+</style>
+@*<div class="content-header">
+    <div class="container-fluid">*@
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h3 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white">View Employee Leave List</h3>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div><!-- /.row -->
+<!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+
+                <div class="card-body">
+                    <div class="toolbar">
+
+                    </div>
+                    <section class="content" style="padding: 0 0.2rem;">
+                        <div class="container">
+                            <section class="content">
+                                <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead>
+                                        <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                            <th style="padding: 1px 4px;">From Date</th>
+                                            <th style="padding: 1px 4px;">To Date</th>
+                                            <th style="padding: 1px 4px;">Total</th>
+                                            <th style="padding: 1px 4px;">Approved</th>
+                                            <th style="padding: 1px 4px;">Reject</th>
+                                            <th style="padding: 1px 4px;">Remain</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbod">
+                                        @if (ViewBag.Leave != null)
+                                        {
+                                            foreach (var item in ViewBag.Leave as List<Macreel_Project.Models.Bussiness.ApplyLeave>)
+                                            {
+                                                <tr>
+                                                    <td style="font-size:15px">@item.FromDate</td>
+                                                    <td style="font-size:15px">@item.ToDate</td>
+                                                    <td style="font-size:15px">@item.NoOfLeave</td>
+                                                    <td style="font-size:15px">@item.LeaveCount</td>
+                                                    <td style="font-size:15px">@item.RejectLeaveCount</td>
+                                                    <td style="font-size:15px">@item.Remain</td>
+                                                </tr>
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                        </div><!-- end content-->
+                    </section>
+                </div><!--  end card  -->
+            </div> <!-- end col-md-12 -->
+        </div>
+    </div>
+    <script src="~/scripts/jquery-3.4.1.min.js"></script>
+

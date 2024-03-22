@@ -1,0 +1,292 @@
+﻿@{
+    ViewBag.Title = "AllAssignLeave";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    .card-body .Head1 th {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 6px;
+    }
+
+    .Head1 {
+        background: #08638e;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 12px;
+    }
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">All Assign Lead List</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+               
+                <div class="card-body">
+                    <div class="toolbar">
+                    </div>
+                    <section class="content" style="padding: 0 0.2rem;">
+                        <div class="container">
+                            <section class="content">
+                                <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                    <thead style="padding-bottom: 0; height: 1px !important;">
+                                        <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                            <th style="padding:5px;white-space:nowrap">
+                                                Emp Name
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Lead Type
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Company Name
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Contact Person
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Contact No
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Email
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Assign Date
+                                            </th>
+                                            <th style="padding: 5px ;white-space:nowrap;">
+                                                Status
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Lead Description
+                                            </th>
+                                            <th style="padding: 5px; white-space: nowrap">
+                                                Action
+                                            </th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody class="tbod">
+
+                                        @if (ViewBag.list != null)
+                                        {
+                                            var sn = 1;
+                                            foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.Lead>)
+                                            {
+                                                <tr>
+                                                    @*<td>@sn</td>*@
+                                                    <td>@item.EmployeeName</td>
+                                                    <td>@item.LeadType</td>
+                                                    <td>@item.ClientName</td>
+                                                    <td>@item.ContectPerson</td>
+                                                    <td>@item.MobileNo</td>
+                                                    <td>@item.ClientEmail</td>
+                                                    <td>@item.AssignDate</td>
+                                                    @*<td>@item.AssignBy</td>*@
+
+
+                                                    <td>@item.LeadStatus</td>
+                                                    <td>@item.LeadDescription</td>
+                                                    @*<td>@item.EmpDescription</td>*@
+                                                    <td @*class="text-right"*@>
+                                                        <a userId="@item.Id" class="sn-delete" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete" title="Delete"><i class="fas fa-trash" style="color:red;"></i></a>
+                                                        <a href="/Admin/ViewLead?Id=@item.Id"><i class="fas fa-eye" data-toggle="tooltip" data-placement="bottom" data-original-title="View Lead" title="View Lead"></i></a>
+                                                        <a userId="@item.Id" class="sn-approve" data-toggle="tooltip" data-placement="bottom" data-original-title="Re Assign Lead" title="Re Assign Lead"><i class="fa fa-check-square" aria-hidden="true" style="color:black"></i></a>
+                                                        <a href="/Admin/ViewLeadStatusHistory?LeadId=@item.Id"><i class="fas fa-eye" data-toggle="tooltip" data-placement="bottom" data-original-title="View Lead Status" title="View Lead Status"></i></a>
+                                                    </td>
+                                                </tr>
+                                                sn++;
+                                            }
+                                        }
+
+                                    </tbody>
+                                </table>
+                        </div><!-- end content--></section>
+                </div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<div id="modal-primary" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 522px; border-color: #102945; border: 1px solid rgba(22,160,133,0.9); ">
+            <div class="modal-header bg-primary" style="background: rgba(22,160,133,0.9)!important; color: white; padding: 7px;">
+
+                <h4 class="modal-title">Re-Assign Lead</h4><span id="Errer" style="color:red"></span>
+                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+            </div>
+            <div class="modal-body" style="margin-top:10px;">
+                <div class="form-group row">
+                    <div class="col-6 col-md-12">
+                        <select id="EmployeeName" class="form-control sn-required">
+                            <option value="">--Select Employee--</option>
+                            @if (ViewBag.EMP != null)
+                            {
+                                foreach (var item in ViewBag.EMP as List<SelectListItem>)
+                                {
+
+                                    <option value="@item.Value">@item.Text</option>
+
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-6 col-md-12">
+                        <input class="form-control datepicker" id="AssignDate" value="@System.DateTime.Now.ToString("dd-MM-yyyy")" type="text" name="required" required="true" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer text-center">
+                <button type="button" class="btn btn-primary" id="btnSend">Re Assign Lead</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/alert.js" defer></script>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('.sn-delete').click(function () {
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-success mr-2',
+                cancelButton: 'btn btn-danger mr-2'
+            },
+            buttonsStyling: false
+        })
+
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure?',
+            text: "You won't be Delete!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, cancel!',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                var me = $(this);
+                var userId = me.attr('userid');
+                var cateogy = {
+                    Id: userId,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeleteLead",
+                    data: JSON.stringify(cateogy),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (message) {
+                        window.location.href = "/Admin/AllAssignLeave";
+                    }
+                });
+                swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                  'Cancelled',
+                  'Your file is safe :)',
+                  'error'
+                )
+            }
+        })
+    });
+    $('.sn-approve').click(function () {
+        var currentRow = $(this).closest("tr");
+        var me = $(this);
+        var LeadId = me.attr('userId');
+        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
+        $('#btnSend').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
+                    swal.fire({
+                        title: "Error",
+                        text: "Please Select Employee",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            if (flag == 1) return;
+            Product = {
+                LeadId: LeadId,
+                EmployeeId:$("#EmployeeName").val(),
+                EmployeeName: $("#EmployeeName").find("option:selected").text(),
+                AssignDate:$("#AssignDate").val(),
+            };
+            $.ajax({
+                type: "POST",
+                url: "/Admin/UpdateAsssignLead",
+                data: Product,
+                success: function (data) {
+                    if (data.split(',')[1] == 'danger') {
+                        MsgBox(data.split(',')[0], data.split(',')[1]);
+                    }
+                    else {
+                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Admin/AllAssignLeave");
+                    }
+                }
+                ,
+                error: function (ex) {
+                    alert(ex);
+                }
+            })
+        });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+        }
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+    });
+</script>
+
+

@@ -1,0 +1,432 @@
+﻿@{
+    ViewBag.Title = "CreateLead";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #1d3c60;
+        color: white;
+    }
+
+    .sn-error {
+        border-color: red;
+    }
+
+    .card-body .Head1 th {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 12px;
+    }
+</style>
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">CREATE LEAD</h1>
+            </div><!-- /.col -->
+            <!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card ">
+                    
+                    <div class="card-body ">
+                        <div class="row">
+                         
+                            <div class="col-md-2">
+                                <label for="leadtype">Lead Type</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    @if (Model.LeadType == null)
+                                    {
+                                        <select id="LeadType" class="form-control sn-required">
+                                            <option value="">Select Lead Type</option>
+                                            <option value="SEO">SEO</option>
+                                            <option value="Website">Website</option>
+                                            <option value="SoftWare">SoftWare</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    }
+                                    else if (Model.LeadType == "SEO")
+                                    {
+                                        <select id="LeadType" class="form-control sn-required">
+                                            <option selected value="SEO">SEO</option>
+                                            <option value="Website">Website</option>
+                                            <option value="SoftWare">SoftWare</option>
+                                            <option value="Other">Other</option>
+
+                                        </select>
+                                    }
+                                    else if (Model.LeadType == "Website")
+                                    {
+                                        <select id="LeadType" class="form-control sn-required">
+                                            <option value="SEO">SEO</option>
+                                            <option selected value="Website">Website</option>
+                                            <option value="SoftWare">SoftWare</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+
+                                    }
+                                    else if (Model.LeadType == "SoftWare")
+                                    {
+                                        <select id="LeadType" class="form-control sn-required">
+                                            <option value="SEO">SEO</option>
+                                            <option value="Website">Website</option>
+                                            <option selected value="SoftWare">SoftWare</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    }
+                                    else if (Model.LeadType == "Other")
+                                    {
+                                        <select id="LeadType" class="form-control sn-required">
+                                            <option value="SEO">SEO</option>
+                                            <option value="Website">Website</option>
+                                            <option selected value="SoftWare">SoftWare</option>
+                                            <option selected value="Other">Other</option>
+                                        </select>
+                                    }
+                                </div>
+                            </div>
+                           
+                            <div class="col-md-2">
+                                <label for="companyname">Company Name</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" value="@Model.ClientName" id="ClientName" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="contectperson">Contect Person</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input value="@Model.ContectPerson" class="form-control sn-required" id="ContectPerson" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                         
+                            <div class="col-md-2">
+                                <label for="contectno">Contect No</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input value="@Model.MobileNo" class="form-control sn-required" id="MobileNo" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="clientemail">Client Email</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input value="@Model.ClientEmail" class="form-control sn-required" id="ClientEmail" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="address">Address</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input value="@Model.Address" class="form-control sn-required" id="Address" type="text" name="required" required="true" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                         
+                            <div class="col-md-2">
+                                <label for="leaddescription">Lead Description</label>
+                            </div>
+                            <div class="col-sm-10">
+                                <div class="form-group">
+                                    <textarea class="sn-required" id="LeadDescription" type="text" name="required" required="true" style="width:100%;">@Model.LeadDescription</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center">
+                        @if (Model.Id != 0)
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Update</button>
+                        }
+                        else
+                        {
+                            <button type="button" class="btn btn-primary" id="btnSubmit">Submit</button>
+                        }
+
+                    </div>
+                    <input hidden type="text" value="@Model.Id" id="Id" />
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title "><b>Lead List</b></h4>
+        </div>
+        <div class="card-body">
+            <div class="toolbar">
+
+            </div>
+      
+        
+                <section class="content" style="padding: 0 0.2rem;">
+                    <div class="container list_table">
+                        <section class="content">
+
+                            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                    <tr class="Head1">
+                                        <th>
+                                            SR NO.
+                                        </th>
+                                        <th>
+                                            LEAD TYPE
+                                        </th>
+                                        <th>
+                                            COMPANY NAME
+                                        </th>
+                                        <th>
+                                            CONTECT PERSON
+                                        </th>
+                                        <th>
+                                            CONTECT NO
+                                        </th>
+                                        <th>
+                                            CLIENT EMAIL
+                                        </th>
+                                        <th>
+                                            ADDRESS
+                                        </th>
+                                        <th>
+                                            LEAD DESCRIPTION
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="tbod">
+
+                                    @if (ViewBag.list != null)
+                                    {
+                                        var sn = 1;
+                                        foreach (var item in ViewBag.list as List<Macreel_Project.Models.Bussiness.Lead>)
+                                        {
+                                            <tr>
+                                                <td>@sn</td>
+                                                <td>@item.LeadType</td>
+                                                <td>@item.ClientName</td>
+                                                <td>@item.ContectPerson</td>
+                                                <td>@item.MobileNo</td>
+                                                <td>@item.ClientEmail</td>
+                                                <td>@item.Address</td>
+                                                <td>@item.LeadDescription</td>
+                                                <td @*class="text-right"*@>
+                                                    <a href="/Employee/ViewLead?Id=@item.Id" class="btn btn-round btn-info btn-icon btn-sm like"><i class="fas fa-eye"></i></a>
+                                                    <a href="/Employee/CreateLead?Id=@item.Id" class="btn btn-round btn-warning btn-icon btn-sm edit"><i class="far fa-edit"></i></a>
+                                                    <a userId="@item.Id" class="btn btn-round btn-danger btn-icon btn-sm remove sn-delete"><i class="fas fa-times"></i></a>
+                                                </td>
+                                            </tr>
+                                            sn++;
+                                        }
+                                    }
+
+                                </tbody>
+                            </table>
+                    </div><!-- end content--></section>
+</div>
+
+</div>
+<style type="text/css">
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+</style>
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script src="~/scripts/alert.js" defer></script>
+<script>
+
+    $("#btnSubmit").click(function () {
+        $.ajaxSetup({
+            beforeSend: function () {
+                $(".processing").show();
+            },
+            complete: function () {
+                $(".processing").hide();
+            }
+        });
+        var flag = 0;
+        var cntrl;
+        $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+            cntrl = $(this);
+            if (cntrl.val().toString().length == 0) {
+                flag = 1;
+                if (!cntrl.hasClass('sn-error'))
+                    cntrl.removeClass('border-success');
+                cntrl.addClass('sn-error');
+                swal.fire({
+                    title: "Error",
+                    text: "Something is missing",
+                    icon: "error",
+                    timer: 6000,
+                });
+            }
+            else {
+                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+            }
+        });
+        if (flag == 1) return;
+        var client = {
+            Id: $("#Id").val(),
+            LeadType: $("#LeadType").val(),
+            LeadDescription: $("#LeadDescription").val(),
+            ClientName: $("#ClientName").val(),
+            ClientEmail: $("#ClientEmail").val(),
+            MobileNo: $("#MobileNo").val(),
+            Address: $("#Address").val(),
+            ContectPerson: $("#ContectPerson").val(),
+        }
+        try {
+            $.ajax({
+                type: "POST",
+                url: "/Employee/InsertLead",
+                data: JSON.stringify(client),
+                contentType: "application/json",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData.split(',')[1] == "danger")
+                        MsgBox(resultData.split(',')[0], resultData.split(',')[1]);
+
+                    else {
+                        MsgBoxRedirect(resultData.split(',')[0], resultData.split(',')[1], "/Employee/CreateLead");
+
+                    }
+                }
+            });
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
+    });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+        }
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+        $('.sn-delete').click(function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success',
+                    cancelButton: 'btn btn-danger'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be Delete!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    var me = $(this);
+                    var userId = me.attr('userid');
+                    var cateogy = {
+                        Id: userId,
+                    }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DeleteLead",
+                        data: JSON.stringify(cateogy),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (message) {
+                            window.location.href = "/Employee/CreateLead";
+                        }
+                    });
+                    swalWithBootstrapButtons.fire(
+                      'Deleted!',
+                      'Your file has been deleted.',
+                      'success'
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                      'Cancelled',
+                      'Your file is safe :)',
+                      'error'
+                    )
+                }
+            })
+        });
+</script>
+
+
+

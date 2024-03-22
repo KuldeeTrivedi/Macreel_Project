@@ -1,0 +1,1123 @@
+﻿@model Macreel_Project.Models.Bussiness.Employee
+@{
+    ViewBag.Title = "AddEmployee";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .col-form-label {
+        font-size: 10px;
+        font-weight: 500;
+    }
+
+    .h5 {
+        text-align: center;
+        background-color: #08638e;
+        color: white;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<style type="text/css">
+    .processing {
+        position: fixed;
+        z-index: 10000;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        left: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+    }
+
+    .center {
+        z-index: 10000;
+        margin: 300px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+</style>
+@*<div class="panel-header panel-header-sm">*@
+@*<div class="panel-header panel-header-sm">*@
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Employee Registration</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+<!--<div class="container-fluid">
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h1 style="font-size:20px" class="m-0">Employee Registration</h1>
+    </div>-->
+<!-- /.col -->
+<!-- /.col -->
+<!--</div>--><!-- /.row -->
+<!--</div>--><!-- /.container-fluid -->
+@*</div>*@
+@*</div>*@
+<!--API Like Country,state and City-->
+<!--end API Like Country,state and City-->
+<div class="processing" style="display: none">
+    <div class="center">
+        <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
+    </div>
+
+</div>
+<div class="panel-header panel-header-sm">
+
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation"  class="form-horizontal">
+                <div class="card ">
+                    <div class="card-body ">
+                        <div class="row">
+                            <div class="col-md-4">
+                            </div>
+                            <div class="col-md-4">
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="empcode">Employee Code:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" placeholder="Enter Employee Code" value="@Model.EmployeeCode" id="EmployeeCode" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="empname">Employee Name:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" placeholder="Enter Employee Name" value="@Model.EmployeeName" id="EmployeeName" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="department">Department:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group sn-required">
+                                <select id="Department" class="form-control sn-required">
+                                    <option>--Select Department--</option>
+                                    @if (ViewBag.getdeprtlist != null)
+                                    {
+                                        foreach (var item in ViewBag.getdeprtlist as List<SelectListItem>)
+                                        {
+                                            if (Model.Department == item.Text)
+                                            {
+                                                <option selected value="@item.Value">@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="designation">Designation:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select id="Designations" class="form-control sn-required">
+                                    <option>--Select Designation--</option>
+                                    @if (ViewBag.getdeslist != null)
+                                    {
+                                        foreach (var item in ViewBag.getdeslist as List<SelectListItem>)
+                                        {
+                                            if (Model.Designation == item.Text)
+                                            {
+                                                <option selected value="@item.Value">@item.Text</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.Value">@item.Text</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="reportingmanager">Reporting Manager:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <select id="ReportingManager" class="form-control sn-required">
+                                    <option>--Select Reporting Manager--</option>
+                                    @if (ViewBag.login != null)
+                                    {
+                                        foreach (var item in ViewBag.login as List<Macreel_Project.Models.Bussiness.Login>)
+                                        {
+                                            if (Model.UserName == item.UserName)
+                                            {
+                                                <option selected value="@item.EmpId">@item.UserName</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.EmpId">@item.UserName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="emailid">Profile Picture:-</label>
+                        </div>
+                        <div class="col-md-4">
+                            <input hidden type="text" value="@Model.ImagePath" id="ImagePath" />
+                            <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                            <div>
+                                <input type="file" name="Image" id="Image" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="emailid">Email Id:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group sn-required">
+                                <input class="form-control" placeholder="Enter Email Id" value="@Model.EmailId" id="EmailId" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="adharno">Adhar No.:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Enter Adhar No" value="@Model.adharno" id="adharno" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="doj">DOJ:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group sn-required">
+                                <input class="form-control datepicker" id="DOJ" placeholder="Date Of Joining" value="@Model.DOJ" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="panno">Pan No:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" id="PanNo" placeholder="Enter PAN NO" maxlength="10" value="@Model.PanNo" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="passport">Passport:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Enter Passport No" value="@Model.Passport" id="Passport" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-2">
+                            <label for="mobile">Mobile:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group ">
+                                <input class="form-control sn-required" placeholder="Enter Mobile Number" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="10" value="@Model.Mobile" id="Mobile" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="username">UserName:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group ">
+                                <input class="form-control sn-required" placeholder="Enter User Name" value="@Model.UserName" id="UserName" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="password">Password:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" placeholder="Enter Password" value="@Model.Password" id="Password" type="text" name="required" required="true" maxlength="5" minlength="5" pattern="[0-9]*" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <details>
+                        <summary style="font-weight: bold; color: rgba(22,160,133,0.9); margin: 15px; margin-bottom: 35px; font-size: 21px; ">--- Bank Details --- <hr /></summary>
+                        <div class="row" style="padding-left:10px">
+                            <div class="col-md-2">
+                                <label for="bankname">Bank Name:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Bank Name" value="@Model.BankName" id="BankName" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="bankaccno">Bank A/C No.:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Bank Account No" value="@Model.AccountNo" id="AccountNo" oninput="validateAccountNumber(this)" onkeydown="limitAccountNumberLength(this)" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="bankifsc">Bank IFSC Code:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Bank IFSC" value="@Model.IFSC" id="IFSC" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="bankbranch">Bank Branch:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Bank Branch" value="@Model.BankBranch" id="BankBranch" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+
+                    <details>
+                        <summary style="font-weight: bold; color: rgba(22,160,133,0.9); margin: 15px; margin-bottom: 35px; font-size: 21px; ">--- Health Data --- <hr /></summary>
+                        <div class="row">
+
+                            <div class="col-md-2">
+                                <label for="bloodgroup">Blood Group:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Blood Group" value="@Model.BloodGroup" id="BloodGroup" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="identificationmark">Identification Marks:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Identification Mark" value="@Model.IdMarks" id="IdMarks" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary style="font-weight: bold; color: rgba(22,160,133,0.9); margin: 15px; margin-bottom: 35px; font-size: 21px; ">--- Biographical Details --- <hr /></summary>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="dob">DOB:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required datepicker" placeholder="Enter DOB" value="@Model.DOB" id="DOB" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="age">Age:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group sn-required">
+                                    <input class="form-control" id="Age" placeholder="Enter Your Age" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="2" value="@Model.Age" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="sex">Sex:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter SEX" value="@Model.Sex" id="Sex" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="nationality">Nationality:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Your Nationality" value="@Model.Nationality" id="Nationality" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="religion">Religion:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Religion" value="@Model.Religion" id="Religion" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="maritalstatus">Marital Status:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="MaritalStatus" class="form-control sn-required">
+                                        @if (Model.MaritalStatus == null)
+                                        {
+                                            <option>--Select Type--</option>
+                                            <option value="Married">Married</option>
+                                            <option value="Unmarried">Unmarried </option>
+                                        }
+                                        else if (Model.MaritalStatus == "Married")
+                                        {
+
+                                            <option selected value="Married">Married</option>
+                                            <option value="Unmarried">Unmarried </option>
+                                        }
+                                        else
+                                        {
+                                            <option value="Married">Married</option>
+                                            <option selected value="Unmarried">Unmarried </option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <details>
+                        <summary style="font-weight: bold; color: rgba(22,160,133,0.9); margin: 15px; margin-bottom: 35px; font-size: 21px; ">---Present Address--- <hr /></summary>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="present adress">Present Address:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter Present Address" value="@Model.PresentAddress" id="PresentAddress" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="state">State:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="State" class="form-control sn-required">
+                                        <option>--Select State--</option>
+                                        @if (ViewBag.STATE != null)
+                                        {
+                                            foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                            {
+                                                if (Model.State == item.Text)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="city">City:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="City" class="form-control sn-required">
+                                        <option>--Select City--</option>
+                                        @if (ViewBag.City != null)
+                                        {
+                                            foreach (var item in ViewBag.City as List<SelectListItem>)
+                                            {
+                                                if (Model.City == item.Text)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="pin">Pin:-</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <input class="form-control sn-required" placeholder="Enter PIN" value="@Model.Pin" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="6" id="Pin" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h5 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">-:In Case Of Emergency:-</h5>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="emergencycontactperson">Emergency Contact Person:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" id="EmergencyContactPerson" placeholder="Enter Emergency Contact Person" value="@Model.EmergencyContactPerson" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="number">Emergency Contact Number:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Enter Emergency Contact " id="EmergencyContactNumber" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="10" value="@Model.EmergencyContactNumber" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="address">Address to Whom to contact:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" id="EmergencyContectAddress" value="@Model.EmergencyContectAddress" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h5 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">-:References:-</h5>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="referencename">References Name:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" placeholder="Enter Reference Name" id="ReferencesName" value="@Model.ReferencesName" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="contactno">Contact No.:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control" id="ContactNo" placeholder="Enter Contact NO" onkeyup="if (/\D/g.test(this.value)) this.value = this.value.replace(/\D/g, '')" maxlength="10" value="@Model.ContactNo" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="companyname">Company Name:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control " placeholder="Enter Company Name" value="@Model.CompanyName" id="CompanyName" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="emailid">Email Id:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control " placeholder="Enter Email Id" value="@Model.CemailId" id="CemailId" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<h5 class="h5">Last three Employment Details</h5>*@
+                    <details>
+                        <summary style="font-weight: bold; color: rgba(22,160,133,0.9); margin: 15px; margin-bottom: 35px; font-size: 21px; ">---Last three Employment Details--- <hr /></summary>
+
+                        <div class="row" style="padding-left:10px">
+
+                            <div class="col-md-2">
+                                <label for="previous employer">Previous Employer:-</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input class="form-control" id="PreviousEmployer" value="@Model.PreviousEmployer" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-1">
+                                <label for="from">From:-</label>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group">
+                                    <input class="form-control datepicker" value="@Model.From" id="From" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <label for="to">To:-</label>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="form-group">
+                                    <input class="form-control datepicker" value="@Model.To" id="To" type="text" name="required" required="true" autocomplete="off" />
+                                </div>
+                            </div>
+                        </div>
+                    </details>
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h5 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">-:Professional Qualification:-</h5>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="type">Type(Degree/Diploma/Others)</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Degree" id="Degree" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="institute">Name of Institution:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.ProfessionalInstitution" id="ProfessionalInstitution" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="passingyear">Passing Year:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required " placeholder="Enter Passing Year" value="@Model.ProfessionalPassingYear" id="ProfessionalPassingYear" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="specialization">Specilization:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.ProfessionalSpecilization" id="ProfessionalSpecilization" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<h5 class="h5">Academic Qualification 10th</h5>*@
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h5 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">-:Academic Qualification 10th:-</h5>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="board">Board:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Board10" id="Board10" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="institute">Name of Institution:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Institution10" id="Institution10" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="passingyear">Passing Year:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required " value="@Model.PassingYear10" id="PassingYear10" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="percentage">Percentage:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Specilization10" id="Specilization10" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    @*<h5 class="h5">Academic Qualification 12th</h5>*@
+                    <div class="row mb-2">
+                        <div class="col-sm-12">
+                            <h5 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">-:Academin Qualification 12th:-</h5>
+                        </div><!-- /.col -->
+                        <!-- /.col -->
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="board">Board:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Board12" id="Board12" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="institute">Name of Institution:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Institution12" id="Institution12" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="padding-left:10px">
+
+                        <div class="col-md-2">
+                            <label for="passingyear">Passing Year:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required " value="@Model.PassingYear12" id="PassingYear12" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <label for="percentage">Percentage:-</label>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="form-group">
+                                <input class="form-control sn-required" value="@Model.Specilization12" id="Specilization12" type="text" name="required" required="true" autocomplete="off" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer text-center">
+                    @if (Model.Id != 0)
+                    {
+                        <button type="button" id="btnSubmit" class="btn btn-primary">Update</button>
+                    }
+                    else
+                    {
+                        <button type="button" id="btnSubmit" class="btn btn-primary">Submit</button>
+                    }
+                </div>
+                <input type="text" value="@Model.Id" id="HId" hidden />
+
+        </div>
+
+
+    </div>
+
+</div>
+</div>
+<script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $('#State').change(function () {
+        $.ajax({
+            url: '/Employee/City',
+            datatype: 'json',
+            data: { StateId: $(this).val() },
+            method: 'Post',
+            success: function (data) {
+                $('#City').empty();
+                $('#City').append('<option value=""> Select City </option>');
+                $(data).each(function (index, item) {
+                    $('#City').append($('<option/>', { Value: item.Value, text: item.Text }))
+                });
+            }
+        });
+    });
+    $(document).ready(function () {
+        $("#btnSubmit").click(function () {
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                },
+                complete: function () {
+                    $(".processing").hide();
+                }
+            });
+            var flag = 0;
+            var cntrl;
+            var error = 0;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    cntrl = $(this);
+                    if (cntrl.val() == "") {
+                        if (!cntrl.hasClass('sn-error')) cntrl.css("border-color", "red");
+                        error++;
+                        swal.fire({
+                            title: "Error",
+                            text: "Something is missing",
+                            icon: "error",
+                            timer: 6000,
+                        });
+
+                    }
+                    else {
+                        if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+
+                    }
+
+                }
+            });
+            if (flag == 1) return;
+            if (window.FormData !== undefined) {
+                var fileUpload = $("#Image").get(0);
+                var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                for (var i = 0; i < files.length; i++) {
+                    fileData.append(files[i].name, files[i]);
+                };
+            }
+            fileData.append("Id", $("#HId").val()),
+                fileData.append("EmployeeCode", $("#EmployeeCode").val()),
+                fileData.append("EmployeeName", $("#EmployeeName").val()),
+                fileData.append("Department", $('#Department').find("option:selected").text()),
+                fileData.append("Designation", $('#Designations').find("option:selected").text()),
+                //fileDat.append("ReportingManager", $('#ReportingManager').find("option:selected").text()),
+                fileData.append("EmailId", $("#EmailId").val()),
+                fileData.append("DOJ", $("#DOJ").val()),
+                fileData.append("PanNo", $("#PanNo").val()),
+                fileData.append("Passport", $("#Passport").val()),
+                fileData.append("Mobile", $("#Mobile").val()),
+                fileData.append("UserName", $("#UserName").val()),
+                fileData.append("Password", $("#Password").val()),
+                fileData.append("BankName", $("#BankName").val()),
+                fileData.append("AccountNo", $("#AccountNo").val()),
+                fileData.append("IFSC", $("#IFSC").val()),
+                fileData.append("BankBranch", $("#BankBranch").val()),
+                fileData.append("BloodGroup", $("#BloodGroup").val()),
+                fileData.append("IdMarks", $("#IdMarks").val()),
+                fileData.append("DOB", $("#DOB").val()),
+                fileData.append("Age", $("#Age").val()),
+                fileData.append("Sex", $("#Sex").val()),
+                fileData.append("Nationality", $("#Nationality").val()),
+                fileData.append("Religion", $("#Religion").val()),
+                fileData.append("MaritalStatus", $("#MaritalStatus").val()),
+                fileData.append("PresentAddress", $("#PresentAddress").val()),
+                fileData.append("State", $("#State").find("option:selected").text()),
+                fileData.append("StateId", $("#State").val()),
+                fileData.append("City", $("#City").find("option:selected").text()),
+                fileData.append("Pin", $("#Pin").val()),
+                fileData.append("EmergencyContactPerson", $("#EmergencyContactPerson").val()),
+                fileData.append("EmergencyContactNumber", $("#EmergencyContactNumber").val()),
+                fileData.append("EmergencyContectAddress", $("#EmergencyContectAddress").val()),
+                fileData.append("ReferencesName", $("#ReferencesName").val()),
+                fileData.append("ContactNo", $("#ContactNo").val()),
+                fileData.append("CompanyName", $("#CompanyName").val()),
+                fileData.append("CemailId", $("#CemailId").val()),
+                fileData.append("PreviousEmployer", $("#PreviousEmployer").val()),
+                fileData.append("From", $("#From").val()),
+                fileData.append("To", $("#To").val()),
+                fileData.append("Degree", $("#Degree").val()),
+                fileData.append("ProfessionalInstitution", $("#ProfessionalInstitution").val()),
+                fileData.append("ProfessionalPassingYear", $("#ProfessionalPassingYear").val()),
+                fileData.append("ProfessionalSpecilization", $("#ProfessionalSpecilization").val()),
+                fileData.append("Board10", $("#Board10").val()),
+                fileData.append("Institution10", $("#Institution10").val()),
+                fileData.append("PassingYear10", $("#PassingYear10").val()),
+                fileData.append("Specilization10", $("#Specilization10").val()),
+                fileData.append("Board12", $("#Board12").val()),
+                fileData.append("Institution12", $("#Institution12").val()),
+                fileData.append("PassingYear12", $("#PassingYear12").val()),
+                fileData.append("Specilization12", $("#Specilization12").val()),
+                fileData.append("ImagePath", $("#ImagePath").val()),
+                fileData.append("AdharNo", $("#adharno").val()),
+                fileData.append("ReportingManager", $("#ReportingManager").val())
+            $.ajax
+                ({
+                    type: "Post",
+                    url: "/Admin/AddEmployee",
+                    data: fileData,
+                    contentType: false,
+                    dataType: "json",
+                    processData: false,
+                    success: function (message) {
+                        if (message == "success") {
+                            swal.fire({
+                                title: "Success",
+                                text: "SuccessFully Added!",
+                                icon: "success",
+                                timer: 6000,
+
+                            });
+                            Reset();
+                        }
+                        else if (message == "update") {
+                            swal.fire({
+                                title: "Success",
+                                text: "SuccessFully Updated!",
+                                icon: "success",
+                                timer: 6000,
+                            });
+                            window.location.href = "/Employee/AddEmployee";
+                        }
+                        else {
+                            swal.fire({
+                                title: "Error",
+                                text: message,
+                                icon: "error",
+                                timer: 6000,
+                            });
+                        }
+
+                    }
+                });
+        });
+        function Reset() {
+            $("#EmployeeCode").val('');
+            $("#EmployeeName").val('');
+            $("#Department").val('');
+            $("#Designations").val('');
+            $("#EmailId").val('');
+            $("#DOJ").val('');
+            $("#PanNo").val('');
+            $("#Passport").val('');
+            $("#Mobile").val('');
+            $("#UserName").val('');
+            $("#Password").val('');
+            $("#BankName").val('');
+            $("#AccountNo").val('');
+            $("#IFSC").val('');
+            $("#BankBranch").val('');
+            $("#BloodGroup").val('');
+            $("#IdMarks").val('');
+            $("#DOB").val('');
+            $("#Age").val('');
+            $("#Sex").val('');
+            $("#Nationality").val('');
+            $("#Religion").val('');
+            $("#MaritalStatus").val('');
+            $("#PresentAddress").val('');
+            $("#State").val('');
+            $("#City").val('');
+            $("#Pin").val('');
+            $("#EmergencyContactPerson").val('');
+            $("#EmergencyContactNumber").val('');
+            $("#EmergencyContectAddress").val('');
+            $("#ReferencesName").val('');
+            $("#ContactNo").val('');
+            $("#CompanyName").val('');
+            $("#CemailId").val('');
+            $("#PreviousEmployer").val('');
+            $("#From").val('');
+            $("#To").val('');
+            $("#Degree").val('');
+            $("#ProfessionalInstitution").val('');
+            $("#ProfessionalPassingYear").val('');
+            $("#ProfessionalSpecilization").val('');
+            $("#Board10").val('');
+            $("#Institution10").val('');
+            $("#PassingYear10").val('');
+            $("#Specilization10").val('');
+            $("#Board12").val('');
+            $("#Institution12").val('');
+            $("#PassingYear12").val('');
+            $("#Specilization12").val('');
+            $("#adharno").val();
+            $("#ReportingManager").val('');
+            $("#Image").val(null);
+        }
+        $('#UserName').change(function () {
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                },
+                complete: function () {
+                    $(".processing").hide();
+                }
+            });
+            $.ajax({
+                type: "POST",
+                url: "/Admin/CheckUserId",
+                data: { UserName: $('#UserName').val() },
+                success: function (resultData) {
+                    if (resultData == 'True') {
+                        swal.fire({
+                            title: "Warning",
+                            text: "UserName Allready Exists!",
+                            icon: "warning",
+                            timer: 6000,
+                        });
+                        $('#UserName').val('');
+                        $('#UserName').focus();
+                    }
+                }
+            });
+        });
+    });
+    $(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'dd/mm/yy',
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "c-100:c+100",
+        });
+    });
+</script>
+<script>
+    var inputname = document.getElementById('EmployeeName');
+    inputname.addEventListener('EmployeeName', function () {
+        var inputvalue = inputname.value;
+        var x = inputvalue.replace(/[^a-zA-Z]/g, '');
+        inputname.value = x;
+    });
+    inputname.addEventListener.('keypress', function (event) {
+        var key = event.which || event.key;
+        if ((key < 65 || key > 90) && (key < 97 || 122)) {
+            event.preventDefault();
+        }
+    })
+</script>
+<script>
+    // Get the input field
+    var twelveDigitInput = document.getElementById('adharno');
+
+    // Add an event listener for the 'input' event
+    twelveDigitInput.addEventListener('input', function () {
+        // Get the entered value
+        var inputValue = twelveDigitInput.value;
+
+        // Allow only digits (0-9)
+        var sanitizedValue = inputValue.replace(/\D/g, '');
+
+        // Limit the length to 12 digits
+        if (sanitizedValue.length > 12) {
+            sanitizedValue = sanitizedValue.slice(0, 12);
+        }
+
+        // Update the input field value with the sanitized value
+        twelveDigitInput.value = sanitizedValue;
+    });
+</script>
+<script>
+    // Get the input field
+    var twelveOrFourteenDigitInput = document.getElementById('adharno');
+
+    // Add an event listener for the 'input' event
+    twelveOrFourteenDigitInput.addEventListener('input', function () {
+        // Get the entered value
+        var inputValue = twelveOrFourteenDigitInput.value;
+
+        // Allow only digits (0-9)
+        var sanitizedValue = inputValue.replace(/\D/g, '');
+
+        // Limit the length to either 12 or 14 digits
+        if (sanitizedValue.length === 14 || sanitizedValue.length === 12) {
+            // Update the input field value with the sanitized value
+            twelveOrFourteenDigitInput.value = sanitizedValue;
+        }
+    });
+</script>
+<script>
+    function validateAccountNumber(input) {
+        var accountNumber = input.value;
+        var numericValue = accountNumber.replace(/\D/g, ""); // Remove non-numeric characters
+
+        if (accountNumber !== numericValue) {
+            input.value = numericValue; // Replace the input value with the numeric part
+        }
+
+        var length = numericValue.length;
+        if (length !== 12 && length !== 14) {
+            document.getElementById("accountError").textContent = "Bank Account Number must be 12 or 14 digits.";
+        } else {
+            document.getElementById("accountError").textContent = "";
+        }
+    }
+
+    function limitAccountNumberLength(input) {
+        var numericValue = input.value.replace(/\D/g, "");
+        if (numericValue.length >= 14) {
+            input.value = numericValue.slice(0, 13); // Limit the input to 14 digits
+        }
+    }</script>

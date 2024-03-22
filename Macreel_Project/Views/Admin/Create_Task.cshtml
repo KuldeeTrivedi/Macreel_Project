@@ -1,0 +1,374 @@
+﻿@*@model Macreel_Project.Models.Admin.TaskManage
+@{
+    ViewBag.Title = "Create_Task";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
+
+<script src="https://cdn.rawgit.com/alexgibson/notify.js/master/dist/notify.js"></script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://jeremyfagis.github.io/dropify/dist/js/dropify.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://jeremyfagis.github.io/dropify/dist/css/dropify.min.css">
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<style>
+    .col-md-2 {
+        margin: 15px;
+    }
+
+    #options {
+        margin: 0.5rem 0;
+        width: 12rem;
+        background-color: lightgrey;
+        display: none;
+        flex-direction: column;
+        border-radius: 12px;
+        height: 200px;
+        overflow: scroll;
+    }
+
+    label {
+        padding: 0.2rem;
+    }
+
+
+    button {
+        font-size: 1rem;
+        border-radius: 10px;
+        padding: 0.5rem;
+        background-color: yellow;
+        border: 2px solid green;
+        margin: 1rem 0;
+    }
+    .btn-primary {
+        background-color: rgba(44,169,145,1) !important;
+        border-color: rgba(44,169,145,1) !important;
+        color: #fff !important;
+        box-shadow: none !important;
+    }
+</style>
+
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0">Create Task</h1>
+            </div><!-- /.col -->
+            <!--@*<div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Create Task</li>
+                    </ol>
+                </div>*@--><!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+            @*@using (Html.BeginForm("task_insert", "admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            {*@
+            <form id="myForm" action="/admin/task_insert" method="post" enctype="multipart/form-data">
+                <div class="form-row">
+
+                    <div class="form-group col-md-2" style="margin: 0;">
+                        <label for="inputEmployeeName">S. No</label>
+                        <input type="text" class="form-control" id="s_no" name="s_no" value="@Model.s_no" required readonly>
+                    </div>
+                    <div class="form-group col-md-10">
+                        <label for="inputEmployeeName">Task Title</label>
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Enter Task Title" value="@Model.title" required>
+                    </div>
+                </div>
+                <!--Start Assigned Employee-->
+                <div class="form-row">
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeName">Assigne Employee</label>
+
+                        <div class="dropdown form-control" onclick="showOptions()">
+                            show all options
+                        </div>
+                        <div id="options">
+                            @if (Model.emp_Lists.Count > 0)
+                            {
+                                foreach (var item in Model.emp_Lists)
+                                {
+
+                                    if (Model.assigned_emp == item.emp_id.ToString())
+                                    {
+                                        @*<option value="@item.emp_id" selected="selected">@item.emp_name</option>*@
+                                        <label>
+                                            <input type="checkbox" value="@item.emp_id" checked />
+                                            @item.emp_name
+                                        </label>
+                                    }
+                                    else
+                                    {
+                                        <label>
+                                            <input type="checkbox" value="@item.emp_id" />
+                                            @item.emp_name
+                                        </label>
+                                    }
+
+                                }
+                            }
+                        </div>
+                        @*<div id="output"> </div>
+                <button onclick="getOptions()"> Get all Selected Checkboxes </button>*@
+
+                        <input type="hidden" id="selectedValues" name="selectedValues" />
+
+
+                        <script>
+                            let output = document.getElementById('output');
+                            var showCheckBoxes = true;
+
+                            function showOptions() {
+                                var options =
+                                    document.getElementById("options");
+
+                                if (showCheckBoxes) {
+                                    options.style.display = "flex";
+                                    showCheckBoxes = !showCheckBoxes;
+                                } else {
+                                    options.style.display = "none";
+                                    showCheckBoxes = !showCheckBoxes;
+                                }
+                            }
+                            //function getOptions() {
+                            //    var selectedOptions = document.querySelectorAll('input[type=checkbox]:checked')
+                            //    output.innerHTML = "The selected options are given below. <br/>";
+                            //    for (var i = 0; i < selectedOptions.length; i++) {
+                            //        output.innerHTML += selectedOptions[i].value + " , ";
+                            //        console.log(selectedOptions[i])
+                            //    }
+                            //}
+                            function submitForm() {
+                                var selectedOptions = document.querySelectorAll('input[type=checkbox]:checked');
+                                var selectedValues = [];
+
+                                for (var i = 0; i < selectedOptions.length; i++) {
+                                    selectedValues.push(selectedOptions[i].value);
+                                }
+
+                                // Set the value of the hidden input field
+                                document.getElementById('selectedValues').value = selectedValues.join(',');
+
+                                // Submit the form
+                                document.getElementById('myForm').submit();
+                            }
+                        </script>
+
+
+
+                        @*<select name="assigned_emp" required class="form-control" @(Model.assigned_emp != "" ? "data-select=" + Model.assigned_emp + "" : "")>
+                    <option value="">--Select Employee--</option>
+                    @if (Model.emp_Lists.Count > 0)
+                    {
+                        foreach (var item in Model.emp_Lists)
+                        {
+
+                            if (Model.assigned_emp == item.emp_id.ToString())
+                            {
+                                <option value="@item.emp_id" selected="selected">@item.emp_name</option>
+                            }
+                            else
+                            {
+                                <option value="@item.emp_id">@item.emp_name</option>
+                            }
+
+                        }
+                    }
+                </select>*@
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label for="inputEmployeeName">Complete Date</label>
+                        <input type="text" class="form-control startdate" id="startdate" name="complete_date" value="@Model.complete_date" required>
+                    </div>
+
+                </div>
+                <!--End Assigned Employee-->
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label for="inputPasDesignationsword4">Description</label>
+                        <textarea class="form-control" id="description" name="description" placeholder="Task Description">@Model.description</textarea>
+                    </div>
+
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment1</label>
+                        <input type="file" id="" name="fileupload1" class="dropify" data-default-file="@Model.attachment1" />
+                        <input type="hidden" name="attachment1" value="@Model.attachment1" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment2</label>
+                        <input type="file" name="fileupload2" class="dropify" data-default-file="@Model.attachment2" />
+                        <input type="hidden" name="attachment2" value="@Model.attachment2" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment3</label>
+                        <input type="file" name="fileupload3" class="dropify" data-default-file="@Model.attachment3" />
+                        <input type="hidden" name="attachment3" value="@Model.attachment3" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment4</label>
+                        <input type="file" name="fileupload4" class="dropify" data-default-file="@Model.attachment4" />
+                        <input type="hidden" name="attachment4" value="@Model.attachment4" />
+                    </div>
+
+                    <div class="form-group col-md-2">
+                        <label for="inputEmployeeName">Attachment5</label>
+                        <input type="file" name="fileupload5" class="dropify" data-default-file="@Model.attachment5" />
+                        <input type="hidden" name="attachment5" value="@Model.attachment5" />
+                    </div>
+
+                </div>
+
+                <div class="form_button_box">
+                    <input type="hidden" name="id" value="@Model.id" />
+                    <button type="button" class="btn btn-primary" onclick="submitForm()">Submit</button>
+                </div>
+            </form>
+            @*}*@
+        </section>
+
+            
+
+
+        <!-- Main row -->
+    </div>
+    <!--/. container-fluid -->
+</section>
+
+@*<script>
+        function showNotification(title, options) {
+            if (!("Notification" in window)) {
+                console.warn("This browser does not support desktop notifications");
+            } else if (Notification.permission === "granted") {
+                // If permission is already granted, show the notification
+                new Notification(title, options);
+            } else if (Notification.permission !== "denied") {
+                // If permission is not denied, request permission
+                Notification.requestPermission().then(function (permission) {
+                    if (permission === "granted") {
+                        new Notification(title, options);
+                    }
+                });
+            }
+        }
+
+        // Example usage:
+        // showNotification("New Message", { body: "You have a new message!" });
+    </script>
+
+    <script>
+        // Check if notification data is available and show the notification
+        @if (ViewBag.NotificationTitle != null && ViewBag.NotificationBody != null)
+        {
+            @:showNotification("@ViewBag.NotificationTitle", { body: "@ViewBag.NotificationBody" });
+        }
+    </script>*@
+
+<script src="~/assets/js/jquery-ui.js"></script>
+
+<script>
+    $("#startdate").datepicker({
+        minDate: "+0D",
+        defaultDate: "+5D",
+        maxDate: "+8Y",
+        dateFormat: "yy-mm-dd",
+        onSelect: function (selected, evnt) {
+            /*changearrivaldate();*/
+        }
+    });
+</script>
+
+@* Dropify *@
+<script>
+    $('.dropify').dropify();
+
+</script>
+
+<script>
+
+
+    $(document).ready(function () {
+
+        $("[data-select]").each(function () {
+            var obj = $(this);
+            obj.val(obj.attr("data-select"))
+        });
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {<text >
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                {
+                    @*var tt = @TempData["para"];*@
+                    var tt = @Html.Raw(Json.Encode(TempData["para"]));
+                    console.log(tt);
+                    if (tt === "true") {
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Success",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                    else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Error",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                });
+            }); </text>
+    }
+</script>
+
+
+
+
+
+<script>
+    push_notification(data: any) {
+        console.log(data);
+
+        const url = 'https://fcm.googleapis.com/fcm/send';
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'Authorization': 'key=AAAAyqJpnPE:APA91bEj0l09wCCaQ5UMS2ttowZFFUq-0ySze8vJrnHFqG6t3q_rAOlX4H_USzoefvFRAN8WlJE6J6PE5y26YgO7xj_kjahP6DcIqRMm6kLMHi-89BoN0JmRkxw7tP_uV1lI6Ebj3hlB'
+        });
+
+        const body = {
+            "notification": {
+                "title": `${data.title}`,
+                "body": `${data.body}`,
+                "sound": "default",
+                "click_action": "FCM_PLUGIN_ACTIVITY",
+                "icon": "fcm_push_icon"
+            },
+
+            "to": `${data.device_token}`
+        };
+
+        return this.http.post(url, body, { headers: headers })
+    }
+</script>
+
+

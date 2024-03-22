@@ -1,0 +1,533 @@
+﻿@{
+    ViewBag.Title = "PIList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+    .thead {
+        font-size: 11px;
+    }
+
+    .card-body .Head1 th {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 8px;
+    }
+
+    .Head1 {
+        background: #1f3e63;
+        /* padding: 10px; */
+        color: white;
+    }
+
+    .card-body table tr td {
+        padding: 5px;
+    }
+
+    .tbod {
+        font-size: 15px;
+    }
+
+</style>
+<!--<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-12">
+                <h1 class="m-0"> PERFORMA INVOICE LIST</h1>
+            </div>--><!-- /.col -->
+            <!-- /.col -->
+        <!--</div>--><!-- /.row -->
+    <!--</div>--><!-- /.container-fluid -->
+<!--</div>-->
+<div class="panel-header panel-header-sm">
+</div>
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                
+                <div class="card-body">
+                    <div class="toolbar">
+
+                    </div>
+       
+                        <section class="content" style="padding: 0 0.2rem;">
+                            <div class="container ">
+                                <section class="content">
+                                    <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead style="line-height: normal; height: 1px !important;">
+                                            <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                                                <th style="padding:5px;">
+                                                    Sr NO.
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    PI No.
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Company Name
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Amount
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    Tax Amount
+                                                </th>
+                                                <th style="padding:5px;">
+                                                    After Tax Amount
+                                                </th>
+
+                                                <th style="padding:5px;">
+                                                    Status
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="tbod">
+
+                                            @if (ViewBag.LIST != null)
+                                            {
+                                                var sn = 1;
+                                                foreach (var item in ViewBag.LIST as List<Macreel_Project.Models.Bussiness.performa>)
+                                                {
+                                                    <tr>
+                                                        <td style="width:50px;">@sn</td>
+                                                        <td>@item.PINo</td>
+                                                        <td style="width:250px;">@item.CompanyName</td>
+                                                        <td>@item.TotalAmount</td>
+                                                        <td class="totalAmount">@item.AfterTaxAmount</td>
+                                                        <td>
+                                                            @if (item.Status == 0)
+                                                            {
+                                                                <div>Performa Invoice Ganrated</div>
+                                                            }
+                                                            else if (item.Status == 1)
+                                                            {
+                                                                <div>Tax Invoice Ganrated</div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div>Invoice Rejected</div>
+                                                            }
+                                                        </td>
+                                                        <td style="width:169px;">
+                                                            <a href="/Admin/PIPreview?PINo=@item.PINo" data-toggle="tooltip" data-placement="bottom" data-original-title="Preview" title="Preview"><i class="fas fa-file-pdf mr-2" style="color:red;"></i></a>
+                                                            @if (item.Status == 0)
+                                                            {
+                                                                <a href="/Admin/UpdatePI?PINo=@item.PINo" class="edit mr-2" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="fa fa-pencil" style="color: darkgreen !important;"></i></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="sn-editing mr-2" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="fa fa-pencil" style="color: darkgreen !important;"></i></a>
+                                                            }
+                                                            @if (item.Status == 0)
+                                                            {
+                                                                <a userId="@item.PINo" class="sn-delete mr-2"><i class="fas fa-trash" style="color:red;"></i></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="sn-warning mr-2"><i class="fas fa-trash" style="color:red;"></i></a>
+                                                            }
+                                                            @if (item.Status == 0)
+                                                            {
+                                                                <a href="/Admin/GenratedInvoiceWithPI?PINo=@item.PINo" class="alert-primary" data-toggle="tooltip" data-placement="bottom" data-original-title="Ganrate Tax Invoice" title="Ganrate Tax Invoice"><i class="far fa-plus-square"></i></a>
+                                                            }
+                                                            else
+                                                            {
+                                                                <a class="btn btn-round btn-warning btn-icon btn-sm edit sn-approvelll"><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                                                            }
+                                                            @if (item.Ladger == 0)
+                                                            {
+                                                                <a href="#" class="sn-edit" data-toggle="tooltip" data-placement="bottom" data-original-title="Approved" title="Approved" CompanyId="@item.CompanyId" PINo="@item.PINo" CompanyName="@item.CompanyName" style="padding:8px;">
+                                                                    <i class="fa fa-check-circle" style="color:black"></i>
+                                                                </a>
+
+                                                            }
+                                                        </td>
+                                                    </tr>
+                                                    sn++;
+                                                }
+                                            }
+                                        </tbody>
+                                    </table>
+                            </div><!-- end content--></section>
+</div><!--  end card  -->
+        </div> <!-- end col-md-12 -->
+    </div>
+</div>
+<script src="~/scripts/jquery-3.4.1.min.js"></script>
+<div id="modal-primary" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 522px;border-color: #75ccce;border: 3px solid rgb(30, 134, 134);">
+            <div class="modal-header bg-primary" style="background: rgba(44,169,145,1) !important; color: white; padding: 7px;">
+
+                <h4 class="modal-title">Approved & Reject Performa Invoice</h4><span id="Errer" style="color:red"></span>
+                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+            </div>
+            <div class="modal-body" style="margin-top:10px;">
+                <div class="form-group row">
+                    <div class="col-6 col-md-12">
+                        <select class="border-success" id="Aprroved" style="width: 100%;padding-left: 5px;font-size: 13px;height: 30px;">
+                            <option value="">-Select-</option>
+                            <option value="Approved">Approved</option>
+                            @*<option value="Reject">Reject</option>*@
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+
+                    <div class="col-6 col-md-12">
+                        <textarea class="border-success sn-required" id="Descritpion" placeholder="Remark" rows="3" style="height: 36px; width:100%;"></textarea>
+                    </div>
+                </div>
+                <div Id="showid">
+                    <div class="form-group row">
+
+                        <div class="col-6 col-md-12">
+                            <label class="col-md-4">Current amount</label>
+                            <input type="text" class="border-success" id="GetAmount" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;" @*readonly*@>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6 col-md-12">
+                            <label class="col-md-4">Select Mode</label>
+
+                            <select class="border-success" id="PaymentMode" value="0" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                                <option value="">Select</option>
+                                <option value="Cheque">Cheque & dd</option>
+                                <option value="NEFT">NEFT</option>
+                                <option value="Direct">Direct</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div id="showhideBankdetail">
+                        <div class="form-group row">
+
+                            <div class="col-6 col-md-12">
+                                <label class="col-md-4">Bank Name</label>
+                                <input type="text" class="border-success" id="BankName" placeholder="Bank Name" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="col-6 col-md-12">
+                                <label class="col-md-4">Cheque No</label>
+                                <input type="text" class="border-success" id="chequeno" placeholder="Cheque No x2121" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+
+                            <div class="col-6 col-md-12">
+                                <label class="col-md-4">Cheque date</label>
+                                <input type="text" class="border-success" id="chequedate" placeholder="dd-mm-yyyy" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group row" id="UtrnoShow">
+
+                        <div class="col-6 col-md-12">
+                            <label class="col-md-4">UTR NO:</label>
+                            <input type="text" class="border-success" id="Utrno" placeholder="UTR NO" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+
+                        <div class="col-6 col-md-12">
+                            <label class="col-md-4">Enter Payment</label>
+                            <input type="text" class="border-success" id="AdvancePayment" value="0" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;">
+                        </div>
+                        <input hidden class="form-control sn-required datepicker" id="duedate" value="@System.DateTime.Now.ToString("dd-MM-yyyy")" type="text" name="required" required="true" />
+                    </div>
+                    <div class="form-group row">
+                        <div class="col-6 col-md-12">
+                            <label class="col-md-4"> Remaining Amount </label>
+                            <input type="text" class="border-success" id="RemainingAmount" value="0" style="width: 60%;padding-left: 5px;font-size: 13px;height: 30px;" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnSend1" class="btn btn-success  pull-left" style="background: #235758;margin-left: 150px;margin-bottom: 4px;"><i class="fa fa-send-o"></i>&nbsp; Save</button>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/scripts/alert.js" defer></script>
+<script>
+    $('.sn-approvelll').click(function () {
+        swal.fire({
+            title: "Don't Ganrate",
+            text: "Invoice AllReady Ganrated!",
+            icon: "warning",
+        });
+    });
+    $('.sn-warning').click(function () {
+        swal.fire({
+            title: "Don't Delete",
+            text: "Tax Invoice Ganrated",
+            icon: "warning",
+        });
+    });
+    $('.sn-editing').click(function () {
+        swal.fire({
+            title: "Don't Edit",
+            text: "Tax Invoice  Ganrated",
+            icon: "warning",
+        });
+    });
+        $('.sn-delete').click(function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger mr-2'
+                },
+                buttonsStyling: false
+            })
+
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be Delete!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+
+                cancelButtonText: 'No, cancel!',
+               
+                reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                var me = $(this);
+                var userId = me.attr('userid');
+                var cateogy = {
+                    PINo: userId,
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/DeletePI",
+                    data: JSON.stringify(cateogy),
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    success: function (message) {
+                        window.location.href = "/Admin/PIList";
+                    }
+                });
+                swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your file has been deleted.',
+                  'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+              result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                  'Cancelled',
+                  'Your file is safe :)',
+                  'error'
+                )
+            }
+        })
+    });
+    $('.sn-approve').click(function () {
+        var currentRow = $(this).closest("tr");
+        var me = $(this);
+        var PINo = me.attr('userId');
+        var TotalAmount = me.attr('TotalAmount');
+        var CompanyId = me.attr('CompanyId');
+        var CompanyName = me.attr('CompanyName');
+        var ProjectId = me.attr('ProjectId');
+        var ProjectName = me.attr('ProjectName');
+        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
+        $('#btnSend').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
+                    swal.fire({
+                        title: "Error",
+                        text: "Please Select Status",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            if (flag == 1) return;
+            Product = {
+                PINo: PINo,
+                Status: $('#Approved').val(),
+                TotalAmount: TotalAmount,
+                CompanyId: CompanyId,
+                CompanyName: CompanyName,
+                ProjectId: ProjectId,
+                ProjectName: ProjectName,
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/UpdatePerformaInvoice",
+                data: Product,
+                success: function (data) {
+                    if (data.split(',')[1] == 'danger') {
+                        MsgBox(data.split(',')[0], data.split(',')[1]);
+                    }
+                    else {
+                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Admin/PIList");
+                    }
+                }
+                ,
+                error: function (ex) {
+                    alert(ex);
+                }
+            })
+        });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+        }
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+    });
+    $('#UtrnoShow').hide();
+    $('#showhideBankdetail').hide();
+    $("#Aprroved").change(function () {
+        if ($(this).val() == "Approved") {
+            $("#showid").show();
+            $('#GetAmount').val($text);
+            $("#RemainingAmount").val($text);
+        }
+        else {
+            $("#showid").hide();
+            $('#GetAmount').val('');
+        }
+    });
+    $('#PaymentMode').change(function () {
+        if ($(this).val() == "Cheque") {
+            $('#showhideBankdetail').show();
+        }
+        else if ($(this).val() == "NEFT") {
+            $('#UtrnoShow').show();
+            $('#showhideBankdetail').hide();
+        }
+        else {
+            $('#UtrnoShow').hide();
+            $('#showhideBankdetail').hide();
+        }
+    });
+    $("#AdvancePayment").keyup(function () {
+        var getadv = parseInt($(this).val());
+        if ($(this).val() == "") {
+            $("#RemainingAmount").val($text);
+        }
+        else {
+            var getadv2 = parseInt($('#GetAmount').val());
+            $("#RemainingAmount").val(getadv2 - getadv);
+        }
+    });
+    $('.sn-edit').click(function () {
+        var currentRow = $(this).closest("tr");
+        $text = currentRow.find("td.totalAmount").text();
+        $("#showid").hide();
+        var me = $(this);
+        var CompanyId = me.attr('CompanyId');
+        var PINo = me.attr('PINo');
+        var CompanyName = me.attr('CompanyName');
+        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
+        $('#btnSend1').click(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required,select.sn-required,textarea.sn-required').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success')
+                    cntrl.addClass('sn-error');
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                    cntrl.addClass('border-success')
+                }
+            });
+            Product = {
+                CompanyId: CompanyId,
+                CompanyName:CompanyName,
+                PINo: PINo,
+                TotalAmount: $('#GetAmount').val(),
+                Payment: $('#AdvancePayment').val(),
+                RemainingAmount: $('#RemainingAmount').val(),
+                Status: $('#Aprroved').val(),
+                Remark: $('#Descritpion').val(),
+                PaymentMode: $('#PaymentMode').val(),
+                BankName: $('#BankName').val(),
+                ChequeNo: $('#chequeno').val(),
+                chequeDate: $('#chequedate').val(),
+                UTRNO: $('#Utrno').val(),
+                Date: $('#duedate').val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/Admin/AddLadger",
+                data: Product,
+                success: function (data) {
+                    if (data.split(',')[1] == 'danger') {
+                        MsgBox(data.split(',')[0], data.split(',')[1]);
+                    }
+                    else {
+                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Admin/PIList");
+                    }
+                }
+                ,
+                error: function (ex) {
+                    alert(ex);
+                }
+            })
+        });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+        }
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+    });
+</script>
+
+
+

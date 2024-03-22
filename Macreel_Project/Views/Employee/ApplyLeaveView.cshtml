@@ -1,0 +1,94 @@
+﻿@model Macreel_Project.Models.Bussiness.ApplyLeave
+@{
+    ViewBag.Title = "ApplyLeaveView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Apply Leave Profile</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+
+<div class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <form id="TypeValidation" class="form-horizontal">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Employee Name</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.EmployeeName</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Applied Date</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.AppliedDate</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">From Date</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.FromDate</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">To Date</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.ToDate</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Leave Type</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.LeaveType</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Leave Count</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.LeaveCount</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Your Description</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.Description</span>
+                                </div>
+                            </div>
+                            <label class="col-sm-2 col-form-label">Admin Description</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.AdminDescription</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 col-form-label">Status</label>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <span class="form-control-static">@Model.Status</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="inputDiv">
+                    <a href="/Employee/ApplyLeaveList">Back</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
