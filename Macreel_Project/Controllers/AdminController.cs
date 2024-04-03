@@ -12,6 +12,8 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Drawing;
 using System.Reflection;
+using System.Globalization;
+using System.Text;
 namespace Macreel_Infosoft.Controllers
 {
     //[Filters]
@@ -641,6 +643,24 @@ namespace Macreel_Infosoft.Controllers
         {
             int TotalPenginTask = 0;
             int TotalCompleteTask = 0;
+            int TotalLeave = 0;
+            int TotalPendingLeave = 0;
+            int TotalApprovedLeave = 0;
+            int TotalAssignProject = 0;
+            TotalAssignProject = db.CountAssignProject1();
+            ViewBag.TotalAssignProject = TotalAssignProject;
+            int TotalAssignEmp = 0;
+            TotalAssignEmp = db.CountAssignEmployee();
+            ViewBag.TotalAssignEmp = TotalAssignEmp;
+            int TotalRejectedLeave = 0;
+            TotalRejectedLeave = db.CountTotalRejectedLeave();
+            ViewBag.TotalRejectedLeave = TotalRejectedLeave;
+            TotalApprovedLeave = db.CountTotalApprovedLeave();
+            ViewBag.TotalApprovedLeave = TotalApprovedLeave;
+            TotalPendingLeave = db.CountTotalPendingLeave();
+            ViewBag.TotalPendingLeave = TotalPendingLeave;
+            TotalLeave = db.CountTotalLeave();
+            ViewBag.TotalLeave = TotalLeave;
             TotalPenginTask = db.CountPendingTask();
             ViewBag.TotalPengin= TotalPenginTask;
             TotalCompleteTask = db.CountCompleteTask();
@@ -693,7 +713,6 @@ namespace Macreel_Infosoft.Controllers
                 {
                     Message = "Successfully Reject,success";
                 }
-
             }
             else
             {
@@ -2387,7 +2406,54 @@ namespace Macreel_Infosoft.Controllers
             task.emp_Lists = emp_list;
             return View(task);
         }
+        public ActionResult Create_TaskByReportingManager(string id)
+        {
+            ViewBag.NotificationTitle = "New Message";
+            ViewBag.NotificationBody = "You have a new message!";
+            TaskManage task = new TaskManage();
+            List<emp_list> emp_list = new List<emp_list>();
 
+            //Models.common_response Response = db.adminssioncheck("");
+            //if (Response.success == false || Response.parameter != "admin")
+            //{
+            //    string url = Request.Url.PathAndQuery;
+            //    return Redirect("/admin/login?url=" + HttpUtility.UrlEncode(url) + "");
+            //}
+
+            ViewBag.Title = "Create_Task";
+            emp_list= db.InsertTaskByReportingManager();
+            task.emp_Lists=emp_list;
+            if (id != null && id != "")
+            {
+                task = db.gettaskById(id);
+            }
+            else
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "select_task_SNo");
+                SqlDataReader sdr = cmd.ExecuteReader();
+                //var ab = sdr["serial_no"].ToString();
+                if (sdr.HasRows)
+                {
+                    sdr.Read(); // Move to the first row
+                    task.s_no = sdr["serial_no"].ToString();
+
+                    if (task.s_no == "")
+                    {
+                        task.s_no = "1";
+                    }
+                }
+                else
+                {
+                    task.s_no = "1";
+                }
+                connection.Close();
+            }
+            task.emp_Lists = emp_list;
+            return View(task);
+        }
         [HttpPost]
         public ActionResult task_insert(TaskManage task)
         {
@@ -2538,6 +2604,156 @@ namespace Macreel_Infosoft.Controllers
             }
             return RedirectToAction("Create_Task");
         }
+        [HttpPost]
+        public ActionResult task_insertByReporintgM(TaskManage task)
+        {
+            var curent_date = DateTime.Now.ToString("yyyy-MM-dd");
+            var path = System.IO.Path.Combine(Server.MapPath("~/tempimage/"));
+            // var path = Server.MapPath("~/tempimage/");
+            HttpPostedFileBase file1 = Request.Files["fileupload1"];
+            HttpPostedFileBase file2 = Request.Files["fileupload2"];
+            HttpPostedFileBase file3 = Request.Files["fileupload3"];
+            HttpPostedFileBase file4 = Request.Files["fileupload4"];
+            HttpPostedFileBase file5 = Request.Files["fileupload5"];
+
+            string attachment1 = "";
+            string attachment2 = "";
+            string attachment3 = "";
+            string attachment4 = "";
+            string attachment5 = "";
+
+            List<TaskManage> tasks = new List<TaskManage>();
+            List<HttpPostedFileBase> files = new List<HttpPostedFileBase> { file1, file2, file3, file4, file5 };
+
+            for (int attachmentNum = 1; attachmentNum <= 5; attachmentNum++)
+            {
+                string attachmentName = "attachment" + attachmentNum.ToString();
+                string fileName = "file" + attachmentNum.ToString();
+                if (task.GetType().GetProperty(attachmentName) != null)
+                {
+                    string attachmentValue = (string)task.GetType().GetProperty(attachmentName).GetValue(task, null);
+                    if (!string.IsNullOrEmpty(attachmentValue))
+                    {
+                        // Save the attachment value if not null or empty
+                        switch (attachmentNum)
+                        {
+                            case 1:
+                                attachment1 = attachmentValue;
+                                break;
+                            case 2:
+                                attachment2 = attachmentValue;
+                                break;
+                            case 3:
+                                attachment3 = attachmentValue;
+                                break;
+                            case 4:
+                                attachment4 = attachmentValue;
+                                break;
+                            case 5:
+                                attachment5 = attachmentValue;
+                                break;
+                        }
+                    }
+                }
+
+                // Now, check and process the file if it exists for this attachment
+                HttpPostedFileBase file = files[attachmentNum - 1];
+                if (file != null && !string.IsNullOrEmpty(file.FileName))
+                {
+                    string uploadFileName = DateTime.Now.ToString("ssMMHHmmyyyydd") + System.Guid.NewGuid() + "." + file.FileName.Split('.')[1];
+
+                    file.SaveAs(path + uploadFileName);
+
+                    // Assign the upload filename to the appropriate attachment variable
+                    switch (attachmentNum)
+                    {
+                        case 1:
+                            attachment1 = "/tempimage/" + uploadFileName;
+                            break;
+                        case 2:
+                            attachment2 = "/tempimage/" + uploadFileName;
+                            break;
+                        case 3:
+                            attachment3 = "/tempimage/" + uploadFileName;
+                            break;
+                        case 4:
+                            attachment4 = "/tempimage/" + uploadFileName;
+                            break;
+                        case 5:
+                            attachment5 = "/tempimage/" + uploadFileName;
+                            break;
+                    }
+                }
+            }
+
+            string[] idsArray = task.selectedValues.Split(',');
+
+            int i = 0;
+            var e = 0;
+
+            foreach (var idString in idsArray)
+            {
+                var sno = Convert.ToInt32(task.s_no) + e;
+                e++;
+
+                SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@id", task.id);
+                cmd.Parameters.AddWithValue("@S_no", sno);
+                cmd.Parameters.AddWithValue("@title", task.title);
+                cmd.Parameters.AddWithValue("@description", task.description);
+                cmd.Parameters.AddWithValue("@curent_date", curent_date);
+                cmd.Parameters.AddWithValue("@completion_date", task.complete_date);
+                cmd.Parameters.AddWithValue("@attachment1", attachment1);
+                cmd.Parameters.AddWithValue("@attachment2", attachment2);
+                cmd.Parameters.AddWithValue("@attachment3", attachment3);
+                cmd.Parameters.AddWithValue("@attachment4", attachment4);
+                cmd.Parameters.AddWithValue("@attachment5", attachment5);
+                //cmd.Parameters.AddWithValue("@assigned_employee", task.assigned_emp);
+                cmd.Parameters.AddWithValue("@task_status", "Pending");
+                cmd.Parameters.AddWithValue("@emp_status", "Pending");
+
+                if (task.id != null && task.id != "")
+                {
+                    cmd.Parameters.AddWithValue("@Action", "update_task");
+                }
+                else
+                {
+                    cmd.Parameters.AddWithValue("@Action", "Add_task");
+                }
+                cmd.Parameters.AddWithValue("@assigned_employee", idString);
+
+                //var hubContext = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+                //hubContext.Clients.User(idString.ToString()).notify("New task assigned: ");
+
+
+                //var notification = new Models.Admin.Notification
+                //{
+                //    Message = "You have a new task assigned.",
+                //    EmployeeId = idString
+                //};
+                //string id = idString;
+                //NotifyEmployee(id);
+
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
+                i = cmd.ExecuteNonQuery();
+
+            }
+            connection.Close();
+
+            if (i >= 1)
+            {
+                TempData["Message"] = "Task Submitted Successfully";
+                TempData["para"] = "true";
+            }
+            else
+            {
+                TempData["Message"] = "Please Review Your Input Details!!";
+                TempData["para"] = "false";
+            }
+            return RedirectToAction("Create_TaskByReportingManager");
+        }
 
         //private readonly stanley_india.Models.IUserConnectionManager _userConnectionManager;
         //public NotificationUserHub(stanley_india.Models.IUserConnectionManager userConnectionManager)
@@ -2600,6 +2816,18 @@ namespace Macreel_Infosoft.Controllers
                 }
             }
             connection.Close();
+            return View(task_list);
+        }
+        public ActionResult task_viewByReportingManager()
+        {
+            //Models.common_response Response = db.adminssioncheck("");
+            //if (Response.success == false || Response.parameter != "admin")
+            //{
+            //    string url = Request.Url.PathAndQuery;
+            //    return Redirect("/admin/login?url=" + HttpUtility.UrlEncode(url) + "");
+            //}
+            List<TaskManage> task_list = new List<TaskManage>();
+            task_list = db.ViewTask();
             return View(task_list);
         }
 
@@ -2774,6 +3002,12 @@ namespace Macreel_Infosoft.Controllers
             return View(task_list);
 
         }
+        public ActionResult approved_taskByReporting()
+        {
+            List<TaskManage> task_list = new List<TaskManage>();
+            task_list = db.ViewApprovedTask();
+            return View(task_list);
+        }
         public FileResult Download(string ImageName)
         {
             var FileVirtualPath = ImageName;
@@ -2842,6 +3076,38 @@ namespace Macreel_Infosoft.Controllers
             connection.Close();
             return View(task);
         }
+        public ActionResult updateTaskViewByIdForReportingManager(string id)
+        {
+            Macreel_Project.Models.Bussiness.TaskManage task = new Macreel_Project.Models.Bussiness.TaskManage();
+            connection.Open();
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@action", "select_taskById");
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    task.id = sdr["id"].ToString();
+                    task.title = sdr["title"].ToString();
+                    task.description = sdr["description"].ToString();
+                    task.current_date = sdr["curent_date"].ToString();
+                    task.complete_date = sdr["completion_date"].ToString();
+                    task.attachment1 = sdr["attachment1"].ToString();
+                    task.attachment2 = sdr["attachment2"].ToString();
+                    task.attachment3 = sdr["attachment3"].ToString();
+                    task.attachment4 = sdr["attachment4"].ToString();
+                    task.attachment5 = sdr["attachment5"].ToString();
+                    task.emp_status = sdr["emp_status"].ToString();
+                    task.updatedDateEmp = sdr["updatedDateEmp"].ToString();
+                    task.assigned_emp = sdr["assign_emp"].ToString();
+                    //task.assigned_emp = sdr["assigned_emp"].ToString();
+                }
+            }
+            connection.Close();
+            return View(task);
+        }
         public ActionResult update_taskStatus(string id, string status)
         {
             if (connection.State == ConnectionState.Closed)
@@ -2853,10 +3119,25 @@ namespace Macreel_Infosoft.Controllers
             cmd.Parameters.AddWithValue("@Action", "update_taskStatus");
             cmd.Parameters.AddWithValue("@id",id);
             cmd.Parameters.AddWithValue("@task_status", status);
-
             int i = cmd.ExecuteNonQuery();
             connection.Close();
             return RedirectToAction("approved_task");
+        }
+        public ActionResult update_taskStatusByReportingManager(string id, string status)
+        {
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+
+            cmd.Parameters.AddWithValue("@Action", "update_taskStatus");
+            cmd.Parameters.AddWithValue("@id", id);
+            cmd.Parameters.AddWithValue("@task_status", status);
+
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            return RedirectToAction("approved_taskByReporting");
         }
         [HttpPost]
         public ActionResult update_assignedTask(Macreel_Project.Models.Bussiness.TaskManage task)
@@ -2864,7 +3145,7 @@ namespace Macreel_Infosoft.Controllers
             var stats = "Not Complete";
             if (task.check == "1")
             {
-                stats = "Complete";
+                stats = "Completed";
             }
             Macreel_Project.Models.Bussiness.TaskManage  res = new Macreel_Project.Models.Bussiness.TaskManage();
 
@@ -3150,10 +3431,136 @@ namespace Macreel_Infosoft.Controllers
             connection.Close();
             return View(task_list);
         }
+        public ActionResult Task_reportsForReportingManager(string status, filter_report filter_report)
+        {
+            var userid = ((Login)HttpContext.Session["Login"]).EmpId;
+            TempData["emp_name"] = filter_report.emp_name;
+            TempData["assigned_date"] = filter_report.assigned_date;
+            TempData["status"] = filter_report.status;
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                Session["Status"] = status;
+            }
+
+            var conditions = new StringBuilder("WHERE 1=1"); // Always true, simplifies condition building
+            var parameters = new List<SqlParameter>();
+
+            // Filter by task status if specified
+            if (!string.IsNullOrEmpty(status))
+            {
+                conditions.Append(" AND task_status = @Status");
+                parameters.Add(new SqlParameter("@Status", status));
+            }
+
+            // Filter by user id
+            if (userid != 0)
+            {
+                conditions.Append(" AND emp.ReportingManager = @UserId");
+                parameters.Add(new SqlParameter("@UserId", userid));
+            }
+
+            // Date filtering
+            if (!string.IsNullOrEmpty(filter_report.assigned_date))
+            {
+                var startDate = DateTime.ParseExact(filter_report.assigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                var endDate = DateTime.ParseExact(filter_report.toassigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                conditions.Append(" AND curent_date BETWEEN @StartDate AND @EndDate");
+                parameters.Add(new SqlParameter("@StartDate", startDate));
+                parameters.Add(new SqlParameter("@EndDate", endDate));
+            }
+
+            // Filter by employee name if specified
+            if (!string.IsNullOrEmpty(filter_report.emp_name))
+            {
+                conditions.Append(" AND LOWER(EmployeeName) = LOWER(@EmpName)");
+                parameters.Add(new SqlParameter("@EmpName", filter_report.emp_name.Replace("'", "''"))); // Properly escape single quotes
+            }
+
+            List<TaskManage> task_list = new List<TaskManage>();
+            string sql = $@"SELECT emp.EmployeeName, emp.Id AS emp_id, task.* 
+                    FROM tbl_taskManage AS task 
+                    LEFT JOIN TblEmployee AS emp ON task.assigned_employee = emp.Id 
+                    {conditions}";
+
+                connection.Open();
+                using (var cmd = new SqlCommand(sql, connection))
+                {
+                    cmd.Parameters.AddRange(parameters.ToArray());
+                    using (var sdr = cmd.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            var pro = new TaskManage
+                            {
+                                id = sdr["id"].ToString(),
+                                s_no = sdr["S_no"].ToString(),
+                                title = sdr["title"].ToString(),
+                                description = sdr["description"].ToString(),
+                               complete_date = sdr["completion_date"].ToString(),
+                               current_date = sdr["curent_date"].ToString(),
+                        attachment1 = sdr["attachment1"].ToString(),
+                        attachment2 = sdr["attachment2"].ToString(),
+                        attachment3 = sdr["attachment3"].ToString(),
+                       attachment4 = sdr["attachment4"].ToString(),
+                       attachment5 = sdr["attachment5"].ToString(),
+                        assigned_emp = sdr["EmployeeName"].ToString(),
+                        //pro.userid = sdr["emp_id"].ToString();
+                        task_status = sdr["task_status"].ToString()
+                    };
+                            task_list.Add(pro);
+                        }
+                    }
+                
+            }
+
+            return View(task_list);
+        }
+
         #region Task report Pdf Download
         public ActionResult task_pdfdownload(filter_report filter_report)
         {
             DataTable dt = db.download_report(filter_report);
+            string html = " <html> <head> <meta charset='utf-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'> <style>body *{font-family:'Montserrat';}table{border-collapse: collapse;}td, th{border: 1px solid #999;padding: 2px;text-align: left;font-size: 13px;text-transform: capitalize;}tbody tr:nth-child(odd){background: #eee;}</style> </head> <body><div> <img src='#' /><label style='text-align:center; color:blue; margin:5px; font-weight:bolder; font-size:30px;'>Macreel Infosoft Pvt Ltd</label></div><hr> <div> <table> <thead>";
+
+            var col = 0;
+            foreach (DataColumn dc in dt.Columns)
+            {
+                col++;
+                if (col == 20)
+                {
+                    break;
+                }
+                html = html + " <th>" + dc.ColumnName + "</th>";
+            }
+            html = html + "  </thead> <tbody>";
+            int i;
+            foreach (DataRow dr in dt.Rows)
+            {
+                html = html + " <tr> ";
+                for (i = 0; i < dt.Columns.Count; i++)
+                {
+                    html = html + "<td>" + dr[i].ToString() + "</td>";
+                }
+                html = html + " </tr>";
+            }
+            html = html + "  </tbody> </table> </div></body></html> ";
+
+            var htmlToPdf = new NReco.PdfGenerator.HtmlToPdfConverter();
+            htmlToPdf.Orientation = NReco.PdfGenerator.PageOrientation.Landscape;
+            var pdfBytes = htmlToPdf.GeneratePdf(html);
+            Response.Clear();
+            Response.ContentType = "application/force-download";
+            Response.AddHeader("content-disposition", "attachment;filename=Task_Report_" + DateTime.Now.ToString("dd_MM_yyyy") + ".pdf");
+            Response.BinaryWrite(pdfBytes);
+            Response.End();
+            return RedirectToAction("Task_reports");
+
+        }
+        public ActionResult task_pdfdownloadByReportingManager(filter_report filter_report)
+        {
+            DataTable dt = db.download_reportForReportingManager(filter_report);
             string html = " <html> <head> <meta charset='utf-8'> <meta http-equiv='X-UA-Compatible' content='IE=edge'> <link href='https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap' rel='stylesheet'> <style>body *{font-family:'Montserrat';}table{border-collapse: collapse;}td, th{border: 1px solid #999;padding: 2px;text-align: left;font-size: 13px;text-transform: capitalize;}tbody tr:nth-child(odd){background: #eee;}</style> </head> <body><div> <img src='#' /><label style='text-align:center; color:blue; margin:5px; font-weight:bolder; font-size:30px;'>Macreel Infosoft Pvt Ltd</label></div><hr> <div> <table> <thead>";
 
             var col = 0;
@@ -3195,6 +3602,61 @@ namespace Macreel_Infosoft.Controllers
         public ActionResult taskreport_exceldownload(filter_report filter_report)
         {
             DataTable dt = db.download_report(filter_report);
+            string attachment = "attachment; filename=order_report" + DateTime.Now.ToString("dd_MM_yyyy") + ".xls";
+            Response.ClearContent();
+            Response.AddHeader("content-disposition", attachment);
+            Response.ContentType = "application/vnd.ms-excel";
+            string tab = "";
+            string fullhtml = "";
+            int datecolumn_index = 0;
+            int datecolumn_dob_index = 0;
+            int col = 0;
+
+            foreach (DataColumn dc in dt.Columns)
+            {
+                col++;
+                if (col == 20)
+                {
+                    break;
+                }
+                fullhtml = fullhtml + "<th style='border:1px solid black'>" + dc.ColumnName + "</th>";
+            }
+            fullhtml = "<thead><tr>" + fullhtml + "</tr></thead><tbody>";
+            int i;
+            string bodyhtml = "";
+            foreach (DataRow dr in dt.Rows)
+            {
+                bodyhtml = bodyhtml + "<tr>";
+                for (i = 0; i < dt.Columns.Count; i++)
+                {
+                    if (i == datecolumn_index || datecolumn_dob_index == i)
+                    {
+                        try
+                        {
+                            bodyhtml = bodyhtml + "<td  style='border:1px solid black;vertical-align: top;text-align: left;'>" + Convert.ToDateTime(tab + dr[i].ToString().Replace("<p>", "").Replace("</p>", "").Replace("\n", "").Replace("\t", "")).ToString("yyyy-MM-dd") + "</td>";
+                        }
+                        catch
+                        {
+                            bodyhtml = bodyhtml + "<td  style='border:1px solid black;vertical-align: top;text-align: left;'>" + (tab + dr[i].ToString().Replace("<p>", "").Replace("</p>", "").Replace("\n", "").Replace("\t", "")) + "</td>";
+                        }
+                    }
+                    else
+                    {
+                        bodyhtml = bodyhtml + "<td  style='border:1px solid black;vertical-align: top;text-align: left;'>" + (tab + dr[i].ToString().Replace("<p>", "").Replace("</p>", "").Replace("\n", "").Replace("\t", "")) + "</td>";
+                    }
+                }
+                bodyhtml = bodyhtml + "</tr>";
+            }
+            fullhtml = "<table style='border-collapse: collapse;'>" + fullhtml + bodyhtml + "</body></table>";
+            Response.Write(fullhtml);
+            Response.End();
+
+
+            return RedirectToAction("Task_reports");
+        }
+        public ActionResult taskreport_exceldownloadByReportingManager(filter_report filter_report)
+        {
+            DataTable dt = db.download_reportByReportingManager(filter_report);
             string attachment = "attachment; filename=order_report" + DateTime.Now.ToString("dd_MM_yyyy") + ".xls";
             Response.ClearContent();
             Response.AddHeader("content-disposition", attachment);

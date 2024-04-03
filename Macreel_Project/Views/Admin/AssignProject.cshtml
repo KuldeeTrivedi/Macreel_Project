@@ -297,6 +297,14 @@
 <script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
 <script>
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd', // Adjust the date format as per your requirement
+            minDate: 0 // Disallows dates before today
+        });
+    });
+</script>
+<script>
     jQuery(document).ready(function ($) {
         $('#EmployeeName').fSelect({
             placeholder: 'Select Employee',

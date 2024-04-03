@@ -689,11 +689,59 @@
                                                     <p>Complete Task</p>
                                                 </a>
                                             </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/Create_TaskByReportingManager" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Create & Assign Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/task_viewByReportingManager" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>List Of Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/approved_taskByReporting" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Approval Task</p>
+                                                </a>
+                                            </li>
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <p>
+                                                Task Report
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reportsForReportingManager?status=Pending" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Pending Task</p>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reportsForReportingManager?status=Closed" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Closed Task</p>
+                                                </a>
+                                            </li>
+
+                                            <li class="nav-item">
+                                                <a href="/admin/Task_reportsForReportingManager?status=Not Response" class="nav-link">
+                                                    <i class="far fa-circle nav-icon"></i>
+                                                    <p>Not Response Task</p>
+                                                </a>
+                                            </li>
 
 
                                         </ul>
                                     </li>
-
                                     <!--End Task Management-->
                                     <!--Start For Employee Interface-->
                                     <li class="nav-item">
@@ -757,6 +805,7 @@
                                             </p>
                                         </a>
                                     </li>
+
                                     <li class="nav-item">
                                         <a href="/admin/Update_password" class="nav-link">
                                             <i class="nav-icon fa-solid fa-key" style="color:orangered"></i>

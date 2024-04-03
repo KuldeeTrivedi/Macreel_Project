@@ -191,11 +191,23 @@
                 url: "/Admin/UpdateLeaveStatus",
                 data: Product,
                 success: function (data) {
-                    if (data.split(',')[1] == 'danger') {
-                        MsgBox(data.split(',')[0], data.split(',')[1]);
+                    if (data == "success") {
+                        swal.fire({
+                            title: "Success",
+                            text: "Successfully Added!",
+                            icon: "success",
+                            timer: 500,
+                        });
+                        window.location.href = "/Admin/ApplyLeaveForAdmin";
                     }
                     else {
-                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Admin/ApplyLeaveForAdmin");
+                        swal.fire({
+                            title: "Success",
+                            text: "Successfully Added!",
+                            icon: "success",
+                            timer: 500,
+                        });
+                        window.location.href = "/Admin/ApplyLeaveForAdmin";
                     }
                 }
                 ,
@@ -205,11 +217,11 @@
             })
         });
         function MsgBox(message, atype) {
-            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 500, minTop: 100 });
         }
         function MsgBoxRedirect(message, atype, location) {
             $.alert(message, {
-                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
+                title: '', type: atype, autoClose: true, closeTime: 500, minTop: 100, onClose: function () { window.location = location; }
             });
         }
     });

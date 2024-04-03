@@ -1,8 +1,8 @@
 ﻿@*@model Macreel_Project.Models.Admin.TaskManage
-@{
-    ViewBag.Title = "Create_Task";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}*@
+    @{
+        ViewBag.Title = "Create_Task";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }*@
 
 <script src="https://cdn.rawgit.com/alexgibson/notify.js/master/dist/notify.js"></script>
 
@@ -40,6 +40,7 @@
         border: 2px solid green;
         margin: 1rem 0;
     }
+
     .btn-primary {
         background-color: rgba(44,169,145,1) !important;
         border-color: rgba(44,169,145,1) !important;
@@ -54,14 +55,15 @@
             <div class="col-sm-12">
                 <h1 class="m-0">Create Task</h1>
             </div><!-- /.col -->
-            <!--@*<div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">Create Task</li>
-                    </ol>
-                </div>*@--><!-- /.col -->
-        <!--</div>--><!-- /.row -->
-    <!--</div>--><!-- /.container-fluid -->
+<!--@*<div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Create Task</li>
+        </ol>
+    </div>*@-->
+<!-- /.col -->
+<!--</div>--><!-- /.row -->
+<!--</div>--><!-- /.container-fluid -->
 <!--</div>-->
 <!-- /.content-header -->
 <!-- Main content -->
@@ -70,7 +72,7 @@
 
         <section class="content">
             @*@using (Html.BeginForm("task_insert", "admin", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {*@
+                {*@
             <form id="myForm" action="/admin/task_insert" method="post" enctype="multipart/form-data">
                 <div class="form-row">
 
@@ -118,7 +120,7 @@
                             }
                         </div>
                         @*<div id="output"> </div>
-                <button onclick="getOptions()"> Get all Selected Checkboxes </button>*@
+                            <button onclick="getOptions()"> Get all Selected Checkboxes </button>*@
 
                         <input type="hidden" id="selectedValues" name="selectedValues" />
 
@@ -166,29 +168,29 @@
 
 
                         @*<select name="assigned_emp" required class="form-control" @(Model.assigned_emp != "" ? "data-select=" + Model.assigned_emp + "" : "")>
-                    <option value="">--Select Employee--</option>
-                    @if (Model.emp_Lists.Count > 0)
-                    {
-                        foreach (var item in Model.emp_Lists)
-                        {
+                                <option value="">--Select Employee--</option>
+                                @if (Model.emp_Lists.Count > 0)
+                                {
+                                    foreach (var item in Model.emp_Lists)
+                                    {
 
-                            if (Model.assigned_emp == item.emp_id.ToString())
-                            {
-                                <option value="@item.emp_id" selected="selected">@item.emp_name</option>
-                            }
-                            else
-                            {
-                                <option value="@item.emp_id">@item.emp_name</option>
-                            }
+                                        if (Model.assigned_emp == item.emp_id.ToString())
+                                        {
+                                            <option value="@item.emp_id" selected="selected">@item.emp_name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.emp_id">@item.emp_name</option>
+                                        }
 
-                        }
-                    }
-                </select>*@
+                                    }
+                                }
+                            </select>*@
                     </div>
 
                     <div class="form-group col-md-6">
                         <label for="inputEmployeeName">Complete Date</label>
-                        <input type="text" class="form-control startdate" id="startdate" name="complete_date" value="@Model.complete_date" required>
+                        <input type="text" class="form-control datepicker" id="startdate" name="complete_date" value="@Model.complete_date" required>
                     </div>
 
                 </div>
@@ -242,7 +244,7 @@
             @*}*@
         </section>
 
-            
+
 
 
         <!-- Main row -->
@@ -280,16 +282,15 @@
     </script>*@
 
 <script src="~/assets/js/jquery-ui.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.js" defer></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
 
 <script>
-    $("#startdate").datepicker({
-        minDate: "+0D",
-        defaultDate: "+5D",
-        maxDate: "+8Y",
-        dateFormat: "yy-mm-dd",
-        onSelect: function (selected, evnt) {
-            /*changearrivaldate();*/
-        }
+    $(document).ready(function () {
+        $(".datepicker").datepicker({
+            dateFormat: 'yy-mm-dd', // Adjust the date format as per your requirement
+            minDate: 0 // Disallows dates before today
+        });
     });
 </script>
 

@@ -1,0 +1,170 @@
+﻿@model Macreel_Project.Models.Bussiness.TaskManage
+@{
+    ViewBag.Title = "updateTaskViewByIdForReportingManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Task</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+            <table class="table">
+                <tr>
+                    <th>Assigned Employee</th>
+                    <td>@Model.assigned_emp</td>
+                    <th>Task Title</th>
+                    <td>@Model.title</td>
+
+                </tr>
+
+                <tr>
+                    <th>Assigned Date</th>
+                    <td>@Model.current_date</td>
+                    <th>Completion Date</th>
+                    <td>@Model.complete_date</td>
+                </tr>
+
+                <tr>
+                    <th>Employee Status</th>
+                    <td>
+                        @{ var status = @Html.Raw(Model.emp_status).ToString(); }
+
+                        @if (status == "Complete")
+                        {
+                            <span class="badge badge-success">Complete</span>
+                        }
+                        else if (status == "Not Complete")
+                        {
+                            <span class="badge badge-danger">Not Complete</span>
+                        }
+                    </td>
+                    <th>Updated Date</th>
+                    <td>@Model.updatedDateEmp</td>
+                </tr>
+
+                <tr>
+                    <th>Description</th>
+                    <td style=" width: 400px;">@Model.description</td>
+                </tr>
+
+                <tr>
+                    @if (Model.attachment1 != null && Model.attachment1 != "")
+                    {
+                        <th>Attachment 1</th>
+                        <td>
+                            <img src="/tempimage/@Model.attachment1" style="width:250px;" />
+                            <br />
+                            <a href="/admin/Download?ImageName=/tempimage/@Model.attachment1" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                    @if (Model.attachment2 != null && Model.attachment2 != "")
+                    {
+                        <th>Attachment 2</th>
+                        <td>
+                            <img src="@Model.attachment2" style="width:250px;" /><br />
+                            <a href="/admin/Download?ImageName=@Model.attachment2" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+
+                        </td>
+                        <br />
+                    }
+                    @if (Model.attachment3 != null && Model.attachment3 != "")
+                    {
+                        <th>Attachment 3</th>
+                        <td>
+                            <img src="@Model.attachment3" style="width:250px;" />
+                            <br />
+                            <a href="/admin/Download?ImageName=@Model.attachment3" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                    @if (Model.attachment4 != null && Model.attachment4 != "")
+                    {
+                        <th>Attachment 4</th>
+                        <td>
+                            <img src="@Model.attachment4" style="width:250px;" />
+                            <br />
+                            <a href="/admin/Download?ImageName=@Model.attachment4" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                        <br />
+                    }
+                    @if (Model.attachment5 != null && Model.attachment5 != "")
+                    {
+                        <th>Attachment 5</th>
+                        <td>
+                            <img src="@Model.attachment5" style="width:250px;" />
+                            <br />
+                            <a href="/admin/Download?ImageName=@Model.attachment5" class="btn btn-primary dwnld"><i class="fas fa-download"></i>Download</a>
+                        </td>
+                    }
+                </tr>
+
+
+
+                @*<tr>
+                        <th>Remark</th>
+                        <td><textarea id="remark"></textarea></td>
+                    </tr>
+
+
+                    <tr>
+                        <th><button>Approve</button> </th>
+                        <td>@Model.reason</td>
+                    </tr>*@
+            </table>
+
+        </section>
+    </div>
+
+
+</section>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="" class="heading">Status:-</label>
+                        <select id="task_status" class="form-control">
+                            <option value="">--Select Status--</option>
+                            <option value="Closed">Closed</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Not Response">Not Response</option>
+                        </select>
+                    </div>
+
+                </div>
+                <input type="hidden" name="id" id="id" value="@Model.id" />
+                <div class="form-row form_button_box" style=" TEXT-ALIGN: center;">
+
+                    <div class="form-group col-md-6">
+                        <a href="#" class="btn btn-success update_btn" onclick="updateOrder()" id="approve_btn">Update</a>
+                        <script>
+                            function updateOrder() {
+                                var status = document.getElementById('task_status').value;
+                                var id = document.getElementById('id').value;
+
+                                var url = '/admin/update_taskStatusByReportingManager?id=' + id + '&status=' + status;
+                                window.location.href = url;
+
+                            }
+                        </script>
+                    </div>
+
+
+
+                </div>
+            </form>
+
+        </section>
+    </div>
+</section>
+<script src="https://localhost:44373/assets/Plugins/jquery/jquery.min.js"></script>
+

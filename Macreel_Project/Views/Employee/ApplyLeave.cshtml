@@ -50,19 +50,22 @@
         margin-bottom: 0px !important;
     }
 </style>
+
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<head></head>
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
     <div class="row">
         <div class="col-md-12">
             <form id="TypeValidation" class="form-horizontal">
-                <div class="card ">
+                <div class="card">
                     <div class="card-body ">
                         @*<span style="padding-left:840px;color:green">Remaining Leave</span>*@
                         <!-- Part 1 -->
                         <div class="row">
-                            <div class="col-md-8">
+                            <div class="col-md-7">
                                 <div class="row">
                                     <div class="col-md-2">
                                         <label for="leavetype">From Date</label>
@@ -114,10 +117,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Part 2 -->
-                            <div class="col-md-4">
+                            <!-- Part 2-->
+                            <div class="col-md-2" @*style="background-color:red"*@>
                                 <div class="row">
-                                    <div style="color:darkgreen;font-size:18px;font-weight:bold">Remaining Leave:</div>
+                                    <div style="color:darkgreen;font-size:17px;font-weight:bold">Total Leave:</div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-2" style="font-size:14px;">
@@ -125,7 +128,7 @@
                                     </div>
                                     <div class="col-ms-1">
                                         <div class="form-group" style="margin-bottom: 0px;">
-                                            <a href="/Employee/ViewEmpCL"><span>@ViewBag.RemCL</span></a>
+                                            <a href="#"><span style="padding-left:10px;">@ViewBag.TotalCL</span></a>
                                         </div>
                                     </div>
                                     <div class="col-md-2 ml-2" style="font-size:14px">
@@ -133,7 +136,7 @@
                                     </div>
                                     <div class="col-ms-0">
                                         <div class="form-group" style=" margin-bottom: 0px;">
-                                            <a href="/Employee/ViewEmpML"><span>@ViewBag.RemML</span></a>
+                                            <a href="#"><span style="padding-left:10px;">@ViewBag.TotalML</span></a>
                                         </div>
                                     </div>
                                 </div>
@@ -143,7 +146,7 @@
                                     </div>
                                     <div class="col-ms-0">
                                         <div class="form-group">
-                                            <a href="/Employee/ViewEmpEL"><span>@ViewBag.RemEL</span></a>
+                                            <a href="#"><span style="padding-left:10px;">@ViewBag.TotalEL</span></a>
                                         </div>
                                     </div>
                                     <div class="col-md-2 ml-2" style="font-size:14px">
@@ -151,7 +154,93 @@
                                     </div>
                                     <div class="col-ms-1">
                                         <div class="form-group">
-                                            <a href="/Employee/ViewEmpWPL"><span>@ViewBag.RemLWP</span></a>
+                                            <a href="#"><span style="padding-left:13px;">@ViewBag.TotalLWP</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Part 3-->
+                            <div class="col-md-2" @*style="background-color:yellow"*@>
+                                <div class="row">
+                                    <div style="color:darkgreen;font-size:17px;font-weight:bold">Remaining Leave:</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2" style="font-size:14px;">
+                                        <label for="leavetype">CL:-</label>
+                                    </div>
+                                    <div class="col-ms-1">
+                                        <div class="form-group" style="margin-bottom: 0px;">
+                                            <a href="/Employee/ViewEmpCL"><span style="padding-left:10px;">@ViewBag.RemCL</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ml-2" style="font-size:14px">
+                                        <label for="leavetype">ML:-</label>
+                                    </div>
+                                    <div class="col-ms-0">
+                                        <div class="form-group" style=" margin-bottom: 0px;">
+                                            <a href="/Employee/ViewEmpML"><span style="padding-left:10px;">@ViewBag.RemML</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-2" style="font-size:14px">
+                                        <label for="leavetype">EL:-</label>
+                                    </div>
+                                    <div class="col-ms-0">
+                                        <div class="form-group">
+                                            <a href="/Employee/ViewEmpEL"><span style="padding-left:10px;">@ViewBag.RemEL</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2 ml-2" style="font-size:14px">
+                                        <label for="leavetype">LWP:-</label>
+                                    </div>
+                                    <div class="col-ms-1">
+                                        <div class="form-group">
+                                            <a href="/Employee/ViewEmpWPL"><span style="padding-left:13px;">@ViewBag.RemLWP</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <!-- Part 4-->
+                            <div class="col-md-1" @*style="background-color:aqua"*@>
+                                <div class="row">
+                                    <div style="color:darkgreen;font-size:17px;font-weight:bold">Avail Leave:</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3" style="font-size:14px;">
+                                        <label for="leavetype">CL:-</label>
+                                    </div>
+                                    <div class="col-ms-1">
+                                        <div class="form-group" style="margin-bottom: 0px;">
+                                            <a href="/Employee/ViewEmpCL"><span style="padding-left:10px;">@ViewBag.TotalApprovedCL</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ml-2" style="font-size:14px">
+                                        <label for="leavetype">ML:-</label>
+                                    </div>
+                                    <div class="col-ms-0">
+                                        <div class="form-group" style=" margin-bottom: 0px;">
+                                            <a href="/Employee/ViewEmpML"><span style="padding-left:10px;">@ViewBag.TotalApprovedML</span></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3" style="font-size:14px">
+                                        <label for="leavetype">EL:-</label>
+                                    </div>
+                                    <div class="col-ms-0">
+                                        <div class="form-group">
+                                            <a href="/Employee/ViewEmpEL"><span style="padding-left:10px;">@ViewBag.TotalApprovedEL</span></a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3 ml-2" style="font-size:14px">
+                                        <label for="leavetype">LWP</label>
+                                    </div>
+                                    <div class="col-ms-1">
+                                        <div class="form-group">
+                                            <a href="/Employee/ViewEmpWPL"><span style="padding-left:13px;">@ViewBag.TotalApprovedLWPL</span></a>
                                         </div>
                                     </div>
                                 </div>

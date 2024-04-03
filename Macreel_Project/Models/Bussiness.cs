@@ -54,6 +54,7 @@ namespace Macreel_Project.Models
         public class filter_report
         {
             public string emp_name { get; set; }
+            public string empid { get; set; }
             public string assigned_date { get; set; }
             public string toassigned_date { get; set; }
             public string status { get; set; }

@@ -216,6 +216,7 @@
     <Compile Include="Services\ProjectManagementController.cs" />
     <Compile Include="Services\RegistrationController.cs" />
     <Compile Include="Services\ServiceController.cs" />
+    <Compile Include="Services\UpdateTaskStatusByReportingManagerController.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -693,6 +694,12 @@
     <Content Include="Views\Employee\ViewEmpEL.cshtml" />
     <Content Include="Views\Employee\ViewEmpWPL.cshtml" />
     <Content Include="Views\Employee\Comptask_view.cshtml" />
+    <Content Include="Views\Admin\Create_TaskByReportingManager.cshtml" />
+    <Content Include="Views\Admin\task_viewByReportingManager.cshtml" />
+    <Content Include="Views\Admin\approved_taskByReporting.cshtml" />
+    <Content Include="Views\Admin\Task_reportsForReportingManager.cshtml" />
+    <Content Include="Views\Employee\TotalLeave_view.cshtml" />
+    <Content Include="Views\Admin\updateTaskViewByIdForReportingManager.cshtml" />
     <None Include="Views\Shared\.editorconfig" />
     <Content Include="Website\fonts\fontawesome-webfont.eot" />
     <Content Include="Website\fonts\fontawesome-webfont.ttf" />

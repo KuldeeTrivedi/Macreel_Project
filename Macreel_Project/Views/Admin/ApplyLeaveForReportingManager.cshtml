@@ -39,6 +39,7 @@
         <!--</div>--><!-- /.row -->
     <!--</div>--><!-- /.container-fluid -->
 <!--</div>-->
+
 <div class="panel-header panel-header-sm">
 </div>
 <div class="content">
@@ -117,7 +118,7 @@
                                 <div class="inputDiv">
                                     <a href="/Admin/UserDashboard">Back</a>
                                 </div>
-</div><!-- end content-->
+                        </div><!-- end content-->
                     </section>
                 </div><!--  end card  -->
             </div> <!-- end col-md-12 -->
@@ -180,120 +181,131 @@
     <script src="~/scripts/jquery-3.4.1.min.js"></script>
     <script src="~/assets/js/core/bootstrap.min.js"></script>
     <script src="~/scripts/alert.js" defer></script>
+    <script src="~/assets/js/core/jquery.min.js"></script>
     <script>
-    $('.sn-edit').click(function () {
-        var currentRow = $(this).closest("tr");
-        var me = $(this);
-        var Id = me.attr('userId');
-        $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
-        $('#btnSend').click(function () {
-            var me = $(this);
-            $.ajaxSetup({
-                beforeSend: function () {
-                    $(".processing").show();
-                    me.attr('disabled', 'disabled');
+        $('.sn-delete').click(function () {
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-success mr-2',
+                    cancelButton: 'btn btn-danger mr-2'
                 },
-                complete: function () {
-                    $(".processing").hide();
-                    me.attr('disabled', false);
-                }
+                buttonsStyling: false
+            })
 
-            });
-            var flag = 0;
-            var cntrl;
-
-            Product = {
-                Id: Id,
-                Description: $('#Description').val(),
-                LeaveCount: $('#LeaveCount').val(),
-                Status: $('#Approved').val(),
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "/Admin/UpdateLeaveStatusbyReporting",
-                data: Product,
-                success: function (data) {
-                    if (data.split(',')[1] == 'danger') {
-                        MsgBox(data.split(',')[0], data.split(',')[1]);
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure?',
+                text: "You won't be Delete!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, cancel!',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.value) {
+                    var me = $(this);
+                    var userId = me.attr('userid');
+                    var cateogy = {
+                        Id: userId,
                     }
-                    else {
-                        MsgBoxRedirect(data.split(',')[0], data.split(',')[1], "/Admin/ApplyLeaveForAdmin");
-                    }
-                }
-                ,
-                error: function (ex) {
-                    alert(ex);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Admin/DeleteApplyLeave",
+                        data: JSON.stringify(cateogy),
+                        contentType: "application/json; charset=utf-8",
+                        dataType: "json",
+                        success: function (message) {
+                            window.location.href = "/Admin/ApplyLeaveForAdmin";
+                        }
+                    });
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success'
+                    )
+                } else if (
+                    /* Read more about handling dismissals below */
+                    result.dismiss === Swal.DismissReason.cancel
+                ) {
+                    swalWithBootstrapButtons.fire(
+                        'Cancelled',
+                        'Your file is safe :)',
+                        'error'
+                    )
                 }
             })
         });
-        function MsgBox(message, atype) {
-            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100 });
-        }
-        function MsgBoxRedirect(message, atype, location) {
-            $.alert(message, {
-                title: '', type: atype, autoClose: true, closeTime: 2000, minTop: 100, onClose: function () { window.location = location; }
-            });
-        }
-    });
-    $('.sn-delete').click(function () {
-        const swalWithBootstrapButtons = Swal.mixin({
-            customClass: {
-                confirmButton: 'btn btn-success mr-2',
-                cancelButton: 'btn btn-danger mr-2'
-            },
-            buttonsStyling: false
-        })
+    </script>
+    <script>
+        $('.sn-edit').click(function () {
+            var currentRow = $(this).closest("tr");
+            var me = $(this);
+            var Id = me.attr('userId');
+            $('#modal-primary').modal({ backdrop: 'static', keyboard: true });
 
-        swalWithBootstrapButtons.fire({
-            title: 'Are you sure?',
-            text: "You won't be Delete!",
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Yes, delete it!',
-            cancelButtonText: 'No, cancel!',
-            reverseButtons: true
-        }).then((result) => {
-            if (result.value) {
+            // Unbind any existing click events on #btnSend before binding a new one
+            $('#btnSend').off('click').on('click', function () {
                 var me = $(this);
-                var userId = me.attr('userid');
-                var cateogy = {
-                    Id: userId,
-                }
+                $.ajaxSetup({
+                    beforeSend: function () {
+                        $(".processing").show();
+                        me.prop('disabled', true);
+                    },
+                    complete: function () {
+                        $(".processing").hide();
+                        me.prop('disabled', false);
+                    }
+                });
+
+                var Product = {
+                    Id: Id,
+                    Description: $('#Description').val(),
+                    LeaveCount: $('#LeaveCount').val(),
+                    Status: $('#Approved').val(),
+                };
 
                 $.ajax({
                     type: "POST",
-                    url: "/Admin/DeleteApplyLeave",
-                    data: JSON.stringify(cateogy),
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                    success: function (message) {
-                        window.location.href = "/Admin/ApplyLeaveForAdmin";
+                    url: "/Admin/UpdateLeaveStatusbyReporting",
+                    data: Product,
+                    success: function (data) {
+                        if (data == "success") {
+                            swal.fire({
+                                title: "Success",
+                                text: "Successfully Added!",
+                                icon: "success",
+                                timer: 500,
+                            });
+                            window.location.href = "/Admin/ApplyLeaveForAdmin";
+                        }
+                        else {
+                            swal.fire({
+                                title: "Success",
+                                text: "Successfully Added!",
+                                icon: "success",
+                                timer: 500,
+                            });
+                            window.location.href = "/Admin/ApplyLeaveForAdmin";
+                        }
+                    },
+                    error: function (ex) {
+                        alert(ex);
                     }
                 });
-                swalWithBootstrapButtons.fire(
-                  'Deleted!',
-                  'Your file has been deleted.',
-                  'success'
-                )
-            } else if (
-                /* Read more about handling dismissals below */
-              result.dismiss === Swal.DismissReason.cancel
-            ) {
-                swalWithBootstrapButtons.fire(
-                  'Cancelled',
-                  'Your file is safe :)',
-                  'error'
-                )
-            }
-        })
-    });
-    $('#show').click(function () {
-        $('#modal-primary1').modal({ backdrop: 'static', keyboard: true });
+            });
+        });
 
-    });
+        function MsgBox(message, atype) {
+            $.alert(message, { title: '', type: atype, autoClose: true, closeTime: 500, minTop: 100 });
+        }
+
+        function MsgBoxRedirect(message, atype, location) {
+            $.alert(message, {
+                title: '', type: atype, autoClose: true, closeTime: 500, minTop: 100, onClose: function () { window.location = location; }
+            });
+        }
+
+
     </script>
-
-
 
 

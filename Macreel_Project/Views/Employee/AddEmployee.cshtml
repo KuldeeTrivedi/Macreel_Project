@@ -179,7 +179,7 @@
                                     {
                                         foreach (var item in ViewBag.login as List<Macreel_Project.Models.Bussiness.Login>)
                                         {
-                                            if (Model.UserName == item.UserName)
+                                            if (Model.ReportingManager == item.UserName)
                                             {
                                                 <option selected value="@item.EmpId">@item.UserName</option>
                                             }
@@ -930,6 +930,7 @@
                                 timer: 6000,
 
                             });
+                            window.location.href = "/Admin/AllEmployeeList";
                             Reset();
                         }
                         else if (message == "update") {
@@ -939,7 +940,7 @@
                                 icon: "success",
                                 timer: 6000,
                             });
-                            window.location.href = "/Employee/AddEmployee";
+                            window.location.href = "/Admin/AllEmployeeList";
                         }
                         else {
                             swal.fire({

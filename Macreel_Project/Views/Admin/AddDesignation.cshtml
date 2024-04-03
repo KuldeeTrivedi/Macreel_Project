@@ -93,7 +93,7 @@
                                                 <td style="font-size:15px">@sn</td>
                                                 <td style="font-size:15px">@dis.Name</td>
                                                 <td class="text-right" style="font-size:15px">
-                                                    <a href="/Admin/AddDepartment?Id=@dis.DId&&Type=@dis.Type"><i class="fa  fa-pencil" style=" color: darkgreen !important;"></i></a>&nbsp;&nbsp;&nbsp;
+                                                    <a href="/Admin/AddDesignation?Id=@dis.DId&&Type=@dis.Type"><i class="fa  fa-pencil" style=" color: darkgreen !important;"></i></a>&nbsp;&nbsp;&nbsp;
                                                     <a href="#" class="sn-delete" userId="@dis.DId"><i class="fas fa-trash" style="color:red;"></i></a>
                                                 </td>
                                             </tr>
@@ -236,7 +236,7 @@
                             icon: "success",
                             timer: 6000,
                         });
-                        window.location.href = "/Admin/AddDepartment";
+                        window.location.href = "/Admin/AddDesignation";
                     }
                     else if (message == "update") {
                         Swal.fire({
@@ -245,7 +245,7 @@
                             icon: "success",
                             timer: 6000,
                         });
-                        window.location.href = "/Admin/AddDepartment";
+                        window.location.href = "/Admin/AddDesignation";
                     }
                     else if (message == "error") {
                         Swal.fire({
@@ -344,7 +344,7 @@
                         contentType: "application/json; charset=utf-8",
                         dataType: "json",
                         success: function (message) {
-                            window.location.href = "/Admin/AddDepartment";
+                            window.location.href = "/Admin/AddDesignation";
                         }
                     });
                     swalWithBootstrapButtons.fire(

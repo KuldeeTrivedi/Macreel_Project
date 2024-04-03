@@ -63,10 +63,18 @@
             <!-- /.col -->
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
-                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+                    <span class="info-box-icon bg-success elevation-1"><i class="fa-solid fa-person-through-window"></i></span>
 
                     <div class="info-box-content">
-                        <a href="#"><span class="info-box-text">Total Performance</span></a>
+                        @if (ViewBag.TotalLeave != null)
+                        {
+                            @ViewBag.TotalLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Employee/TotalLeave_view"><span class="info-box-text">Total Leave</span></a>
                         <span class="info-box-number"></span>
                     </div>
                     <!-- /.info-box-content -->
@@ -78,7 +86,15 @@
                     <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
 
                     <div class="info-box-content">
-                        <a href="#"><span class="info-box-text">Leave Performance</span></a>
+                        @if (ViewBag.TotalPendingLeave != null)
+                        {
+                            @ViewBag.TotalPendingLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Admin/PendingLeaveList"><span class="info-box-text">Pending Leave</span></a>
                         <span class="info-box-number"></span>
                     </div>
                     <!-- /.info-box-content -->
@@ -89,16 +105,16 @@
         </div>
         <div class="row">
             <!--<div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-down"></i></span>
+    <div class="info-box mb-3">
+        <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-down"></i></span>
 
-                    <div class="info-box-content">
-                        <a href="#"><span class="info-box-text">Total Performance</span></a>
-                        <span class="info-box-number"></span>
-                    </div>-->
-                    <!-- /.info-box-content -->
-                <!--</div>-->
-                <!-- /.info-box -->
+        <div class="info-box-content">
+            <a href="#"><span class="info-box-text">Total Performance</span></a>
+            <span class="info-box-number"></span>
+        </div>-->
+            <!-- /.info-box-content -->
+            <!--</div>-->
+            <!-- /.info-box -->
             <!--</div>-->
             <!-- /.col -->
             <!-- fix for small devices only -->
@@ -109,6 +125,99 @@
                     <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
 
                     <div class="info-box-content">
+                        @if (ViewBag.TotalApprovedLeave != null)
+                        {
+                            @ViewBag.TotalApprovedLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Admin/ApproveLeaveList"><span class="info-box-text">Approved Leave</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-down"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalRejectedLeave != null)
+                        {
+                            @ViewBag.TotalRejectedLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Admin/RejectLeaveList"><span class="info-box-text">Rejected Leave</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fa-solid fa-user"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalAssignEmp != null)
+                        {
+                            @ViewBag.TotalAssignEmp;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="#"><span class="info-box-text">Total AssignEmployee</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fa-solid fa-user-shield"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalAssignProject != null)
+                        {
+                            @ViewBag.TotalAssignProject;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Employee/EmployeeAssignProject"><span class="info-box-text">Total Assign Project</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+                    <div class="info-box-content">
+                        <a href="#"><span class="info-box-text">Leave Performance</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
+                    <div class="info-box-content">
+
                         <a href="#"><span class="info-box-text">Task Performance</span></a>
                         <span class="info-box-number"></span>
                     </div>
@@ -116,19 +225,116 @@
                 </div>
                 <!-- /.info-box -->
             </div>
+
             <!-- /.col -->
             <!--<div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
+    <div class="info-box mb-3">
+        <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
 
-                    <div class="info-box-content">
-                        <a href="#"><span class="info-box-text">Leave Performance</span></a>
-                        <span class="info-box-number"></span>
-                    </div>-->
-                    <!-- /.info-box-content -->
-                <!--</div>-->
-                <!-- /.info-box -->
+        <div class="info-box-content">
+            <a href="#"><span class="info-box-text">Leave Performance</span></a>
+            <span class="info-box-number"></span>
+        </div>-->
+            <!-- /.info-box-content -->
             <!--</div>-->
+            <!-- /.info-box -->
+            <!--</div>-->
+            <!-- /.col -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title">Monthly Recap Report</h5>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            @*<div class="btn-group">
+                                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-wrench"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <a href="#" class="dropdown-item">Action</a>
+                                        <a href="#" class="dropdown-item">Another action</a>
+                                        <a href="#" class="dropdown-item">Something else here</a>
+                                        <a class="dropdown-divider"></a>
+                                        <a href="#" class="dropdown-item">Separated link</a>
+                                    </div>
+                                </div>*@
+                            <button type="button" class="btn btn-tool" data-card-widget="remove">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-8">
+
+
+                                <div class="chart">
+                                    <!-- Sales Chart Canvas -->
+                                    @*<canvas id="performancechart" height="180" style="height: 180px;"></canvas>*@
+                                    <div id="performancechart"></div>
+                                </div>
+                                <!-- /.chart-responsive -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-md-4" id="perform_box">
+                                <p class="text-center">
+                                    <strong>Performance</strong>
+                                </p>
+
+                                <div class="progress-group">
+                                    Task Performance
+                                    <span class="float-right"><b></b>/100</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-primary"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+
+                                <div class="progress-group">
+                                    Leave Performance
+                                    <span class="float-right"><b></b>/100</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-danger"></div>
+                                    </div>
+                                </div>
+
+                                <!-- /.progress-group -->
+                                @*<div class="progress-group">
+                                        <span class="progress-text">Punctuality Performance</span>
+                                        <span class="float-right"><b></b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-success"></div>
+                                        </div>
+                                    </div>*@
+
+                                <!-- /.progress-group -->
+                                <div class="progress-group">
+                                    Attendance Performance
+                                    <span class="float-right"><b></b>/100</span>
+                                    <div class="progress progress-sm">
+                                        <div class="progress-bar bg-warning"></div>
+                                    </div>
+                                </div>
+                                <!-- /.progress-group -->
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+                    </div>
+                    <!-- ./card-body -->
+                    <div class="card-footer">
+                        <!-- /.row -->
+                    </div>
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
             <!-- /.col -->
         </div>
         <!-- /.row -->
@@ -146,3 +352,291 @@
     </div>
 </section>
 <!-- /.content -->
+<script>
+    $(document).ready(function () {
+
+        function formatDate(dateString) {
+            // Extract the timestamp from the string (remove "/Date(" and ")/")
+            var timestamp = parseInt(dateString.replace("/Date(", "").replace(")/", ""));
+
+            // Create a new Date object using the timestamp
+            var date = new Date(timestamp);
+
+            // Format the date as "yyyy-MM-dd"
+            var formattedDate = date.toISOString().slice(0, 10);
+
+            return formattedDate;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "getchart",
+            data: "{}",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            beforeSend: function () {
+            },
+            success: function (response) {
+                // Parse the JSON string to a JavaScript object
+                /*var data = JSON.parse(response.d);*/
+
+                /*console.log(response)*/
+
+                /*var chart2Data = data.DataTable1;*/
+                //var chart4Data = response.DataTable1;
+
+                //console.log(chart4Data);
+
+                //var total1 = 0;
+                //for (var i = 0; i < chart1Data.length; i++) {
+                //    total1 += chart1Data[i].cl_bal;
+                //}
+
+                //var total2 = 0;
+                //for (var i = 0; i < chart2Data.length; i++) {
+                //    total2 += chart2Data[i].cl_bal;
+                //}
+
+                //var total3 = 0;
+                //for (var i = 0; i < chart3Data.length; i++) {
+                //    total3 += chart3Data[i].cl_bal;
+                //}
+
+
+                //var spark1 = {
+                //    series: [{
+                //        name: 'Cl Bal.',
+                //        data: chart2Data.map(function (row) { return row.cl_bal; }),
+                //    }],
+                //    labels: chart2Data.map(function (row) { return row.Month; }),
+                //    chart: {
+                //        type: 'bar',
+                //        height: 180,
+                //        events: {
+                //            dataPointSelection: function (event, chartContext, config) {
+
+                //                var ee = config.dataPointIndex;
+                //                var xValue = config.w.config.xaxis.type[ee];
+
+                //                myFunction_day(xValue);
+
+                //            }
+                //        }
+                //    },
+                //    plotOptions: {
+                //        bar: {
+                //            colors: {
+                //                ranges: [{
+                //                    from: -1,
+                //                    to: -1000000000000000,
+                //                    color: '#F15B46'
+                //                }, {
+                //                    from: -1000000000000000,
+                //                    to: 0,
+                //                    color: '#F15B46'
+                //                }]
+                //            },
+                //            columnWidth: '60%',
+                //        }
+                //    },
+                //    dataLabels: {
+                //        enabled: false,
+                //    },
+                //    yaxis: {
+
+                //        title: {
+                //            text: 'Monthly Expenses (In Lac)',
+                //            align: 'left',
+                //            margin: 10,
+                //            offsetX: 0,
+                //            offsetY: 0,
+                //            floating: false,
+                //            style: {
+                //                fontSize: '12px',
+                //                fontWeight: 'bold',
+                //                fontFamily: 'Roboto',
+                //                color: '#263238'
+                //            }
+                //        },
+
+                //    },
+                //    xaxis: {
+                //        type: chart2Data.map(function (row) { return row.Month; }),
+                //        labels: {
+                //            rotate: -90
+                //        }
+                //    },
+                //    tooltip: {
+                //        y: {
+                //            formatter: function (val) {
+                //                return val + " Lac"
+                //            }
+                //        }
+                //    }
+                //};
+
+                var optionsArea = {
+                    series: [{
+                        name: 'Total Performance',
+                        data: response.map(function (item) { return item.total_performance; })
+                    }],
+                    labels: response.map(function (item) { return formatDate(item.update_date); }),
+                    chart: {
+                        type: 'area',
+                        height: 315
+                    },
+                    dataLabels: {
+                        enabled: false
+                    },
+                    //stroke: {
+                    //    curve: 'straight'
+                    //},
+
+                    title: {
+                        text: 'Monthly Data',
+                        align: 'left',
+                        style: {
+                            fontSize: '14px'
+                        }
+                    },
+                    xaxis: {
+                        type: response.map(function (item) { return item.update_date; }),
+                        axisBorder: {
+                            show: false
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                    },
+                    yaxis: {
+                        tickAmount: 4,
+                        floating: false,
+
+                        labels: {
+                            style: {
+                                colors: '#8e8da4',
+                            },
+                            offsetY: -7,
+                            offsetX: 0,
+                        },
+                        axisBorder: {
+                            show: false,
+                        },
+                        axisTicks: {
+                            show: false
+                        }
+                    },
+                    fill: {
+                        opacity: 0.5
+                    },
+                    tooltip: {
+                        y: {
+                            formatter: function (val) {
+                                return val + " %"
+                            }
+                        }
+                    },
+                    grid: {
+                        yaxis: {
+                            lines: {
+                                offsetX: -30
+                            }
+                        },
+                        padding: {
+                            left: 20
+                        }
+                    }
+                };
+                /* var chart2 = new ApexCharts(document.querySelector("#spark1"), spark1);*/
+                var chart4 = new ApexCharts(document.querySelector("#performancechart"), optionsArea);
+
+
+                /*chart2.render();*/
+                chart4.render();
+
+
+                //chart2.updateSeries([{ data: chart2Data.map(function (row) { return row.cl_bal; }) }]);
+                chart4.updateSeries([{ data: response.map(function (item) { return item.total_performance; }) }]);
+
+                updatePerformanceBars(response);
+                // Function to update the performance bars with current month data
+                function updatePerformanceBars(data) {
+                    // Assuming "data" is an array of objects containing performance data
+                    // Replace the IDs, classes, and data fields as needed
+                    data.forEach(function (item) {
+                        if (formatDate(item.update_date) === '2023-08-31') { // Replace with the current month's date
+                            // Update the emp_taskperformance bar
+                            var a = "";
+                            if (item.EmployeeTaskPerformance <= 40) {
+                                a = "bg-danger";
+                            }
+                            else if (item.EmployeeTaskPerformance <= 80) {
+                                a = "bg-warning";
+                            }
+                            else if (item.EmployeeTaskPerformance <= 100) {
+                                a = "bg-success";
+                            }
+                            $('#perform_box .progress-group:eq(0) .progress-bar').css('width', (item.EmployeeTaskPerformance) + '%');
+                            $('#perform_box .progress-group:eq(0) .progress-bar').attr('class', '.progress-bar '+a+'');
+                            $('#perform_box .progress-group:eq(0) b').text(item.EmployeeTaskPerformance + '');
+
+                            var b = "";
+                            if (item.EmployeeleavePerformance <= 40) {
+                                b = "bg-danger";
+                            }
+                            else if (item.EmployeeleavePerformance <= 80) {
+                                b = "bg-warning";
+                            }
+                            else if (item.EmployeeleavePerformance <= 100) {
+                                b = "bg-success";
+                            }
+                            // Update the emp_leaveperformance bar
+                            $('#perform_box .progress-group:eq(1) .progress-bar').css('width', (item.EmployeeleavePerformance) + '%');
+                            $('#perform_box .progress-group:eq(1) .progress-bar').attr('class', '.progress-bar ' + b + '');
+                            $('#perform_box .progress-group:eq(1) b').text(item.EmployeeleavePerformance + '');
+
+                            var c = "";
+                            if (item.EmployeePunctualityPerformance <= 40) {
+                                c = "bg-danger";
+                            }
+                            else if (item.EmployeePunctualityPerformance <= 80) {
+                                c = "bg-warning";
+                            }
+                            else if (item.EmployeePunctualityPerformance <= 100) {
+                                c = "bg-success";
+                            }
+                            // Update the EmployeePunctualityPerformance bar
+                            $('#perform_box .progress-group:eq(2) .progress-bar').css('width', (item.EmployeePunctualityPerformance) + '%');
+                            $('#perform_box .progress-group:eq(2) .progress-bar').attr('class', '.progress-bar ' + c + '');
+                            $('#perform_box .progress-group:eq(2) b').text(item.EmployeePunctualityPerformance + '');
+
+
+                            var d = "";
+                            if (item.EmployeeAttendancePerformance <= 40) {
+                                d = "bg-danger";
+                            }
+                            else if (item.EmployeeAttendancePerformance <= 80) {
+                                d = "bg-warning";
+                            }
+                            else if (item.EmployeeAttendancePerformance <= 100) {
+                                d = "bg-success";
+                            }
+                            // Update the EmployeeAttendancePerformance bar
+                            $('#perform_box .progress-group:eq(3) .progress-bar').css('width', (item.EmployeeAttendancePerformance) + '%');
+                            $('#perform_box .progress-group:eq(3) .progress-bar').attr('class', '.progress-bar ' + d + '');
+                            $('#perform_box .progress-group:eq(3) b').text(item.EmployeeAttendancePerformance + '');
+                        }
+                    });
+                }
+
+
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                // Handle the error
+                console.log(xhr.status + ': ' + thrownError);
+            }
+        });
+
+    });
+</script>
+

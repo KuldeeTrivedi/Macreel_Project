@@ -82,9 +82,33 @@ namespace Macreel_Infosoft.Controllers
         }
         public ActionResult ApplyLeave(int Id = 0)
         {
-            int RemainCL= 0;
+            int TotalLWP= 0;
+            TotalLWP = db.TotalLWP();
+            ViewBag.TotalLWP = TotalLWP;
+            int TotalEL = 0;
+            TotalEL = db.TotalEL();
+            ViewBag.TotalEL = TotalEL;
+            int TotalML = 0;
+            TotalML = db.TotalML();
+            ViewBag.TotalML = TotalML;
+            int TotalCL = 0;
+            TotalCL = db.TotalCL();
+            ViewBag.TotalCL = TotalCL;
+            int TotalApprovedLWPL = 0;
+            TotalApprovedLWPL = db.TotalLWPApproved();
+            ViewBag.TotalApprovedLWPL = TotalApprovedLWPL;
+            int TotalApprovedEL = 0;
+            TotalApprovedEL = db.TotalELApproved();
+            ViewBag.TotalApprovedEL = TotalApprovedEL;
+            int TotalApprovedML = 0;
+            TotalApprovedML = db.TotalMLApproved();
+            ViewBag.TotalApprovedML = TotalApprovedML;
+            int TotalApprovedCL = 0;
+            TotalApprovedCL = db.TotalCLApproved();
+            ViewBag.TotalApprovedCL = TotalApprovedCL;
+            int RemainCL = 0;
             RemainCL = db.CL();
-            ViewBag.RemCL= RemainCL;
+            ViewBag.RemCL = RemainCL;
             int RemainML = 0;
             RemainML = db.ML();
             ViewBag.RemML = RemainML;
@@ -151,6 +175,20 @@ namespace Macreel_Infosoft.Controllers
             List<TaskManage> obj = new List<TaskManage>();
             obj = db.ViewCompleteTask();
             ViewBag.Leave = obj;
+            return View(obj);
+            //Models.common_response Response = db.adminssioncheck("");
+            //if (Response.success == false || Response.parameter != "admin")
+            //{
+            //    string url = Request.Url.PathAndQuery;
+            //    return Redirect("/admin/login?url=" + HttpUtility.UrlEncode(url) + "");
+            //}
+
+        }
+        public ActionResult TotalLeave_view()
+        {
+            List<Assignleave> obj = new List<Assignleave>();
+            obj = db.ViewTotalLeave();
+            ViewBag.Leave1 = obj;
             return View(obj);
             //Models.common_response Response = db.adminssioncheck("");
             //if (Response.success == false || Response.parameter != "admin")

@@ -9,6 +9,9 @@ using System.Web.Mvc;
 using System.Configuration;
 using System.Net.Mail;
 using System.Net;
+using System.Globalization;
+using System.Text;
+using System.Data.SqlTypes;
 
 namespace Macreel_Project.Models
 {
@@ -73,7 +76,7 @@ namespace Macreel_Project.Models
                         {
                             obj.Department = rd["Department"].ToString();
                         }
-                       
+
                     }
                 }
             }
@@ -683,6 +686,8 @@ namespace Macreel_Project.Models
                 cmd.Parameters.AddWithValue("@Specilization12", obj.Specilization12);
                 cmd.Parameters.AddWithValue("@Image", obj.ImagePath);
                 cmd.Parameters.AddWithValue("@StateId", obj.StateId);
+                cmd.Parameters.AddWithValue("@ReportingManager", obj.ReportingManager);
+
                 row = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -1608,6 +1613,70 @@ namespace Macreel_Project.Models
             }
             return Count;
         }
+        public int CountAssignEmployee()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalAssignEmployee");
+                cmd.Parameters.AddWithValue("@id", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        Count = Convert.ToInt32(rd["TotalEmployeeCount"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int CountAssignProject1()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalAssignProject");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        Count = Convert.ToInt32(rd["TotalProjects"]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
         public int CountPendingTask()
         {
             int Count = 0;
@@ -1640,6 +1709,150 @@ namespace Macreel_Project.Models
             }
             return Count;
         }
+        public int CountTotalLeave()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalLeave");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalLeave"]);
+                        }
+                       
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int CountTotalPendingLeave()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalPendingLeave");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalPending"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalPending"]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int CountTotalRejectedLeave()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalRejectedLeave");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalRejected"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalRejected"]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int CountTotalApprovedLeave()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalApprovedLeave");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalApproved"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalApproved"]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
         public int CL()
         {
             int Count = 0;
@@ -1657,7 +1870,291 @@ namespace Macreel_Project.Models
                 {
                     while (rd.Read())
                     {
-                        Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        if (rd["RemainingLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalCLApproved()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalApprovedCL");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["ApprovedLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["ApprovedLeave"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalMLApproved()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalApprovedML");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["ApprovedLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["ApprovedLeave"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalELApproved()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalApprovedEL");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["ApprovedLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["ApprovedLeave"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalLWPApproved()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalApprovedLWP");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["ApprovedLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["ApprovedLeave"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalCL()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalCL");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalAssignedCL"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalAssignedCL"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalML()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalML");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalAssignedML"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalAssignedML"]);
+                        }
+
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalEL()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalEL");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalAssignedEL"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalAssignedEL"]);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return Count;
+        }
+        public int TotalLWP()
+        {
+            int Count = 0;
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            try
+            {
+                cmd = new SqlCommand("Sp_Dashboard", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "TotalLWP");
+                cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        if (rd["TotalAssignedLWP"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["TotalAssignedLWP"]);
+                        }
                     }
                 }
             }
@@ -1689,7 +2186,10 @@ namespace Macreel_Project.Models
                 {
                     while (rd.Read())
                     {
-                        Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        if (rd["RemainingLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        }
                     }
                 }
             }
@@ -1721,7 +2221,10 @@ namespace Macreel_Project.Models
                 {
                     while (rd.Read())
                     {
-                        Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        if (rd["RemainingLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        }
                     }
                 }
             }
@@ -1753,7 +2256,10 @@ namespace Macreel_Project.Models
                 {
                     while (rd.Read())
                     {
-                        Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        if (rd["RemainingLeave"] != DBNull.Value)
+                        {
+                            Count = Convert.ToInt32(rd["RemainingLeave"]);
+                        }
                     }
                 }
             }
@@ -2211,7 +2717,7 @@ namespace Macreel_Project.Models
         }
         public List<ApplyLeave> GetApplyListForAdmin()
         {
-            
+
             List<ApplyLeave> getlist = new List<ApplyLeave>();
             ApplyLeave obj = new ApplyLeave();
             try
@@ -2947,6 +3453,109 @@ namespace Macreel_Project.Models
                 cmd.Dispose();
             }
             return gtlst;
+        }
+
+        public List<TaskManage> ViewApprovedTask()
+        {
+            var userid = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            List<TaskManage> task_list = new List<TaskManage>();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Action", "select_approvaltask1");
+            cmd.Parameters.AddWithValue("@id", userid);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            TaskManage pro;
+
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    pro = new TaskManage();
+                    pro.id = sdr["id"].ToString();
+                    pro.s_no = sdr["S_no"].ToString();
+                    pro.title = sdr["title"].ToString();
+                    pro.description = sdr["description"].ToString();
+                    pro.complete_date = sdr["completion_date"].ToString();
+                    pro.current_date = sdr["curent_date"].ToString();
+                    pro.attachment1 = sdr["attachment1"].ToString();
+                    pro.attachment2 = sdr["attachment2"].ToString();
+                    pro.attachment3 = sdr["attachment3"].ToString();
+                    pro.attachment4 = sdr["attachment4"].ToString();
+                    pro.attachment5 = sdr["attachment5"].ToString();
+                    pro.assigned_emp = sdr["assign_emp"].ToString();
+                    pro.task_status = sdr["task_status"].ToString();
+                    pro.emp_status = sdr["emp_status"].ToString();
+                    pro.updatedDateEmp = sdr["updatedDateEmp"].ToString();
+
+                    task_list.Add(pro);
+                }
+            }
+            con.Close();
+
+
+            return task_list;
+        }
+        public List<TaskManage> ViewTask()
+        {
+            var userid = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            List<TaskManage> task_list = new List<TaskManage>();
+            con.Open();
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", con);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Action", "select_task1");
+            cmd.Parameters.AddWithValue("@id", userid);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            TaskManage pro;
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    pro = new TaskManage();
+                    pro.id = sdr["id"].ToString();
+                    pro.s_no = sdr["S_no"].ToString();
+                    pro.title = sdr["title"].ToString();
+                    pro.description = sdr["description"].ToString();
+                    pro.complete_date = sdr["completion_date"].ToString();
+                    pro.current_date = sdr["curent_date"].ToString();
+                    pro.attachment1 = sdr["attachment1"].ToString();
+                    pro.attachment2 = sdr["attachment2"].ToString();
+                    pro.attachment3 = sdr["attachment3"].ToString();
+                    pro.attachment4 = sdr["attachment4"].ToString();
+                    pro.attachment5 = sdr["attachment5"].ToString();
+                    pro.assigned_emp = sdr["assign_emp"].ToString();
+                    pro.task_status = sdr["task_status"].ToString();
+                    pro.commentTask = sdr["commentTask"].ToString();
+                    task_list.Add(pro);
+                }
+            }
+            con.Close();
+            return task_list;
+        }
+        public List<emp_list> InsertTaskByReportingManager()
+        {
+            var userid = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            TaskManage task = new TaskManage();
+            List<emp_list> emp_list = new List<emp_list>();
+            con.Open();
+            SqlCommand cm = new SqlCommand("sp_TaskManage", con);
+            cm.CommandType = CommandType.StoredProcedure;
+            cm.Parameters.AddWithValue("@Action", "select_empList1");
+            cm.Parameters.AddWithValue("@id", userid);
+            SqlDataReader sd = cm.ExecuteReader();
+            emp_list pr;
+            if (sd.HasRows)
+            {
+                while (sd.Read())
+                {
+                    pr = new emp_list();
+                    pr.emp_id = sd["id"].ToString();
+                    pr.emp_name = sd["EmployeeName"].ToString();
+                    emp_list.Add(pr);
+                }
+            }
+            con.Close();
+            return emp_list;
         }
         public int InsertTask(string Date = "", string Project = "", string Task = "", string Hour = "", string Description = "", string Status = "", string Remark = "")
         {
@@ -5418,8 +6027,35 @@ namespace Macreel_Project.Models
                     pro.attachment4 = sdr["attachment4"].ToString();
                     pro.attachment5 = sdr["attachment5"].ToString();
                     pro.updatedDateEmp = sdr["updatedDateEmp"].ToString();
-                    pro.emp_status= sdr["emp_status"].ToString();
+                    pro.emp_status = sdr["emp_status"].ToString();
                     pro.commentTask = sdr["commentTask"].ToString();
+                    task_list.Add(pro);
+                }
+            }
+            connection.Close();
+            return task_list;
+        }
+        public List<Assignleave> ViewTotalLeave()
+        {
+            int EmpId = 0;
+            EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            List<Assignleave> task_list = new List<Assignleave>();
+            connection.Open();
+            SqlCommand cmd = new SqlCommand("Sp_LeaveManagement", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Action", "TotalLeaveList");
+            cmd.Parameters.AddWithValue("@EmployeeId", EmpId);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            Assignleave pro;
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    pro = new Assignleave();
+                    pro.EmployeeName= sdr["EmployeeName"].ToString();
+                    pro.Leave= sdr["LeaveType"].ToString();
+                    pro.Type = sdr["NoOfLeave"].ToString();
+                    pro.Year= sdr["Date"].ToString();
                     task_list.Add(pro);
                 }
             }
@@ -5548,7 +6184,7 @@ namespace Macreel_Project.Models
         public List<ApplyLeave> GetClEmp()
         {
             int EmpId = 0;
-         
+
             List<ApplyLeave> getlist = new List<ApplyLeave>();
             ApplyLeave obj = new ApplyLeave();
             EmpId = ((Login)HttpContext.Current.Session["Login"]).EmpId;
@@ -5574,7 +6210,7 @@ namespace Macreel_Project.Models
                         }
                         obj.Remain = obj.NoOfLeave - obj.LeaveCount;
                         var rem = obj.Remain;
-                       // HttpContext.Current.Session["CLRe"] = obj.Remain;
+                        // HttpContext.Current.Session["CLRe"] = obj.Remain;
                         if (rd["RejectedLeaveCount"] != DBNull.Value)
                         {
                             obj.RejectLeaveCount = Convert.ToInt32(rd["RejectedLeaveCount"]);
@@ -5596,7 +6232,7 @@ namespace Macreel_Project.Models
                 con.Close();
                 cmd.Dispose();
             }
-            
+
             return getlist;
         }
         public List<ApplyLeave> GetMLEmp()
@@ -8628,5 +9264,131 @@ namespace Macreel_Project.Models
             con.Close();
             return dt;
         }
+        public DataTable download_reportByReportingManager(Macreel_Project.Models.Bussiness.filter_report filter_report)
+        {
+            DataTable dt = new DataTable();
+
+            // Assuming you have a mechanism to safely cast or retrieve these session values
+            var sts = HttpContext.Current.Session["Status"]?.ToString();
+            var login = HttpContext.Current.Session["Login"] as Login;
+            var userid = login?.EmpId;
+            // Adjust according to your actual login object's property
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            string whereClause = " WHERE emp.ReportingManager = @UserId"; // Initial WHERE clause
+
+            parameters.Add(new SqlParameter("@UserId", userid ?? SqlInt32.Null)); // Assuming userid is an int. Use SqlInt32.Null if userid is null
+
+            if (!string.IsNullOrEmpty(sts))
+            {
+                whereClause += " AND task.task_status = @Status";
+                parameters.Add(new SqlParameter("@Status", sts));
+            }
+
+            if (!string.IsNullOrEmpty(filter_report.assigned_date) && !string.IsNullOrEmpty(filter_report.toassigned_date))
+            {
+                DateTime startDate = DateTime.ParseExact(filter_report.assigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(filter_report.toassigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                whereClause += " AND assigned_date BETWEEN @StartDate AND @EndDate";
+                parameters.Add(new SqlParameter("@StartDate", startDate));
+                parameters.Add(new SqlParameter("@EndDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(filter_report.emp_name))
+            {
+                whereClause += " AND LOWER(emp.EmployeeName) = LOWER(@EmpName)";
+                parameters.Add(new SqlParameter("@EmpName", filter_report.emp_name));
+            }
+
+            string sql = $"SELECT emp.EmployeeName, emp.id AS emp_id, task.* FROM tbl_taskManage AS task LEFT JOIN TblEmployee AS emp ON task.assigned_employee = emp.id{whereClause}";
+
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                SqlDataReader sdr = cmd.ExecuteReader();
+                if (sdr.HasRows)
+                {
+                    dt.Load(sdr); // Load the result into the DataTable
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log or throw)
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return dt;
+
+        }
+        public DataTable download_reportForReportingManager(Macreel_Project.Models.Bussiness.filter_report filter_report)
+        {
+            DataTable dt = new DataTable();
+
+            // Assuming you have a mechanism to safely cast or retrieve these session values
+            var sts = HttpContext.Current.Session["Status"]?.ToString();
+            var login = HttpContext.Current.Session["Login"] as Login;
+            var userid = login?.EmpId;
+            // Adjust according to your actual login object's property
+
+            List<SqlParameter> parameters = new List<SqlParameter>();
+            string whereClause = " WHERE emp.ReportingManager = @UserId"; // Initial WHERE clause
+
+            parameters.Add(new SqlParameter("@UserId", userid ?? SqlInt32.Null)); // Assuming userid is an int. Use SqlInt32.Null if userid is null
+
+            if (!string.IsNullOrEmpty(sts))
+            {
+                whereClause += " AND task.task_status = @Status";
+                parameters.Add(new SqlParameter("@Status", sts));
+            }
+
+            if (!string.IsNullOrEmpty(filter_report.assigned_date) && !string.IsNullOrEmpty(filter_report.toassigned_date))
+            {
+                DateTime startDate = DateTime.ParseExact(filter_report.assigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime endDate = DateTime.ParseExact(filter_report.toassigned_date, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+
+                whereClause += " AND assigned_date BETWEEN @StartDate AND @EndDate";
+                parameters.Add(new SqlParameter("@StartDate", startDate));
+                parameters.Add(new SqlParameter("@EndDate", endDate));
+            }
+
+            if (!string.IsNullOrEmpty(filter_report.emp_name))
+            {
+                whereClause += " AND LOWER(emp.EmployeeName) = LOWER(@EmpName)";
+                parameters.Add(new SqlParameter("@EmpName", filter_report.emp_name));
+            }
+
+            string sql = $"SELECT emp.EmployeeName, emp.id AS emp_id, task.* FROM tbl_taskManage AS task LEFT JOIN TblEmployee AS emp ON task.assigned_employee = emp.id{whereClause}";
+
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(sql, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                SqlDataReader sdr = cmd.ExecuteReader();
+                if (sdr.HasRows)
+                {
+                    dt.Load(sdr); // Load the result into the DataTable
+                }
+            }
+            catch (Exception ex)
+            {
+                // Handle exception (log or throw)
+            }
+            finally
+            {
+                con.Close();
+            }
+
+            return dt;
+
+        }
+
+
     }
 }

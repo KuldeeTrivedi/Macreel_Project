@@ -3,16 +3,13 @@
     ViewBag.Title = "emp_PerformanceList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <style>
     table tr:hover {
         background-color: #c5c7cb;
     }
-
     .progress-group {
         margin-bottom: 0.3rem;
     }
-
         .progress-group .progress-sm {
             height: 6px;
             border-radius: 10px;
@@ -65,13 +62,13 @@
                 <thead>
                 <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                     <th>
-                        EMPLOYEE NAME
+                        Employee Name
                     </th>
                     <th>
-                        DESIGNATION
+                        Designation
                     </th>
                     <th>
-                        IS ACTIVE
+                        Is Active
                     </th>
                     <th>
                         Performance
@@ -81,13 +78,99 @@
                     </th>
                 </tr>
                     </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="d-flex">
+                                <div style="width:50px;">
+                                    <img src="@item.ImagePath" style="width:100%; border-radius:25px;" />
+                                </div>
+                                <div style="padding-left: 1rem !important;">
+                                    @Html.DisplayFor(modelItem => item.EmployeeName)
+                                </div>
+
+                            </td>
+                            @*<td>
+                    @Html.DisplayFor(modelItem => item.employee_name)
+                </td>*@
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Designation)
+                            </td>
+                            <td>
+                                @{ var isactive = @Html.Raw(item.IdMarks).ToString(); }
+
+                                @if (isactive == "1")
+                                {
+                                    <span class="badge badge-success">Active</span>
+                                }
+                                else if (isactive == "0")
+                                {
+                                    <span class="badge badge-danger">Deactive</span>
+                                }
+                            </td>
+                            <td>
+                                <div class="row">
+                                    <div class="progress-group col-md-5">
+                                        Tasks
+                                        <span class="float-right"><b>@item.EmployeeTaskPerformance</b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: @item.EmployeeTaskPerformance%"></div>
+                                        </div>
+                                    </div>
+                                    @*<div class="progress-group col-md-5">
+                                        Leaves
+                                        <span class="float-right"><b>@item.EmployeeleavePerformance</b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: @item.EmployeeleavePerformance%"></div>
+                                        </div>
+                                    </div>*@
+                                </div>
+                                <div class="row">
+                                    @*<div class="progress-group col-md-5">
+                                        Punctuality
+                                        <span class="float-right"><b>@item.EmployeePunctualityPerformance</b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: @item.EmployeePunctualityPerformance%"></div>
+                                        </div>
+                                    </div>*@
+                                    <div class="progress-group col-md-5">
+                                        Attendance
+                                        @*<span class="float-right"><b>@item.EmployeeAttendanceperformance</b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: @item.EmployeeAttendanceperformance%"></div>
+                                        </div>*@
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    @*<div class="progress-group col-md-10">
+                                        Total
+                                        <span class="float-right"><b>@item.total_performance</b>/100</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-primary" style="width: @item.total_performance%"></div>
+                                        </div>
+                                    </div>*@
+
+                                </div>
+                            </td>
+                            <td>
+                                @*@if (item.flag == "1")
+                                {
+                                    <a href="/admin/Employee_ViewPerformanceByID?id=@(item.id)&date=@(item.date)"><i class="fas fa-eye" style="color:black;"></i></a>
+                                }
+                                else
+                                {
+                                    <a href="/admin/Employee_PerformanceByID?id=@(item.id)&date=@(item.date)" class="btn badge-success">Update</a>
+                                }*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
                 </table>
         </section>
     </div>
 </section>
-
-
-
 
 @*<script>
         // Get the current month (0-indexed, where January is 0)
