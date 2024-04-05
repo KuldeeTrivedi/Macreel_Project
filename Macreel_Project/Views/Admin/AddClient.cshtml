@@ -13,10 +13,10 @@
         background-color: #1d3c60;
         color: white;
     }
-
     .sn-error {
         border-color: red;
     }
+
     .btn-primary {
         background-color: rgba(44,169,145,1) !important;
         border-color: rgba(44,169,145,1) !important;
@@ -24,15 +24,18 @@
         box-shadow: none !important;
     }
 </style>
+
+@*<script src="~/Scripts/jquery.validate.min.js"></script>*@
+
 <!--<div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
                 <h1 class="m-0">Create Client</h1>
-            </div>--><!-- /.col -->
-
-        <!--</div>--><!-- /.row -->
-    <!--</div>--><!-- /.container-fluid -->
+            </div>-->
+<!-- /.col -->
+<!--</div>--><!-- /.row -->
+<!--</div>--><!-- /.container-fluid -->
 <!--</div>-->
 <div class="panel-header panel-header-sm">
 </div>
@@ -42,8 +45,8 @@
             <form id="TypeValidation" class="form-horizontal">
                 <div class="card ">
                     @*<div class="card-header ">
-                        <h4 class="card-title">Add Client</h4>
-                    </div>*@
+                            <h4 class="card-title">Add Client</h4>
+                        </div>*@
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-md-2">
@@ -121,57 +124,57 @@
 
 
                         <div class="row">
-                    <div class="col-md-2">
-            <label for="inputUsername">State</label>
-        </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <select id="State" class="form-control sn-required">
-                                <option>--Select State--</option>
-                                @if (ViewBag.STATE != null)
-                                {
-                                    foreach (var item in ViewBag.STATE as List<SelectListItem>)
-                                    {
-                                        if (Model.State == item.Value)
+                            <div class="col-md-2">
+                                <label for="inputUsername">State</label>
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="State" class="form-control sn-required">
+                                        <option>--Select State--</option>
+                                        @if (ViewBag.STATE != null)
                                         {
-                                            <option selected value="@item.Value">@item.Text</option>
-                                        }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
+                                            foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                            {
+                                                if (Model.State == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
 
-                                    }
-                                }
-                            </select>
+                                            }
+                                        }
+                                    </select>
 
-                        </div>
-                    </div>
-                    <div class="col-md-2">
+                                </div>
+                            </div>
+                            <div class="col-md-2">
                                 <label for="inputPassword">City</label>
                             </div>
-                    <div class="col-sm-4">
-                        <div class="form-group">
-                            <select id="City" class="form-control sn-required">
-                                <option>--Select City--</option>
-                                @if (ViewBag.City != null)
-                                {
-                                    foreach (var item in ViewBag.City as List<SelectListItem>)
-                                    {
-                                        if (Model.City == item.Value)
+                            <div class="col-sm-4">
+                                <div class="form-group">
+                                    <select id="City" class="form-control sn-required">
+                                        <option>--Select City--</option>
+                                        @if (ViewBag.City != null)
                                         {
-                                            <option selected value="@item.Value">@item.Text</option>
+                                            foreach (var item in ViewBag.City as List<SelectListItem>)
+                                            {
+                                                if (Model.City == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+                                            }
                                         }
-                                        else
-                                        {
-                                            <option value="@item.Value">@item.Text</option>
-                                        }
-                                    }
-                                }
-                            </select>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
                         <div class="row">
                             <div class="col-md-2">
                                 <label for="inputUsername">Address</label>
@@ -240,7 +243,21 @@
         <span style="color:red;"><i style="font-size:14pt; font-weight:bold; opacity:1!important; margin-top:4px;" class="fa fa-spin fa-spinner"></i> Processing...</span>
     </div>
 </div>
+<!-- jQuery -->
+@*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>*@
+<!-- Select2 JS -->
+@*<script src="path/to/select2.min.js"></script>*@
+
 <script src="~/scripts/jquery-3.4.1.min.js"></script>
+@*<script>
+    jQuery(document).ready(function () {
+        jQuery('#State').select2({
+            placeholder: "--Select State--",
+            allowClear: true
+        });
+    });
+
+</script>*@
 <script>
     $('#State').change(function () {
         $.ajax({
@@ -328,7 +345,7 @@
                         icon: "success",
                         timer: 6000,
                     });
-                   window.location.href = "/Admin/ClientList";
+                    window.location.href = "/Admin/ClientList";
                 }
                 else {
                     swal.fire({
@@ -342,22 +359,20 @@
             }
         });
     });
-    function reset()
-    {
-       $("#CompanyName").val(''),
-       $("#ContactPerson").val(''),
-       $("#ContactNo").val(''),
-       $("#GSTNo").val(''),
-       $("#State").val(''),
-       $("#City").val(''),
-       $("#Address").val(''),
-       $("#Statecode").val(''),
-       $("#Pincode").val(''),
-       $("#PanNo").val(''),
-       $("#EmailId").val(''),
-       $("#Designation").val('')
+    function reset() {
+        $("#CompanyName").val(''),
+            $("#ContactPerson").val(''),
+            $("#ContactNo").val(''),
+            $("#GSTNo").val(''),
+            $("#State").val(''),
+            $("#City").val(''),
+            $("#Address").val(''),
+            $("#Statecode").val(''),
+            $("#Pincode").val(''),
+            $("#PanNo").val(''),
+            $("#EmailId").val(''),
+            $("#Designation").val('')
     }
 </script>
-
 
 

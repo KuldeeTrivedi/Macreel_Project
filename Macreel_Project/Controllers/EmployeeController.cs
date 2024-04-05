@@ -9,8 +9,6 @@ using static Macreel_Project.Models.Bussiness;
 using System.IO;
 using System.Configuration;
 using System.Data.SqlClient;
-
-
 namespace Macreel_Infosoft.Controllers
 {
     //[Filters]
@@ -49,6 +47,13 @@ namespace Macreel_Infosoft.Controllers
             }
 
             return View(obj);
+        }
+        public ActionResult EmployeeList()
+        {
+            List<Employee> getlist = new List<Employee>();
+            getlist = db.GetEmployyeListByRe();
+            ViewBag.Emp = getlist;
+            return View();
         }
         [HttpPost]
         public JsonResult City(string StateId)

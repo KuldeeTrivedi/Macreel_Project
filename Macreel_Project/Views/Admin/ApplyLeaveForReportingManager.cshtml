@@ -67,7 +67,10 @@
                                                 From Date
                                             </th>
                                             <th style="padding:5px;">
-                                                To Date
+                                               To Date
+                                            </th>
+                                            <th style="padding:5px;">
+                                                Total Days
                                             </th>
                                             <th style="padding:5px;">
                                                 Applied Date
@@ -99,11 +102,14 @@
                                                     <td>@item.LeaveType</td>
                                                     <td>@item.FromDate</td>
                                                     <td>@item.ToDate</td>
+                                                    <td>@item.LeaveCount</td>
                                                     <td>@item.AppliedDate</td>
                                                     <td>@item.Description</td>
                                                     <td>@item.AdminDescription</td>
                                                     <td>@item.Status</td>
                                                     <td @*class="text-right"*@>
+                                                        <a href="/Admin/ViewEmpLeaveFor?Id=@item.EmployeeId"><i class="fas fa-eye"></i></a>
+
                                                         <a userId="@item.Id" class="sn-edit"><i class="fa  fa-pencil" style=" color: darkgreen !important;"></i></a>
                                                         @*<a href="/Admin/AddClient?Id=@item.Id" class="btn btn-round btn-warning btn-icon btn-sm edit"><i class="far fa-edit"></i></a>*@
                                                         <a userId="@item.Id" class="sn-delete"><i class="fas fa-trash" style="color:red;"></i></a>

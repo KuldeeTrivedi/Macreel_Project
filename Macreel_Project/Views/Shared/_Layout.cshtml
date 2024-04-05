@@ -665,14 +665,21 @@
                                             </p>
                                         </a>
                                     </li>
-
+                                    <li class="nav-item">
+                                        <a href="/Employee/EmployeeAssignProject" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-user-shield" style="color:lightblue"></i>
+                                            <p>
+                                                Assigned Project
+                                            </p>
+                                        </a>
+                                    </li>
                                     <!--Employee Interface-->
                                     <!--Start Task Management-->
                                     <li class="nav-item">
                                         <a href="#" class="nav-link">
-                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <i class="nav-icon fa-solid fa-user-plus" style="color:green"></i>
                                             <p>
-                                                Task Management
+                                                My Own Task
                                                 <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
@@ -680,19 +687,60 @@
                                             <li class="nav-item">
                                                 <a href="/admin/TaskAssigned_list" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
-                                                    <p>Show Assign Task</p>
+                                                    <p>Assigned Task</p>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a href="/Employee/Comptask_view" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
-                                                    <p>Complete Task</p>
+                                                    <p>Completed Task</p>
                                                 </a>
                                             </li>
+                                            @*<li class="nav-item">
+                    <a href="/admin/Create_TaskByReportingManager" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Create & Assign Task</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/task_viewByReportingManager" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>List Of Task</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/admin/approved_taskByReporting" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Approval Task</p>
+                    </a>
+                </li>*@
+
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fa-solid fa-user-plus" style="color:orange"></i>                                            <p>
+                                                Reporting Task
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            @*<li class="nav-item">
+                    <a href="/admin/TaskAssigned_list" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Show Assign Task</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/Employee/Comptask_view" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Complete Task</p>
+                    </a>
+                </li>*@
                                             <li class="nav-item">
                                                 <a href="/admin/Create_TaskByReportingManager" class="nav-link">
                                                     <i class="far fa-circle nav-icon"></i>
-                                                    <p>Create & Assign Task</p>
+                                                    <p>Create Task</p>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -712,9 +760,9 @@
                                     </li>
                                     <li class="nav-item">
                                         <a href="" class="nav-link">
-                                            <i class="nav-icon fa-solid fa-list-check" style="color:green"></i>
+                                            <i class="nav-icon fa-solid fa-user-plus" style="color: orange"></i>
                                             <p>
-                                                Task Report
+                                                Reporting Task Report
                                                 <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
@@ -746,9 +794,9 @@
                                     <!--Start For Employee Interface-->
                                     <li class="nav-item">
                                         <a href="" class="nav-link">
-                                            <i class="nav-icon fa-solid fa-person-through-window" style="color:#f44336;"></i>
+                                            <i class="nav-icon fas fa-lock" style="color:#f44336;"></i>
                                             <p>
-                                                Leave Management
+                                                My Own Leave
                                                 <i class="fas fa-angle-left right"></i>
                                             </p>
                                         </a>
@@ -787,21 +835,14 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item">
-                                        <a href="/Employee/EmployeeAssignProject" class="nav-link">
-                                            <i class="nav-icon fa-solid fa-user-shield" style="color:lightblue"></i>
-                                            <p>
-                                                Assigned Project
-                                            </p>
-                                        </a>
-                                    </li>
+
 
 
                                     <li class="nav-item">
                                         <a href="/admin/ApplyLeaveForReportingManager" class="nav-link">
                                             <i class="nav-icon fas fa-lock" style="color:lightcoral"></i>
                                             <p>
-                                                Applied Leave Request
+                                                Leave Approval
                                             </p>
                                         </a>
                                     </li>

@@ -125,7 +125,7 @@
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group sn-required">
-                                    <input class="form-control datepicker" id="AssignDate" value="@System.DateTime.Now.ToString("dd/MM/yyyy")" type="text" name="required" required="true" />
+                                    <input class="form-control" id="AssignDate" value="@DateTime.Now.ToString("yyyy-MM-dd")" type="date" name="required" required="true" min="@DateTime.Today.ToString("yyyy-MM-dd")" />
                                 </div>
                             </div>
                         </div>
@@ -138,28 +138,28 @@
                                     <div class="table-bg">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                <thead style="background-color: #3f838d;color:white">
+                                                <thead style="background-color: rgba(22,160,133,0.9); color: white">
                                                     <tr>
                                                         <th>
-                                                            PROJECT NAME
+                                                            Project Name
                                                         </th>
                                                         <th>
-                                                            CLIENT NAME
+                                                            Client Name
                                                         </th>
                                                         <th>
-                                                            STARTING DATE
+                                                            Starting Date
                                                         </th>
                                                         <th>
-                                                            COMPLETION DATE
+                                                            Completion Date
                                                         </th>
                                                         <th>
-                                                            DELIVERY DATE
+                                                            Delivery Date
                                                         </th>
                                                         <th>
-                                                            AMOUNT
+                                                            Amount
                                                         </th>
                                                         <th>
-                                                            STATUS
+                                                            Status
                                                         </th>
                                                     </tr>
                                                 </thead>

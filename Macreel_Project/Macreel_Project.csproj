@@ -220,6 +220,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="assets\choosenfile\chosen.css" />
+    <Content Include="assets\choosenfile\chosen.jquery.js" />
+    <Content Include="assets\choosenfile\chosen.jquery.min.js" />
+    <Content Include="assets\choosenfile\chosen.min.css" />
+    <Content Include="assets\choosenfile\chosen.proto.js" />
+    <Content Include="assets\choosenfile\chosen.proto.min.js" />
     <Content Include="assets\css\adminlte.css" />
     <Content Include="assets\css\adminlte.min.css" />
     <Content Include="assets\css\alt\adminlte.components.css" />
@@ -700,6 +706,8 @@
     <Content Include="Views\Admin\Task_reportsForReportingManager.cshtml" />
     <Content Include="Views\Employee\TotalLeave_view.cshtml" />
     <Content Include="Views\Admin\updateTaskViewByIdForReportingManager.cshtml" />
+    <Content Include="Views\Employee\EmployeeList.cshtml" />
+    <Content Include="Views\Admin\ViewEmpLeaveFor.cshtml" />
     <None Include="Views\Shared\.editorconfig" />
     <Content Include="Website\fonts\fontawesome-webfont.eot" />
     <Content Include="Website\fonts\fontawesome-webfont.ttf" />

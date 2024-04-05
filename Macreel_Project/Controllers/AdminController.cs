@@ -790,6 +790,13 @@ namespace Macreel_Infosoft.Controllers
             ViewBag.Leave = obj;
             return View();
         }
+        public ActionResult ViewEmpLeaveFor(int Id = 0)
+        {
+            List<ApplyLeave> obj = new List<ApplyLeave>();
+            obj = db.GetUserDashboardLeaveForReportingManager(Id);
+            ViewBag.Leave = obj;
+            return View();
+        }
         public ActionResult AssignProject()
         {
             AssignProject obj = new Bussiness.AssignProject();
@@ -3229,6 +3236,33 @@ namespace Macreel_Infosoft.Controllers
             if (i > 0)
             {
                 return View("Task Updated");
+            }
+            else
+            {
+                return View("Task Not Updated");
+            }
+
+        }
+        [HttpPost]
+        public ActionResult Add_Comment(Macreel_Project.Models.Bussiness.TaskManage task)
+        {
+            Macreel_Project.Models.Bussiness.TaskManage res = new Macreel_Project.Models.Bussiness.TaskManage();
+
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            //cmd.Parameters.AddWithValue("@leave_status", status);
+            cmd.Parameters.AddWithValue("@id", task.id);
+            cmd.Parameters.AddWithValue("@commentByOther", task.commentByOther);
+            cmd.Parameters.AddWithValue("@Action", "AddComment");
+
+            if (connection.State == ConnectionState.Closed)
+                connection.Open();
+
+            int i = cmd.ExecuteNonQuery();
+            connection.Close();
+            if (i > 0)
+            {
+                return View("Add Successfully");
             }
             else
             {

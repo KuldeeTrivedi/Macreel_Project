@@ -120,22 +120,142 @@
 
 
                 @*<tr>
-                        <th>Remark</th>
-                        <td><textarea id="remark"></textarea></td>
-                    </tr>
+                <th>Remark</th>
+                <td><textarea id="remark"></textarea></td>
+            </tr>
 
 
-                    <tr>
-                        <th><button>Approve</button> </th>
-                        <td>@Model.reason</td>
-                    </tr>*@
+            <tr>
+                <th><button>Approve</button> </th>
+                <td>@Model.reason</td>
+            </tr>*@
             </table>
-
+            <form>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Comment Regarding this task(If Any)</label>
+                        <input type="text" class="form-control" id="commentTask" name="commentTask" placeholder="Enter any Comments">
+                    </div>
+                </div>
+                <div class="form_button_box">
+                    <button type="submit" id="approve_btn" class="btn btn-primary">Submit</button>
+                </div>
+                <input type="hidden" name="id" id="id"/>
+            </form>
         </section>
+        
     </div>
-
-
 </section>
+<script src="~/assets/js/jquery-ui.js"></script>
+<script>
+
+
+    $("#approve_btn").click(function () {
+
+        //var id = $('#id').val();
+
+        //var check = "In-Complete";
+
+        //if ($('#checked').prop('checked')) {
+        //    check = "Complete";
+        //}
+
+
+        Swal.fire({
+            title: 'Please wait!',
+            html: 'Data Added Successfully',
+            timer: 700,
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            allowEnterKey: false,
+            didOpen: () => {
+                Swal.showLoading()
+            },
+            willClose: () => {
+                clearInterval(timerInterval)
+            }
+        });
+
+        var formdata = new FormData();
+
+        formdata.append("id", $('#id').val());
+        formdata.append("commentByOther", $('#commentTask').val());
+    
+        $.ajax({
+            type: "POST",
+            url: "/admin/Add_Comment",
+            data: formdata,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function (data, textStatus, xhr) {
+                console.log(data);
+                if (data.success == true) {
+                    Swal.fire({
+                        icon: 'success',
+                        html: '<p style="font-size: 17px;">Add Successfully</p>',
+                        returnFocus: true,
+                    }).then((data) => {
+                        if (data.isConfirmed) {
+                            window.location.href = data.redirectUrl; // Use the redirect URL from the server response
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        html: '<p style="font-size: 17px;">' + data.message + '</p>',
+                    });
+                }
+            },
+            //error: function (xhr, textStatus, errorThrown) {
+            //    Swal.fire({
+            //        icon: 'error',
+            //        html: '<p style="font-size: 17px;">An Error Occured try again later or contact website administration.</p>',
+            //        returnFocus: true,
+            //        returnFocus: false,
+            //    }).then((result) => {
+            //        if (result.isConfirmed) {
+
+            //            return false;
+            //        }
+            //    })
+
+            //},
+            complete: function () {
+            }
+        });
+
+        return false;
+
+    });
+</script>
+
+<script type="text/javascript">
+
+    @if(TempData["Message"] != null) {<text >
+            $(window).load(function()
+                {
+                $(document).ready(function()
+                {
+                    var tt = @TempData["para"];
+                    if (tt == true) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: "Success",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                      else{
+                        Swal.fire({
+                            icon: 'error',
+                            title: "Success",
+                            text: "@TempData["Message"]",
+                        });
+                    }
+                });
+            }); </text>
+    }
+</script>
 
 @*<section class="content">
         <div class="container-fluid">

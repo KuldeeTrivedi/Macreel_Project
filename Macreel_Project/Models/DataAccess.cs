@@ -769,6 +769,46 @@ namespace Macreel_Project.Models
             }
             return getlist;
         }
+        public List<Employee> GetEmployyeListByRe()
+        {
+            var userid = ((Login)HttpContext.Current.Session["Login"]).EmpId;
+            List<Employee> getlist = new List<Employee>();
+            Employee obj = new Employee();
+            try
+            {
+                cmd = new SqlCommand("sp_TaskManage", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "show_empList");
+                cmd.Parameters.AddWithValue("@id", userid);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        obj = new Employee();
+                        obj.Id = Convert.ToInt32(rd["Id"]);
+                        obj.EmployeeCode = rd["EmployeeCode"].ToString();
+                        obj.EmployeeName = rd["EmployeeName"].ToString();
+                        obj.Designation = rd["Designation"].ToString();
+                        obj.EmailId = rd["EmailId"].ToString();
+                        obj.ContactNo = rd["Mobile"].ToString();
+                        obj.ImagePath = rd["Image"].ToString();
+                        getlist.Add(obj);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return getlist;
+        }
         public int DeleteEmployee(int Id = 0)
         {
             int row = 0;
@@ -2733,9 +2773,11 @@ namespace Macreel_Project.Models
                     {
                         obj = new ApplyLeave();
                         obj.Id = Convert.ToInt32(rd["Id"]);
+                        obj.EmployeeId = rd["EmployeeId"].ToString();
                         obj.EmployeeName = rd["EmployeeName"].ToString();
                         obj.ToDate = rd["ToDate"].ToString();
                         obj.FromDate = rd["FromDate"].ToString();
+                        obj.LeaveCount =Convert.ToInt32( rd["LeaveDuration"].ToString());
                         obj.AppliedDate = rd["AppliedDate"].ToString();
                         obj.LeaveType = rd["LeaveType"].ToString();
                         obj.Description = rd["Description"].ToString();
@@ -2888,9 +2930,11 @@ namespace Macreel_Project.Models
                     {
                         obj = new ApplyLeave();
                         obj.Id = Convert.ToInt32(rd["LeaveId"]);
+                        obj.EmployeeId = rd["EmployeeId"].ToString();
                         obj.EmployeeName = rd["EmployeeName"].ToString();
                         obj.ToDate = rd["ToDate"].ToString();
                         obj.FromDate = rd["FromDate"].ToString();
+                        obj.LeaveCount =Convert.ToInt32( rd["LeaveDuration"].ToString());
                         obj.AppliedDate = rd["AppliedDate"].ToString();
                         obj.LeaveType = rd["LeaveType"].ToString();
                         obj.Description = rd["Description"].ToString();
@@ -6153,9 +6197,60 @@ namespace Macreel_Project.Models
                         obj.EmployeeName = rd["EmployeeName"].ToString();
                         obj.LeaveType = rd["LeaveType"].ToString();
                         obj.NoOfLeave = Convert.ToInt32(rd["NoOfLeave"]);
-                        if (rd["LeaveCount"] != DBNull.Value)
+                        if (rd["EffectiveLeaveCount"] != DBNull.Value)
                         {
-                            obj.LeaveCount = Convert.ToInt32(rd["LeaveCount"]);
+                            obj.LeaveCount = Convert.ToInt32(rd["EffectiveLeaveCount"]);
+                        }
+                        obj.Remain = obj.NoOfLeave - obj.LeaveCount;
+                        if (rd["RejectLeaveCount"] != DBNull.Value)
+                        {
+                            obj.RejectLeaveCount = Convert.ToInt32(rd["RejectLeaveCount"]);
+                        }
+                        else
+                        {
+                            obj.RejectLeaveCount = 0;
+                        }
+                        getlist.Add(obj);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return getlist;
+        }
+        public List<ApplyLeave> GetUserDashboardLeaveForReportingManager(int Id = 0)
+        {
+            List<ApplyLeave> getlist = new List<ApplyLeave>();
+            ApplyLeave obj = new ApplyLeave();
+
+            try
+            {
+                cmd = new SqlCommand("Sp_LeaveManagement", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Action", "UserDashboardLeaveAdmin");
+                cmd.Parameters.AddWithValue("@EmployeeId",Id);
+                con.Open();
+                SqlDataReader rd = cmd.ExecuteReader();
+                if (rd.HasRows)
+                {
+                    while (rd.Read())
+                    {
+                        obj = new ApplyLeave();
+                        obj.EmployeeName = rd["EmployeeName"].ToString();
+                        obj.FromDate = rd["FromDate"].ToString();
+                        obj.ToDate = rd["ToDate"].ToString();
+                        obj.LeaveType = rd["LeaveType"].ToString();
+                        obj.NoOfLeave = Convert.ToInt32(rd["NoOfLeave"]);
+                        if (rd["EffectiveLeaveCount"] != DBNull.Value)
+                        {
+                            obj.LeaveCount = Convert.ToInt32(rd["EffectiveLeaveCount"]);
                         }
                         obj.Remain = obj.NoOfLeave - obj.LeaveCount;
                         if (rd["RejectLeaveCount"] != DBNull.Value)

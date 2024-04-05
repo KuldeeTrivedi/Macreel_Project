@@ -33,6 +33,7 @@ namespace Macreel_Project.Models
             public string select_grp { get; set; }
             public string assigned_by { get; set; }
             public string commentTask { get; set; }
+            public string commentByOther { get; set; }
             public HttpPostedFileBase fileupload1 { get; set; }
             public HttpPostedFileBase fileupload2 { get; set; }
             public HttpPostedFileBase fileupload3 { get; set; }

@@ -81,6 +81,10 @@ namespace Macreel_Project.Services
                     {
                         pr = new TaskManage();
                         pr.s_no = sdr["serial_no"].ToString();
+                        if (pr.s_no == "")
+                        {
+                            pr.s_no = "1";
+                        }
                         task.Add(pr);
                     }
                 }
@@ -285,8 +289,7 @@ namespace Macreel_Project.Services
                 {
                     return BadRequest("Title, description, and assigned employee are required.");
                 }
-
-                var task = new TaskManage()
+               var task = new TaskManage()
                 {
                     s_no = httpRequest.Form.Get("s_no"),
                     title = httpRequest.Form.Get("title"),
@@ -1201,6 +1204,32 @@ namespace Macreel_Project.Services
                 }
                 return Ok(gtlst);
             }
+            [HttpPost]
+            public IHttpActionResult Delete(string id)
+            {
+                int row = 0;
+                try
+                {
+                    cmd = new SqlCommand("Sp_LeaveManagement", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Action", "deleteLeaveByemp");
+                    con.Open();
+                    cmd.Parameters.AddWithValue("@Id", id);
+                    row = cmd.ExecuteNonQuery();
+                }
+                catch (Exception ex)
+                {
+
+                    throw ex;
+                }
+                finally
+                {
+                    con.Close();
+                    cmd.Dispose();
+                }
+                return Ok("Deleted Successfully");
+            }
+           
         }
         public class ApprovedLeaveListController : ApiController
         {

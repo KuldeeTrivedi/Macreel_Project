@@ -3,6 +3,17 @@
     ViewBag.Title = "UserDashboard";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<style>
+    .info-box .info-box-icon1 {
+        height: 50px !important;
+        width: 70px !important;
+        border-radius: .25rem !important;
+        align-items: center !important;
+        font-size: 1.87rem !important;
+        justify-content: center !important;
+        text-align:center !important;
+    }
+</style>
 <!-- Content Header (Page header) -->
 <div class="row mb-2">
     <div class="col-sm-12">
@@ -18,7 +29,65 @@
         <div class="row">
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
+                    <span class="info-box-icon bg-info elevation-1"><i class="fa-solid fa-user"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalAssignEmp != null)
+                        {
+                            @ViewBag.TotalAssignEmp;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Employee/EmployeeList"><span class="info-box-text">Total AssignEmployee</span></a>
+                        <span class="info-box-number"></span>
+                        @*@if (ViewBag.TotalPengin != null)
+            {
+                @ViewBag.TotalPengin;
+            }
+            else
+            {
+                <div>0</div>
+            }
+            <a href="/admin/TaskAssigned_list"><span class="info-box-text">Pending Task</span></a>
+            <span class="info-box-number"></span>*@
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <!-- fix for small devices only -->
+            <div class="clearfix hidden-md-up"></div>
+
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fa-solid fa-user-shield"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalAssignProject != null)
+                        {
+                            @ViewBag.TotalAssignProject;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Employee/EmployeeAssignProject"><span class="info-box-text">Total Assign Project</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                   
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
                     <span class="info-box-icon bg-danger elevation-1"><i class="fas fa-thumbs-up"></i></span>
+
 
                     <div class="info-box-content">
                         @if (ViewBag.TotalPengin != null)
@@ -32,14 +101,11 @@
                         <a href="/admin/TaskAssigned_list"><span class="info-box-text">Pending Task</span></a>
                         <span class="info-box-number"></span>
                     </div>
+                    
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
             </div>
-            <!-- /.col -->
-            <!-- fix for small devices only -->
-            <div class="clearfix hidden-md-up"></div>
-
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
@@ -56,47 +122,7 @@
                         <a href="/Employee/Comptask_view"><span class="info-box-text">Complete Task</span></a>
                         <span class="info-box-number"></span>
                     </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <!-- /.col -->
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-success elevation-1"><i class="fa-solid fa-person-through-window"></i></span>
-
-                    <div class="info-box-content">
-                        @if (ViewBag.TotalLeave != null)
-                        {
-                            @ViewBag.TotalLeave;
-                        }
-                        else
-                        {
-                            <div>0</div>
-                        }
-                        <a href="/Employee/TotalLeave_view"><span class="info-box-text">Total Leave</span></a>
-                        <span class="info-box-number"></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
-
-                    <div class="info-box-content">
-                        @if (ViewBag.TotalPendingLeave != null)
-                        {
-                            @ViewBag.TotalPendingLeave;
-                        }
-                        else
-                        {
-                            <div>0</div>
-                        }
-                        <a href="/Admin/PendingLeaveList"><span class="info-box-text">Pending Leave</span></a>
-                        <span class="info-box-number"></span>
-                    </div>
+                   
                     <!-- /.info-box-content -->
                 </div>
                 <!-- /.info-box -->
@@ -120,6 +146,48 @@
             <!-- fix for small devices only -->
             <div class="clearfix hidden-md-up"></div>
 
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fa-solid fa-person-through-window"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalLeave != null)
+                        {
+                            @ViewBag.TotalLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Employee/TotalLeave_view"><span class="info-box-text">Total Leave</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                   
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <div class="col-12 col-sm-6 col-md-3">
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fas fa-thumbtack"></i></span>
+
+                    <div class="info-box-content">
+                        @if (ViewBag.TotalPendingLeave != null)
+                        {
+                            @ViewBag.TotalPendingLeave;
+                        }
+                        else
+                        {
+                            <div>0</div>
+                        }
+                        <a href="/Admin/PendingLeaveList"><span class="info-box-text">Pending Leave</span></a>
+                        <span class="info-box-number"></span>
+                    </div>
+                    
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
             <div class="col-12 col-sm-6 col-md-3">
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-success elevation-1"><i class="fas fa-thumbs-up"></i></span>
@@ -154,46 +222,6 @@
                             <div>0</div>
                         }
                         <a href="/Admin/RejectLeaveList"><span class="info-box-text">Rejected Leave</span></a>
-                        <span class="info-box-number"></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-info elevation-1"><i class="fa-solid fa-user"></i></span>
-
-                    <div class="info-box-content">
-                        @if (ViewBag.TotalAssignEmp != null)
-                        {
-                            @ViewBag.TotalAssignEmp;
-                        }
-                        else
-                        {
-                            <div>0</div>
-                        }
-                        <a href="#"><span class="info-box-text">Total AssignEmployee</span></a>
-                        <span class="info-box-number"></span>
-                    </div>
-                    <!-- /.info-box-content -->
-                </div>
-                <!-- /.info-box -->
-            </div>
-            <div class="col-12 col-sm-6 col-md-3">
-                <div class="info-box mb-3">
-                    <span class="info-box-icon bg-warning elevation-1"><i class="fa-solid fa-user-shield"></i></span>
-
-                    <div class="info-box-content">
-                        @if (ViewBag.TotalAssignProject != null)
-                        {
-                            @ViewBag.TotalAssignProject;
-                        }
-                        else
-                        {
-                            <div>0</div>
-                        }
-                        <a href="/Employee/EmployeeAssignProject"><span class="info-box-text">Total Assign Project</span></a>
                         <span class="info-box-number"></span>
                     </div>
                     <!-- /.info-box-content -->
