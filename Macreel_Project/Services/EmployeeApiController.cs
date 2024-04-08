@@ -1352,15 +1352,42 @@ namespace Macreel_Project.Services
                         while (rd.Read())
                         {
                             obj = new Project();
-                            obj.Id = Convert.ToInt32(rd["Id"]);
-                            obj.ProjectName = rd["ProjectName"].ToString();
-                            obj.CompanyName = rd["CompanyName"].ToString();
-                            obj.ProjectStartingDate = rd["ProjectStartingDate"].ToString();
-                            obj.CompletionDate = rd["CompletionDate"].ToString();
-                            obj.ProjectDeliveryDate = rd["ProjectDeliveryDate"].ToString();
-                            obj.TotalAmount = Convert.ToDecimal(rd["TotalAmount"]);
-                            obj.ProjectCode = rd["ProjectCode"].ToString();
-                            obj.ProjectStatus = rd["ProjectStatus"].ToString();
+                            if(rd["Id"]!=DBNull.Value)
+                            {
+                                obj.Id = Convert.ToInt32(rd["Id"]);
+                            }
+                            if(rd["ProjectName"]!= DBNull.Value)
+                            {
+                                obj.ProjectName = rd["ProjectName"].ToString();
+                            }
+                            if (rd["CompanyName"] != DBNull.Value)
+                            {
+                                obj.CompanyName = rd["CompanyName"].ToString();
+                            }
+                            if (rd["ProjectStartingDate"] != DBNull.Value)
+                            {
+                                obj.ProjectStartingDate = rd["ProjectStartingDate"].ToString();
+                            }
+                            if (rd["CompletionDate"] != DBNull.Value)
+                            {
+                                obj.CompletionDate = rd["CompletionDate"].ToString();
+                            }
+                            if (rd["ProjectDeliveryDate"] != DBNull.Value)
+                            {
+                                obj.ProjectDeliveryDate = rd["ProjectDeliveryDate"].ToString();
+                            }
+                            if (rd["TotalAmount"] != DBNull.Value)
+                            {
+                                obj.TotalAmount = Convert.ToDecimal(rd["TotalAmount"]);
+                            }
+                            if (rd["ProjectCode"] != DBNull.Value)
+                            {
+                                obj.ProjectCode = rd["ProjectCode"].ToString();
+                            }
+                            if (rd["ProjectStatus"] != DBNull.Value)
+                            {
+                                obj.ProjectStatus = rd["ProjectStatus"].ToString();
+                            }
                             gtlst.Add(obj);
                         }
                     }

@@ -1,0 +1,156 @@
+﻿
+@{
+    ViewBag.Title = "selectTaskViewByIdEmp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<div class="row mb-2">
+    <div class="col-sm-12">
+        <h4 class="m-0" style="text-align: center; background: rgba(22,160,133,0.9);color:white;font-weight:bold">Task</h4>
+    </div><!-- /.col -->
+    <!-- /.col -->
+</div>
+
+<section class="content">
+    <div class="container-fluid">
+
+        <section class="content">
+            <table class="table">
+                <tr style="width:100%">
+                    <th style="width:25%">Assigned Employee</th>
+                    <td style="white-space:nowrap">@Model.assigned_emp</td>
+                    <th>Task Title</th>
+                    <td style="white-space:nowrap">@Model.title</td>
+
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="width:25%">Assigned Date</th>
+                    <td style="white-space:nowrap">@Model.current_date</td>
+                    <th>Completion Date</th>
+                    <td style="white-space:nowrap">@Model.complete_date</td>
+
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="width:25%">Task Status</th>
+                    <td style="white-space:nowrap">
+                        @{ var status = @Html.Raw(Model.task_status).ToString(); }
+
+                        @if (status == "Closed")
+                        {
+                            <span class="badge badge-success">@Html.Raw(Model.task_status)</span>
+                        }
+                        else if (status == "Pending")
+                        {
+                            <span class="badge badge-warning">@Html.Raw(Model.task_status)</span>
+                        }
+                        else if (status == "Not Responding")
+                        {
+                            <span class="badge badge-danger">@Html.Raw(Model.task_status)</span>
+                        }
+                    </td>
+
+                    <th>Employee Status</th>
+                    <td style="white-space:nowrap">
+                        @{ var emp_status = @Html.Raw(Model.emp_status).ToString(); }
+
+                        @if (emp_status == "Complete")
+                        {
+                            <span class="badge badge-success">@Html.Raw(Model.emp_status)</span>
+                        }
+                        else if (emp_status == "Pending")
+                        {
+                            <span class="badge badge-warning">@Html.Raw(Model.emp_status)</span>
+                        }
+                        else if (emp_status == "Not Complete")
+                        {
+                            <span class="badge badge-danger">@Html.Raw(Model.emp_status)</span>
+                        }
+                    </td>
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="width:25%">Employee Updated Date</th>
+                    <td style="white-space:nowrap">@Model.updatedDateEmp</td>
+                    <th>CommentByOther</th>
+                    <td style="white-space:nowrap">
+                        @Model.commentByOther<br />
+                        <a href="/admin/ShowComment?id=@Model.id"><i class="fas fa-eye"></i></a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="width:25%">Description</th>
+                    <td style=" width: 400px; white-space:nowrap">@Model.description</td>
+                </tr>
+
+                <tr style="width:100%">
+                    <th style="white-space:nowrap">Comments By Employee</th>
+                    <td style=" width: 400px;">@Model.commentTask</td>
+                </tr>
+                @*<tr>
+                        <th>Comments By Other</th>
+                        <td style=" width: 400px;">@Model.commentByOther</td>
+                    </tr>*@
+
+                <tr>
+                    @if (Model.attachment1 != null && Model.attachment1 != "")
+                    {
+                        <th>Attachment 1</th>
+                        <td><img src="@Model.attachment1" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment2 != null && Model.attachment2 != "")
+                    {
+                        <th>Attachment 2</th>
+                        <td><img src="@Model.attachment2" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment3 != null && Model.attachment3 != "")
+                    {
+                        <th>Attachment 3</th>
+                        <td><img src="@Model.attachment3" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment4 != null && Model.attachment4 != "")
+                    {
+                        <th>Attachment 4</th>
+                        <td><img src="@Model.attachment4" style="width:250px;" /></td>
+                    }
+                    @if (Model.attachment5 != null && Model.attachment5 != "")
+                    {
+                        <th>Attachment 5</th>
+                        <td><img src="@Model.attachment5" style="width:250px;" /></td>
+                    }
+                </tr>
+
+
+
+                @*<tr>
+                        <th>Remark</th>
+                        <td><textarea id="remark"></textarea></td>
+                    </tr>
+
+
+                    <tr>
+                        <th><button>Approve</button> </th>
+                        <td>@Model.reason</td>
+                    </tr>*@
+            </table>
+            @*<form>
+                <div class="form-row">
+                    <div class="form-group col-md-12">
+                        <label>Comment Regarding this task(If Any)</label>
+                        <input type="text" class="form-control" id="commentTask" name="commentTask" placeholder="Enter any Comments">
+                    </div>
+                </div>
+                <div class="form_button_box">
+                    <button type="submit" id="approve_btn" class="btn btn-primary">Submit</button>
+                </div>
+                <input type="hidden" name="id" id="id" value="@Model.id" />
+            </form>*@
+        </section>
+
+    </div>
+</section>
+

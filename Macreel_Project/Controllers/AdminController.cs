@@ -2866,6 +2866,44 @@ namespace Macreel_Infosoft.Controllers
                     task.updatedDateEmp = sdr["updatedDateEmp"].ToString();
                     task.assigned_emp = sdr["assign_emp"].ToString();
                     task.commentTask = sdr["commentTask"].ToString();
+                    task.commentByOther = sdr["CommentBy"].ToString();
+                    //task.assigned_emp = sdr["assigned_emp"].ToString();
+
+                }
+            }
+            connection.Close();
+            return View(task);
+
+        }
+        public ActionResult selectTaskViewByIdEmp(string id)
+        {
+            Macreel_Project.Models.Bussiness.TaskManage task = new Macreel_Project.Models.Bussiness.TaskManage();
+            connection.Open();
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@action", "select_taskById");
+            cmd.Parameters.AddWithValue("@id", id);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    task.id = sdr["id"].ToString();
+                    task.title = sdr["title"].ToString();
+                    task.description = sdr["description"].ToString();
+                    task.current_date = sdr["curent_date"].ToString();
+                    task.complete_date = sdr["completion_date"].ToString();
+                    task.attachment1 = sdr["attachment1"].ToString();
+                    task.attachment2 = sdr["attachment2"].ToString();
+                    task.attachment3 = sdr["attachment3"].ToString();
+                    task.attachment4 = sdr["attachment4"].ToString();
+                    task.attachment5 = sdr["attachment5"].ToString();
+                    task.task_status = sdr["task_status"].ToString();
+                    task.emp_status = sdr["emp_status"].ToString();
+                    task.updatedDateEmp = sdr["updatedDateEmp"].ToString();
+                    task.assigned_emp = sdr["assign_emp"].ToString();
+                    task.commentTask = sdr["commentTask"].ToString();
+                    task.commentByOther = sdr["CommentBy"].ToString();
                     //task.assigned_emp = sdr["assigned_emp"].ToString();
 
                 }
@@ -2880,7 +2918,7 @@ namespace Macreel_Infosoft.Controllers
            
             List<Macreel_Project.Models.Bussiness.TaskManage> list = new List<Macreel_Project.Models.Bussiness.TaskManage>();
             connection.Open();
-            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            SqlCommand cmd = new SqlCommand("sp_TaskManage",connection);
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@Action", "select_TaskToEmp");
             cmd.Parameters.AddWithValue("@userid", userid);
@@ -2904,6 +2942,32 @@ namespace Macreel_Infosoft.Controllers
                     pro.attachment5 = sdr["attachment5"].ToString();
                     pro.task_status = sdr["task_status"].ToString();
 
+                    list.Add(pro);
+                }
+            }
+            connection.Close();
+            return View(list);
+
+        }
+        public ActionResult ShowComment(string id)
+        {
+            List<Macreel_Project.Models.Bussiness.TaskManage> list = new List<Macreel_Project.Models.Bussiness.TaskManage>();
+            connection.Open();
+            SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@Action", "showComment");
+            cmd.Parameters.AddWithValue("@task_id", id);
+            SqlDataReader sdr = cmd.ExecuteReader();
+            Macreel_Project.Models.Bussiness.TaskManage pro;
+
+            if (sdr.HasRows)
+            {
+                while (sdr.Read())
+                {
+                    pro = new Macreel_Project.Models.Bussiness.TaskManage();
+                    pro.id = sdr["id"].ToString();
+                    pro.commentByOther = sdr["commentByOther"].ToString();
+                    pro.current_date = sdr["curent_date"].ToString();
                     list.Add(pro);
                 }
             }
@@ -3251,7 +3315,8 @@ namespace Macreel_Infosoft.Controllers
             SqlCommand cmd = new SqlCommand("sp_TaskManage", connection);
             cmd.CommandType = CommandType.StoredProcedure;
             //cmd.Parameters.AddWithValue("@leave_status", status);
-            cmd.Parameters.AddWithValue("@id", task.id);
+            //cmd.Parameters.AddWithValue("@id", task.id);
+            cmd.Parameters.AddWithValue("@task_id", task.task_id);
             cmd.Parameters.AddWithValue("@commentByOther", task.commentByOther);
             cmd.Parameters.AddWithValue("@Action", "AddComment");
 

@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Macreel_Project.Models.Bussiness.TaskManage>
+@{
+    ViewBag.Title = "ShowComment";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="content" style="padding: 0 0.2rem;">
+    <div class="container">
+        @*<span style="margin-left: 190px;">
+            <a href="/Admin/TaskAssigned_list" style="color: #3498db; text-decoration: none; font-weight: bold; padding: 10px; background-color: #e7e7e7; border-radius: 5px;">Pending Task</a>
+        </span>
+
+        <span style="margin-left:10px;">
+            <a href="/Employee/Comptask_view" style="color: #3498db; text-decoration: none; font-weight: bold; padding: 10px; background-color: #e7e7e7; border-radius: 5px;">Complete Task</a>
+        </span>*@
+        <section class="content">
+            <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                <thead>
+                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
+                        <th style="padding: 5px;">
+                            <!-- Adjust height here -->
+                            Id
+                        </th>
+                        <th style="padding: 5px;">
+                            Date
+                        </th>
+                        <th style="padding: 5px;">
+                            Comment
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.id)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.current_date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.commentByOther)
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="inputDiv">
+                <a href="/Admin/UserDashboard">Back</a>
+            </div>
+            @*<button id="openPopupButton">Open Popup</button>
+
+                <div class="overlay" id="overlay">
+                    <div class="popup">
+                        <span class="close-button" id="closeButton">&times;</span>
+                        <h2></h2>
+
+                    </div>
+                </div>*@
+
+        </section>
+    </div>
+</section>
+

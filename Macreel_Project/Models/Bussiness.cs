@@ -11,6 +11,7 @@ namespace Macreel_Project.Models
         public class TaskManage
         {
             public string id { get; set; }
+            public string task_id { get; set; }
             public string s_no { get; set; }
             public string selectedValues { get; set; }
             public string title { get; set; }

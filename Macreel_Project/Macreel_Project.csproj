@@ -708,6 +708,8 @@
     <Content Include="Views\Admin\updateTaskViewByIdForReportingManager.cshtml" />
     <Content Include="Views\Employee\EmployeeList.cshtml" />
     <Content Include="Views\Admin\ViewEmpLeaveFor.cshtml" />
+    <Content Include="Views\Admin\selectTaskViewByIdEmp.cshtml" />
+    <Content Include="Views\Admin\ShowComment.cshtml" />
     <None Include="Views\Shared\.editorconfig" />
     <Content Include="Website\fonts\fontawesome-webfont.eot" />
     <Content Include="Website\fonts\fontawesome-webfont.ttf" />

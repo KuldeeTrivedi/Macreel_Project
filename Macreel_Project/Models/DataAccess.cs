@@ -3531,7 +3531,6 @@ namespace Macreel_Project.Models
                     pro.task_status = sdr["task_status"].ToString();
                     pro.emp_status = sdr["emp_status"].ToString();
                     pro.updatedDateEmp = sdr["updatedDateEmp"].ToString();
-
                     task_list.Add(pro);
                 }
             }
