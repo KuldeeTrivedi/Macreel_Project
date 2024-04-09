@@ -190,38 +190,24 @@
                         
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @if (Model.Type == "Other")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option selected value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else if (Model.Type == "Hardware")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option selected value="SerHar493914">Hardware  </option>
-                                            <option value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else if (Model.Type == "Software")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option selected value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option selected value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
+                                    <select id="Services" class="form-control" required>
+                                        <option value="">--Select Service--</option>
+                                        @if (ViewBag.service != null)
+                                        {
+                                            foreach (var item in ViewBag.service as List<SelectListItem>)
+                                            {
+                                                if (Model.ServicesId == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -234,17 +220,6 @@
                                     <div class="table-bg">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                @*<thead class="bg-info">
-            <tr class="head-title">
-                <th>Comapny Name</th>
-                <th>Contect Person</th>
-                <th>Mobile</th>
-                <th>Email-Id</th>
-                <th>StateName</th>
-                <th>CityName</th>
-                <th>GSTN</th>
-            </tr>
-        </thead>*@
                                                 <thead style="line-height: normal; height: 1px !important;">
                                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                                         <th style="padding:5px;">
@@ -282,7 +257,6 @@
                                                         <td><span id="CityName"></span></td>
                                                         <td><span id="Gst"></span></td>
                                                     </tr>
-
                                                 </tbody>
                                             </table>
 
@@ -291,29 +265,11 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display:none;" id="tblIndentFiles1">
+                        @*<div style="display:none;" id="tblIndentFiles1">
                             <h6 style="text-align:center;">
                                 Add Services
                             </h6>
                             <table id="tblIndentFiles" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%; ">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    Services
-                </th>
-                <th>
-                    Duration
-                </th>
-                <th>Date</th>
-                <th>
-                    Amount
-                </th>
-                <th>
-                    Description
-                </th>
-                <th></th>
-            </tr>
-        </thead>*@
                                 <thead style="line-height: normal; height: 1px !important;">
                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                         <th style="padding:5px;">
@@ -406,35 +362,13 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                        <div style="display:none;" id="tblIndentFilesS1">
+                        </div>*@
+                        @*<div style="display:none;" id="tblIndentFilesS1">
                             <h6 style="text-align:center;">
                                 Add Software
                             </h6>
                             <table id="tblIndentFilesS" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    SoftWare Name
-                </th>
-                <th>
-                    Amount
-                </th>
-                <th>
-                    Unit
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Total
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>*@
-
-
+                               
                                 <thead style="line-height: normal; height: 1px !important;">
                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                         <th style="padding:5px;">
@@ -494,31 +428,12 @@
                                     </tr>
                                 </tfoot>
                             </table>
-                        </div>
-                        <div style="display:none;" id="tblIndentFilesH1">
+                        </div>*@
+                        <div id="tblIndentFilesH1">
                             <h6 style="text-align:center;">
                                 Add Hardware
                             </h6>
                             <table id="tblIndentFilesH" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    Product Name
-                </th>
-                <th>
-                    Unit Price
-                </th>
-                <th>
-                    Unit
-                </th>
-                <th>
-                    Total
-                </th>
-                <th>Naration</th>
-                <th>
-                </th>
-            </tr>
-        </thead>*@
                                 <thead style="line-height: normal; height: 1px !important;">
                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                         <th style="padding:5px;">
@@ -538,8 +453,14 @@
                                             Naration
                                         </th>
                                         <th style="padding:5px;">
-                                            Action
+                                            AMC(Amount/Date)
                                         </th>
+                                        <th style="padding:5px;">
+                                            Renewable(Amount/Date)
+                                        </th>
+                                        @*<th style="padding:5px;">
+                                            Action
+                                        </th>*@
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -549,34 +470,77 @@
                                         {
                                             <tr class='selectWrapper'>
                                                 <td>
-                                                    <input type="text" class="form-control ProductNameh" value="@ct.ProductName" id="ProductName" placeholder="Amount">
+                                                    <input type="text" class="form-control ProductName" value="@ct.ProductName" id="ProductName" placeholder="Amount">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control Amountsh" value="@ct.HUnitAmount" id="HUnitAmount" placeholder="Amount">
+                                                    <input type="text" class="form-control Amounts" value="@ct.HUnitAmount" id="HUnitAmount" placeholder="Amount">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control Unith" value="@ct.HwUnit" id="HwUnit" placeholder="Amount">
+                                                    <input type="text" class="form-control Unit" value="@ct.HwUnit" id="HwUnit" placeholder="Amount">
                                                 </td>
                                                 <td>
-                                                    <input type="text" class="form-control Amounth" value="@ct.HwTotal" id="HwTotal" readonly placeholder="Amount">
+                                                    <input type="text" class="form-control Amount" value="@ct.HwTotal" id="HwTotal" placeholder="Amount">
                                                 </td>
+
+
                                                 <td>
-                                                    <textarea class="form-control-sm Descriptionh" placeholder="Description" id="HNaration" rows="1" style="width:100%;">@ct.HNaration </textarea>
+                                                    <textarea class="form-control-sm Description" placeholder="Description" id="HNaration" rows="1" style="width:100%;">@ct.HNaration </textarea>
                                                 </td>
 
                                                 <td>
-                                                    <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a>
+                                                    @if (ct.Amc1 == "Yes")
+                                                    {
+                                                        <select class="form-control AMC" style="display:none">
+                                                            <option value="Yes" selected>Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control AMC_amount" value="@ct.AMC_amount" id="AMC_amount" placeholder="AMC_amount">
+                                                        <input type="text" class="form-control AMC_date" value="@ct.AMC_date" id="AMC_date" placeholder="AMC_date" style="margin-top:2px">
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-control AMC">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No" selected>No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control AMC_amount" readonly style="display:none">
+                                                        <input type="text" class="form-control AMC_date" readonly style="display:none">
+                                                    }
                                                 </td>
+                                                <td>
+                                                    @if (ct.Renew == "Yes")
+                                                    {
+                                                        <select class="form-control Renewable" style="display:none">
+                                                            <option value="Yes" selected>Yes</option>
+                                                            <option value="No">No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control REWAmount" value="@ct.REW_amount" id="AMC_amount" placeholder="AMC_amount">
+                                                        <input type="text" class="form-control REW_date" value="@ct.REW_date" id="AMC_date" placeholder="AMC_date" style="margin-top:2px">
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-control Renewable">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No" selected>No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control REWAmount" readonly style="display:none">
+                                                        <input type="text" class="form-control REW_date" readonly style="display:none">
+                                                    }
+                                                </td>
+
+                                                @*<td>
+                                                    <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a>
+                                                </td>*@
                                             </tr>
                                         }
                                     }
                                 </tbody>
                                 <tfoot>
-                                    <tr>
+                                    @*<tr>
                                         <th colspan="6" class="text-right">
                                             <a id="LnkAddFileRowH" style="margin: 10px 15px;" class="btn btn-info btn-sm badge-success icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
                                         </th>
-                                    </tr>
+                                    </tr>*@
                                 </tfoot>
                             </table>
                         </div>
@@ -694,29 +658,12 @@
 <script src="~/scripts/alert.js" defer></script>
 <script>
     $(document).ready(function () {
-        var Type = '';
-        Type = $('#Type').val();
-        if (Type == 'Other') {
-            $('#tblIndentFiles1').show();
-            $('#tblIndentFilesS1').hide();
-            $('#tblIndentFilesH1').hide();
-            TotalofEachRow1();
-            Discount();
-        }
-        else if (Type == 'Hardware') {
-            $('#tblIndentFiles1').hide();
-            $('#tblIndentFilesS1').hide();
+        
+           
             $('#tblIndentFilesH1').show();
             TotalofEachRowForHardware1();
             Discount();
-        }
-        else if (Type == 'Software') {
-            $('#tblIndentFiles1').hide();
-            $('#tblIndentFilesS1').show();
-            $('#tblIndentFilesH1').hide();
-            TotalofEachRowForSoftware1();
-            Discount();
-        }
+        
         var ClientId = {
             ClientId: $("#CompanyName").val()
         }
@@ -823,7 +770,7 @@
         var sum = 0;
         var totalwithtax = 0;
         var sum = 0;
-        $('#tblIndentFilesH .Amounth').each(function () {
+        $('#tblIndentFilesH .Amount').each(function () {
             if (!isNaN(this.value) && this.value.length != 0) {
                 sum += parseFloat(this.value);
             }
@@ -834,7 +781,6 @@
             $('#TotalAmount').val(Total.toFixed(2));
             $('#AfterTaxAmount').val(Total.toFixed(2));
         });
-
     }
 </script>
 <script>
@@ -1114,7 +1060,7 @@
         NewRow += '<td><input type="text" class="form-control ProductNameh" value="" id="ProductName" placeholder="ProductName"></td>';
         NewRow += '<td><input type="text" class="form-control Amountsh" value="" id="Amounts" placeholder="Amount"></td>';
         NewRow += '<td><input type="text" class="form-control Unith" value="" id="Unit" placeholder="Unit"></td>';
-        NewRow += '<td><input type="text" class="form-control Amounth" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
+        NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
         NewRow += '<td> <textarea class="form-control-sm  Descriptionh"  placeholder="Naration" id="Description" rows="2" style="width:100%;"></textarea></td>';
         NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
         NewRow += '</tr>';
@@ -1153,7 +1099,7 @@
                     url: "/Admin/TotalAmountOfProduct",
                     Contenttype: "application/json; charset=utf-8",
                     success: function (resultData) {
-                        currentRow.find('input.Amounth').val(resultData.toFixed(2));
+                        currentRow.find('input.Amount').val(resultData.toFixed(2));
                         TotalofEachRowForHardware();
                         Discount();
                     }
@@ -1184,7 +1130,7 @@
                     url: "/Admin/TotalAmountOfProduct",
                     Contenttype: "application/json; charset=utf-8",
                     success: function (resultData) {
-                        currentRow.find('input.Amounth').val(resultData.toFixed(2));
+                        currentRow.find('input.Amount').val(resultData.toFixed(2));
                         TotalofEachRowForHardware();
                         Discount();
                     }
@@ -1197,7 +1143,7 @@
             var sum = 0;
             var totalwithtax = 0;
             var sum = 0;
-            $('#tblIndentFilesH .Amounth').each(function () {
+            $('#tblIndentFilesH .Amount').each(function () {
                 if (!isNaN(this.value) && this.value.length != 0) {
                     sum += parseFloat(this.value);
                 }
@@ -1247,7 +1193,7 @@
                 url: "/Admin/TotalAmountOfProduct",
                 Contenttype: "application/json; charset=utf-8",
                 success: function (resultData) {
-                    currentRow.find('input.Amounth').val(resultData.toFixed(2));
+                    currentRow.find('input.Amount').val(resultData.toFixed(2));
                     TotalofEachRowForHardware();
                     Discount();
                 }
@@ -1278,7 +1224,7 @@
                 url: "/Admin/TotalAmountOfProduct",
                 Contenttype: "application/json; charset=utf-8",
                 success: function (resultData) {
-                    currentRow.find('input.Amounth').val(resultData.toFixed(2));
+                    currentRow.find('input.Amount').val(resultData.toFixed(2));
                     TotalofEachRowForHardware();
                     Discount();
                 }
@@ -1291,7 +1237,7 @@
         var sum = 0;
         var totalwithtax = 0;
         var sum = 0;
-        $('#tblIndentFilesH .Amounth').each(function () {
+        $('#tblIndentFilesH .Amount').each(function () {
             if (!isNaN(this.value) && this.value.length != 0) {
                 sum += parseFloat(this.value);
             }
@@ -1378,65 +1324,35 @@
         var val = '';
         var Type = '';
         val = $('#Services').val();
-        if (val == "SerSof178709") {
-            var SoftwareName = [];
-            var SAmount = [];
-            var SUnit = [];
-            var SDescription = [];
-            var STotal = [];
-            $('table#tblIndentFilesS > tbody > tr').each(function () {
-                SoftwareName.push($('td input[type="text"].Softwares', this).val());
-                SAmount.push($('td input[type="text"].Amountss', this).val());
-                SUnit.push($('td input[type="text"].Units', this).val());
-                SDescription.push($('td textarea.Descriptions', this).val());
-                STotal.push($('td input[type="text"].SAmounts', this).val());
-            });
-            Type = "Software";
-        }
-        else if (val == "SerHar493914") {
             var HardWareName = [];
-            var HardWareId = [];
+           
             var HSNNo = [];
             var HAmount = [];
             var HUnit = [];
             var HTotal = [];
             var HDescription = [];
+            var AMC = [];
+            var AMCamount = [];
+            var AMCdate = [];
+            var Renewable = [];
+            var REWamount = [];
+            var REWdate = [];
             $('table#tblIndentFilesH > tbody > tr').each(function () {
                 HardWareName.push($('td input[type="text"].ProductNameh', this).val());
                 HAmount.push($('td input[type="text"].Amountsh', this).val());
                 HUnit.push($('td input[type="text"].Unith', this).val());
-                HTotal.push($('td input[type="text"].Amounth', this).val());
+                HTotal.push($('td input[type="text"].Amount', this).val());
                 HDescription.push($('td textarea.Descriptionh', this).val());
+                AMC.push($('td select.AMC', this).val());
+                AMCamount.push($('td input[type="hidden"].AMC_amount', this).val());
+                AMCdate.push($('td input[type="hidden"].AMC_date', this).val());
+                Renewable.push($('td select.Renewable', this).val());
+                REWamount.push($('td input[type="hidden"].REWAmount', this).val());
+                REWdate.push($('td input[type="hidden"].REW_date', this).val());
             });
-            Type = "Hardware";
-        }
-        else if (val == "SerSEO473798") {
-            var Services = [];
-            var Duration = [];
-            var ServicesName = [];
-            var DurationTime = [];
-            var Date = [];
-            var Amount = [];
-            var Description = [];
-            $('table#tblIndentFiles > tbody > tr').each(function () {
-                Services.push($('td select.Services', this).val());
-                ServicesName.push($('td select.Services option:selected', this).text());
-                Duration.push($('td select.Duration', this).val());
-                DurationTime.push($('td select.Duration option:selected', this).text());
-                Amount.push($('td input[type="text"].Amount', this).val());
-                Date.push($('td input[type="text"].Date', this).val());
-                Description.push($('td textarea.Description', this).val());
-            });
-            Type = "Other";
-        }
         var service = {
             Services: Services,
-            Duration: Duration,
-            Amount: Amount,
-            Description: Description,
-            ServicesName: ServicesName,
-            DurationTime: DurationTime,
-            Date: Date,
+            
             TotalAmount: $('#TotalAmount').val(),
             Tax: $('#Tax').val(),
             TaxAmount: $('#TaxAmount').val(),
@@ -1455,19 +1371,18 @@
             Taxtype: Taxtype,
             IGST: IGST,
             IGSTAmount: IGSTAmount,
-            SoftwareName: SoftwareName,
-            SAmount: SAmount,
-            SUnit: SUnit,
-            SDescription: SDescription,
-            STotal: STotal,
-            HardWareId: HardWareId,
             HardWareName: HardWareName,
             HSNNo: HSNNo,
             HAmount: HAmount,
             HUnit: HUnit,
             HTotal: HTotal,
-            Type: Type,
             Naration: HDescription,
+            AMC: AMC,
+            AMCamount: AMCamount,
+            AMCdate: AMCdate,
+            Renewable: Renewable,
+            REWamount: REWamount,
+            REWdate: REWdate,
         }
         try {
             $.ajax({

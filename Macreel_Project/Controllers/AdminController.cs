@@ -994,47 +994,47 @@ namespace Macreel_Infosoft.Controllers
             if (row > 0)
             {
                 int count = 0;
-                if (obj.Type == "Software")
-                {
-                    for (int i = 1; i < obj.SoftwareName.Length; i++)
-                    {
-                        count = db.QuatationSoftwareIns(obj.QuatationNo, obj.SoftwareName[i], obj.SAmount[i], obj.SUnit[i], obj.SDescription[i], obj.STotal[i]);
-                    }
-                    //if (count > 0)
-                    //{
-                    //    for (int i = 0; i < obj.SSAmount.Length; i++)
-                    //    {
-                    //        count = db.QuatationSoftwareServices(obj.QuatationNo, obj.SSServices[i], obj.SSServicesName[i], obj.SSDuration[i], obj.SSDurationTime[i], obj.SSAmount[i], obj.SSDescription[i]);
-                    //    }
-                    //}
-                }
-                else if (obj.Type == "Hardware")
-                {
+                //if (obj.Type == "Software")
+                //{
+                //    for (int i = 1; i < obj.SoftwareName.Length; i++)
+                //    {
+                //        count = db.QuatationSoftwareIns(obj.QuatationNo, obj.SoftwareName[i], obj.SAmount[i], obj.SUnit[i], obj.SDescription[i], obj.STotal[i]);
+                //    }
+                //    //if (count > 0)
+                //    //{
+                //    //    for (int i = 0; i < obj.SSAmount.Length; i++)
+                //    //    {
+                //    //        count = db.QuatationSoftwareServices(obj.QuatationNo, obj.SSServices[i], obj.SSServicesName[i], obj.SSDuration[i], obj.SSDurationTime[i], obj.SSAmount[i], obj.SSDescription[i]);
+                //    //    }
+                //    //}
+                //}
+                //else if (obj.Type == "Hardware")
+                //{
                     for (int i = 1; i < obj.HardWareName.Length; i++)
                     {
-                        count = db.QuatationHardwareIns(obj.QuatationNo, obj.HardWareName[i], obj.Naration[i], obj.HAmount[i], obj.HUnit[i], obj.HTotal[i]);
+                        count = db.QuatationHardwareIns(obj.QuatationNo, obj.HardWareName[i], obj.Naration[i], obj.HAmount[i], obj.HUnit[i], obj.HTotal[i], obj.AMCamount[i], obj.AMCdate[i], obj.REWamount[i], obj.REWdate[i], obj.AMC[i], obj.Renewable[i]);
                     }
-                }
-                else if (obj.Type == "Other")
-                {
+                //}
+                //else if (obj.Type == "Other")
+                //{
 
-                    for (int i = 1; i < obj.Amount.Length; i++)
-                    {
-                        count = db.QuatationProduct(obj.QuatationNo, obj.Services[i], obj.ServicesName[i], obj.Duration[i], obj.DurationTime[i], obj.Amount[i], obj.Description[i]);
-                    }
-                }
+                //    for (int i = 1; i < obj.Amount.Length; i++)
+                //    {
+                //        count = db.QuatationProduct(obj.QuatationNo, obj.Services[i], obj.ServicesName[i], obj.Duration[i], obj.DurationTime[i], obj.Amount[i], obj.Description[i]);
+                //    }
+                //}
                 if (count > 0)
                 {
-                    Message = "Quatation Successfully Ganrated!,success";
+                    Message = "success";
                 }
                 else
                 {
-                    Message = "Something Wrong,danger";
+                    Message = "danger";
                 }
             }
             else
             {
-                Message = "Something Wrong,danger";
+                Message = "danger";
             }
             return Json(Message, JsonRequestBehavior.AllowGet);
         }
@@ -1071,6 +1071,8 @@ namespace Macreel_Infosoft.Controllers
             List<SelectListItem> ClientList = new List<SelectListItem>();
             ClientList = db.BindClientForProject();
             ViewBag.client = ClientList;
+            string ServicesId = "";
+            ServicesId = obj.ServicesId;
             List<SelectListItem> getlist = new List<SelectListItem>();
             getlist = db.BindServicesForQuatation();
             ViewBag.service = getlist;
@@ -1088,6 +1090,7 @@ namespace Macreel_Infosoft.Controllers
             ViewBag.list = listh;
             return View(obj);
         }
+
         [HttpPost]
         public JsonResult UpdateGenrateQuatation(quatation obj)
         {
@@ -1099,40 +1102,40 @@ namespace Macreel_Infosoft.Controllers
                 int del = 0;
                 del = db.DeleteQuatationProduct(obj.QuatationNo);
                 int count = 0;
-                if (obj.Type == "Software")
-                {
-                    for (int i = 0; i < obj.SoftwareName.Length; i++)
-                    {
-                        count = db.QuatationSoftware(obj.QuatationNo, obj.SoftwareName[i], obj.SAmount[i], obj.SUnit[i], obj.SDescription[i], obj.STotal[i]);
-                    }
-                }
-                else if (obj.Type == "Hardware")
-                {
+                //if (obj.Type == "Software")
+                //{
+                //    for (int i = 0; i < obj.SoftwareName.Length; i++)
+                //    {
+                //        count = db.QuatationSoftware(obj.QuatationNo, obj.SoftwareName[i], obj.SAmount[i], obj.SUnit[i], obj.SDescription[i], obj.STotal[i]);
+                //    }
+                //}
+                //else if (obj.Type == "Hardware")
+                //{
                     for (int i = 0; i < obj.HardWareName.Length; i++)
                     {
-                        count = db.QuatationHardware(obj.QuatationNo, obj.HardWareName[i], obj.Naration[i], obj.HAmount[i], obj.HUnit[i], obj.HTotal[i]);
+                        count = db.QuatationHardware(obj.QuatationNo, obj.HardWareName[i], obj.Naration[i], obj.HAmount[i], obj.HUnit[i], obj.HTotal[i], obj.AMCamount[i], obj.AMCdate[i], obj.REWamount[i], obj.REWdate[i], obj.AMC[i], obj.Renewable[i]);
                     }
-                }
-                else if (obj.Type == "Other")
-                {
+                //}
+                //else if (obj.Type == "Other")
+                //{
 
-                    for (int i = 0; i < obj.Amount.Length; i++)
-                    {
-                        count = db.QuatationProduct(obj.QuatationNo, obj.Services[i], obj.ServicesName[i], obj.Duration[i], obj.DurationTime[i], obj.Amount[i], obj.Description[i]);
-                    }
-                }
+                //    for (int i = 0; i < obj.Amount.Length; i++)
+                //    {
+                //        count = db.QuatationProduct(obj.QuatationNo, obj.Services[i], obj.ServicesName[i], obj.Duration[i], obj.DurationTime[i], obj.Amount[i], obj.Description[i]);
+                //    }
+                //}
                 if (count > 0)
                 {
-                    Message = "Quatation Successfully Updated!,success";
+                    Message = "success";
                 }
                 else
                 {
-                    Message = "Something Wrong,danger";
+                    Message = "danger";
                 }
             }
             else
             {
-                Message = "Something Wrong,danger";
+                Message = "danger";
             }
             return Json(Message, JsonRequestBehavior.AllowGet);
         }
@@ -3352,6 +3355,7 @@ namespace Macreel_Infosoft.Controllers
         }
 
         #endregion
+
         #region TaskReport
         public ActionResult Task_reports(string status, filter_report filter_report)
         {
