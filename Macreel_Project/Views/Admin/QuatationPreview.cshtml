@@ -361,7 +361,7 @@
                 </div>
             </section>
             <div class="product-item">
-                @if (Model.Type == "Other")
+                @*@if (Model.Type == "Other")
                 {
                     <table class="table table-bordered">
                         <thead>
@@ -463,9 +463,8 @@
                             </tr>
                         </tfoot>
                     </table>
-                }
-                else if (Model.Type == "Hardware")
-                {
+                }*@
+               
                     <table class="table table-bordered">
                         <thead>
                             <tr class="head-row">
@@ -516,7 +515,6 @@
                             </tr>
                         </tfoot>
                     </table>
-                }
                 <p class="amt-word"><strong>Amount in Word</strong> - <span>@Model.Amountword Only</span></p>
             </div>
             <footer style="padding:10px;">

@@ -3929,6 +3929,7 @@ namespace Macreel_Project.Models
             }
             return getlist;
         }
+
         public string GetMaxQuatationNo()
         {
             string row = "";
@@ -3977,6 +3978,14 @@ namespace Macreel_Project.Models
                 cmd.Parameters.AddWithValue("@ProjectAmount", obj.ProjectAmount);
                 cmd.Parameters.AddWithValue("@WorkScope", obj.WorkScope);
                 cmd.Parameters.AddWithValue("@QuatationType", obj.Type);
+                cmd.Parameters.AddWithValue("@ServiceId", obj.ServicesId);
+              //  cmd.Parameters.AddWithValue("@AMC", obj.AMC);
+              //  cmd.Parameters.AddWithValue("@Renewable", obj.Renewable);
+                //cmd.Parameters.AddWithValue("@AMCAmount", obj.amcPopupData.Amount);
+                //cmd.Parameters.AddWithValue("@AMCStartDate", obj.amcPopupData.StartDate);
+                //cmd.Parameters.AddWithValue("@RenewableAmount", obj.renewablePopupData.Amount);
+                //cmd.Parameters.AddWithValue("@RenewableStartDate", obj.renewablePopupData.StartDate);
+
                 row = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -4051,6 +4060,7 @@ namespace Macreel_Project.Models
                         obj.Status = Convert.ToInt32(rd["Status"]);
                         obj.Type = rd["QuatationType"].ToString();
                         obj.WorkScope = rd["WorkScope"].ToString();
+                        obj.ServicesId = rd["service"].ToString();
                         gtlst.Add(obj);
                     }
                 }
@@ -4140,6 +4150,7 @@ namespace Macreel_Project.Models
                         obj.AfterDiscountAmount = Convert.ToDecimal(rd["AfterDiscountAmount"]);
                         obj.WorkScope = rd["WorkScope"].ToString();
                         obj.Type = rd["QuatationType"].ToString();
+                        obj.ServicesId = rd["ServiceId"].ToString();
                     }
                 }
             }
@@ -4295,6 +4306,30 @@ namespace Macreel_Project.Models
                         {
                             obj.HwTotal = rd["TotalAmount"].ToString();
                         }
+                        if (rd["AMC"] != DBNull.Value)
+                        {
+                            obj.Amc1 = rd["AMC"].ToString();
+                        }
+                        if (rd["Renewable"] != DBNull.Value)
+                        {
+                            obj.Renew = rd["Renewable"].ToString();
+                        }
+                        if (rd["amc_amount"] != DBNull.Value)
+                        {
+                            obj.AMC_amount = Convert.ToDecimal(rd["amc_amount"].ToString());
+                        }
+                        if (rd["amc_date"] != DBNull.Value)
+                        {
+                            obj.AMC_date = rd["amc_date"].ToString();
+                        }
+                        if (rd["rew_amount"] != DBNull.Value)
+                        {
+                            obj.REW_amount = Convert.ToDecimal(rd["rew_amount"].ToString());
+                        }
+                        if (rd["rew_date"] != DBNull.Value)
+                        {
+                            obj.REW_date = rd["rew_date"].ToString();
+                        }
                         list.Add(obj);
                     }
                 }
@@ -4330,6 +4365,8 @@ namespace Macreel_Project.Models
                 cmd.Parameters.AddWithValue("@AfterDiscountAmount", obj.AfterDiscountAmount);
                 cmd.Parameters.AddWithValue("@ProjectAmount", obj.ProjectAmount);
                 cmd.Parameters.AddWithValue("@WorkScope", obj.WorkScope);
+                cmd.Parameters.AddWithValue("@QuatationType", obj.Type);
+                cmd.Parameters.AddWithValue("@ServiceId", obj.ServicesId);
                 row = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)
@@ -7604,36 +7641,7 @@ namespace Macreel_Project.Models
             }
             return row;
         }
-        public int QuatationHardware(string QuatationNo = "", string HardwareName = "", string HDescription = "", string HAmount = "", string HUnit = "", string HTotal = "")
-        {
-            int row = 0;
-            try
-            {
-                cmd = new SqlCommand("Sp_Quatation", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                con.Open();
-                cmd.Parameters.AddWithValue("@Action", "UpdateHProduct");
-                cmd.Parameters.AddWithValue("@QuatationNo", QuatationNo);
-                cmd.Parameters.AddWithValue("@ProjectName", HardwareName);
-                cmd.Parameters.AddWithValue("@HDescription", HDescription);
-                cmd.Parameters.AddWithValue("@Amount", HAmount);
-                cmd.Parameters.AddWithValue("@Unit", HUnit);
-                cmd.Parameters.AddWithValue("@TotalAmount", HTotal);
-                row = cmd.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                con.Close();
-                cmd.Dispose();
-            }
-            return row;
-        }
-        //quatation for hardware insert
-        public int QuatationHardwareIns(string QuatationNo = "", string HardwareName = "", string HDescription = "", string HAmount = "", string HUnit = "", string HTotal = "")
+        public int QuatationHardware(string QuatationNo = "", string HardwareName = "", string HDescription = "", string HAmount = "", string HUnit = "", string HTotal = "", decimal AMCAmount = 0.00M, string AMCStartDate = "", decimal REWAmount = 0.00M , string REWStartDate = "", string AMC = "", string Renewable = "")
         {
             int row = 0;
             try
@@ -7648,6 +7656,48 @@ namespace Macreel_Project.Models
                 cmd.Parameters.AddWithValue("@Amount", HAmount);
                 cmd.Parameters.AddWithValue("@Unit", HUnit);
                 cmd.Parameters.AddWithValue("@TotalAmount", HTotal);
+                cmd.Parameters.AddWithValue("@AMC", AMC);
+                cmd.Parameters.AddWithValue("@Renewable", Renewable);
+                cmd.Parameters.AddWithValue("@AMCAmount", AMCAmount);
+                cmd.Parameters.AddWithValue("@AMCStartDate", AMCStartDate);
+                cmd.Parameters.AddWithValue("@RenewableAmount", REWAmount);
+                cmd.Parameters.AddWithValue("@RenewableStartDate", REWStartDate);
+                row = cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                con.Close();
+                cmd.Dispose();
+            }
+            return row;
+        }
+        //quatation for hardware insert
+        public int QuatationHardwareIns(string QuatationNo = "", string HardwareName = "", string HDescription = "", string HAmount = "", string HUnit = "", string HTotal = "", decimal AMCAmount = 0.00M, string AMCStartDate = "", decimal REWAmount = 0.00M , string REWStartDate = "", string AMC = "", string Renewable = "")
+        {
+            int row = 0;
+            try
+            {
+                cmd = new SqlCommand("Sp_Quatation", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                cmd.Parameters.AddWithValue("@Action", "InsertHProduct");
+                cmd.Parameters.AddWithValue("@QuatationNo", QuatationNo);
+                cmd.Parameters.AddWithValue("@ProjectName", HardwareName);
+                cmd.Parameters.AddWithValue("@HDescription", HDescription);
+                cmd.Parameters.AddWithValue("@Amount", HAmount);
+                cmd.Parameters.AddWithValue("@Unit", HUnit);
+                cmd.Parameters.AddWithValue("@TotalAmount", HTotal);
+                cmd.Parameters.AddWithValue("@AMC", AMC);
+                cmd.Parameters.AddWithValue("@Renewable", Renewable);
+                cmd.Parameters.AddWithValue("@AMCAmount",AMCAmount);
+                cmd.Parameters.AddWithValue("@AMCStartDate", AMCStartDate);
+                cmd.Parameters.AddWithValue("@RenewableAmount", REWAmount);
+                cmd.Parameters.AddWithValue("@RenewableStartDate", REWStartDate);
+
                 row = cmd.ExecuteNonQuery();
             }
             catch (Exception ex)

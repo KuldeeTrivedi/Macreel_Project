@@ -294,17 +294,25 @@ namespace Macreel_Project.Models
             public string ProjectId { get; set; }
             public string ProjectName { get; set; }
             public string[] Services { get; set; }
+            public string ServicesId { get; set; }
             public string[] Duration { get; set; }
             public string[] ServicesName { get; set; }
+            public string[] AMC { get; set; }
+            public decimal[] AMCamount { get; set; }
+            public string[] AMCdate { get; set; }
+            public decimal[] REWamount { get; set; }
+            public string[] REWdate { get; set; }
+            public string[] Renewable { get; set; }
             public string[] DurationTime { get; set; }
             public string[] Date { get; set; }
             public decimal[] Amount { get; set; }
             public string[] Description { get; set; }
+
             public string WorkScope { get; set; }
             public decimal TotalAmount { get; set; }
             public decimal DiscountQty { get; set; }
             public decimal DiscountAmount { get; set; }
-            public decimal AfterDiscountAmount { get; set; }
+            public decimal AfterDiscountAmount { get; set;}
             public decimal ProjectAmount { get; set; }
             public int Status { get; set; }
             public string Services1 { get; set; }
@@ -363,6 +371,24 @@ namespace Macreel_Project.Models
             public string Servicesnm { get; set; }
             public string Durationtm { get; set; }
             public string ContactNo { get; set; }
+            public string Amc1 { get; set; }
+            public decimal AMC_amount { get; set; }
+            public string AMC_date { get; set; }
+            public decimal REW_amount { get; set; }
+            public string REW_date { get; set; }
+            public string Renew { get; set; }
+        }
+
+        public class AMCData
+        {
+            public string Amount { get; set; }
+            public string StartDate { get; set; }
+        }
+
+        public class RenewableData
+        {
+            public string Amount { get; set; }
+            public string StartDate { get; set; }
         }
         public class Company
         {

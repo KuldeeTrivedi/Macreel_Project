@@ -64,7 +64,7 @@
                                                 Company Name
                                             </th>
                                             <th style="padding:4px; white-space: nowrap;">
-                                                Quatation Type
+                                               Service Name
                                             </th>
                                             <th style="padding:4px; white-space: nowrap;">
                                                 Work Scope
@@ -90,20 +90,21 @@
                                                     <td>@item.QuatationNo</td>
                                                     <td>@item.CompanyName</td>
                                                     @*<td style="width:250px;">@item.Type</td>*@
-                                                    <td>
-                                                        @if (item.Type == "Other")
+                                                <td>
+                                                    @item.ServicesId
+                                                        @*@if (item.Type == "Other")
                                                         {
                                                             <div>Services</div>
                                                         }
                                                         else
                                                         {
                                                             @item.Type
-                                                        }
-                                                    </td>
+                                                        }*@
+                                                </td>
                                                     <td>@Html.Raw(item.WorkScope)</td>
                                                     <td>@item.TotalAmount</td>
                                                     <td style="width:169px;">
-                                                        <a href="/Admin/QuatationPreview?QuatationNo=@item.QuatationNo" data-toggle="tooltip" data-placement="bottom" data-original-title="Quatation Preview" title="Quatation Preview"><i class="fas fa-file-pdf mr-2" style="color:red;"></i></a>
+                                                        <a href="/Admin/QuatationPreview?QuatationNo=@item.QuatationNo" data-toggle="tooltip" data-placement="bottom" data-original-title="Quatation Preview" title="Quatation Preview"><i class="fas fa-file-pdf mr-2" style="color:red;" target="_blank"></i></a>
                                                         @if (item.Status == 0)
                                                         {
                                                             <a href="/Admin/EditGenrateQuatation?QuatationNo=@item.QuatationNo" class="edit mr-2" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit" title="Edit"><i class="fa fa-pencil" style="color: darkgreen !important;"></i></a>

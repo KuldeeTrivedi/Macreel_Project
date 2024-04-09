@@ -4,6 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/assets/css/fSelect.css" rel="stylesheet" />
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <style>
     * {
         box-sizing: border-box;
@@ -127,12 +128,36 @@
         margin-top: 5px;
         z-index: 1000;
     }
+
     .btn-primary {
         background-color: rgba(44,169,145,1) !important;
         border-color: rgba(44,169,145,1) !important;
         color: #fff !important;
         box-shadow: none !important;
     }
+    .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #f9f9f9;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+    }
+
+        .popup h2 {
+            margin-top: 0;
+        }
+
+        .popup input[type="text"],
+        .popup input[type="date"],
+        .popup button {
+            margin-bottom: 10px;
+        }
 </style>
 <div class="row mb-2">
     <div class="col-sm-12">
@@ -153,11 +178,11 @@
         <div class="col-md-12">
             <form id="TypeValidation" class="form-horizontal">
                 <div class="card ">
-                  
+
                     <div class="card-body ">
                         <div class="row">
                             <div class="col-md-2">
-                                <label for="company name">Company Name<div class="badge badge-pill badge-success ml-auto px-1 py-1"><i class="sn-Pluse  mdi mdi-plus font-weight-bold fa fa-plus" style="cursor:pointer"></i></div></label>
+                                <label for="company name">Company Name<div class="badge badge-pill badge-success ml-auto px-1 py-1"></div></label>
 
                             </div>
                             <div class="col-sm-4">
@@ -182,44 +207,30 @@
                                     </select>
                                 </div>
                             </div>
-                            
+
                             <div class="col-md-2">
                                 <label for="services">Services</label>
                             </div>
                             <div class="col-sm-4">
                                 <div class="form-group">
-                                    @if (Model.Type == "Other")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option selected value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else if (Model.Type == "Hardware")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option selected value="SerHar493914">Hardware  </option>
-                                            <option value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else if (Model.Type == "Software")
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option selected value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
-                                    else
-                                    {
-                                        <select id="Services" class="form-control sn-required" multiple="multiple" disabled>
-                                            <option value="SerSEO473798">Services</option>
-                                            <option value="SerHar493914">Hardware  </option>
-                                            <option selected value="SerSof178709">Software  </option>
-                                        </select>
-                                    }
+                                    <select id="Services" class="form-control" required>
+                                        <option value="">--Select Service--</option>
+                                        @if (ViewBag.service != null)
+                                        {
+                                            foreach (var item in ViewBag.service as List<SelectListItem>)
+                                            {
+                                                if (Model.ServicesId == item.Value)
+                                                {
+                                                    <option selected value="@item.Value">@item.Text</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.Value">@item.Text</option>
+                                                }
+
+                                            }
+                                        }
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -232,17 +243,7 @@
                                     <div class="table-bg">
                                         <div class="table-responsive">
                                             <table class="table">
-                                                @*<thead class="bg-info">
-            <tr class="head-title">
-                <th>Comapny Name</th>
-                <th>Contect Person</th>
-                <th>Mobile</th>
-                <th>Email-Id</th>
-                <th>StateName</th>
-                <th>CityName</th>
-                <th>GSTN</th>
-            </tr>
-        </thead>*@
+
                                                 <thead style="line-height: normal; height: 1px !important;">
                                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                                         <th style="padding:5px;">
@@ -289,228 +290,12 @@
                                 </div>
                             </div>
                         </div>
-                        <div style="display:none;" id="tblIndentFiles1">
-                            <h6 style="text-align:center;">
-                                Add Services
-                            </h6>
-                            <table id="tblIndentFiles" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%; ">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    Services
-                </th>
-                <th>
-                    Duration
-                </th>
 
-                <th>
-                    Amount
-                </th>
-                <th>
-                    Description
-                </th>
-                <th></th>
-            </tr>
-        </thead>*@
-
-                                <thead style="line-height: normal; height: 1px !important;">
-                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
-                                        <th style="padding:5px;">
-                                            Services
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Duration
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Amount
-                                        </th>
-
-                                        <th style="padding:5px;">
-                                            Description
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (ViewBag.list != null)
-                                    {
-                                        foreach (var ct in ViewBag.list as List<Macreel_Project.Models.Bussiness.quatation>)
-                                        {
-                                            Model.Services1 = @ct.Services1;
-
-                                            Model.Duration1 = @ct.Duration1;
-                                            <tr class='selectWrapper'>
-                                                <td>
-                                                    <select class="form-control  Services" id="Services">
-                                                        <option value="0">Select </option>
-                                                        @if (ViewBag.service != null)
-                                                        {
-                                                            foreach (var item in ViewBag.service as List<SelectListItem>)
-                                                            {
-                                                                if (Model.Services1 == item.Value)
-                                                                {
-                                                                    <option selected value="@item.Value">@item.Text</option>
-                                                                }
-                                                                else
-                                                                {
-                                                                    <option value="@item.Value">@item.Text</option>
-                                                                }
-
-                                                            }
-                                                        }
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <select class="form-control  Duration" id="Duration">
-                                                        @if (Model.Duration1 == "1")
-                                                        {
-                                                            <option selected value="1">Monthly</option>
-                                                            <option value="12">Yearly</option>
-                                                        }
-                                                        else
-                                                        {
-                                                            <option value="1">Monthly</option>
-                                                            <option selected value="12">Yearly</option>
-                                                        }
-
-                                                    </select>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control Amount" value="@ct.Amount1" id="Amount" placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <textarea class="form-control-sm   Description" placeholder="Description" id="Description" rows="1" style="width:100%;">@ct.Description1 </textarea>
-                                                </td>
-
-                                                <td>
-                                                    <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="6" class="text-right">
-                                            <a id="LnkAddFileRow" style="margin: 10px 15px;" class="btn btn-info btn-sm  badge-success icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div style="display:none;" id="tblIndentFilesS1">
-                            <h6 style="text-align:center;">
-                                Add Software
-                            </h6>
-                            <table id="tblIndentFilesS" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    SoftWare Name
-                </th>
-                <th>
-                    Amount
-                </th>
-                <th>
-                    Unit
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                    Total
-                </th>
-                <th>
-                </th>
-            </tr>
-        </thead>*@
-                                <thead style="line-height: normal; height: 1px !important;">
-                                    <tr style="background-color: rgba(22,160,133,0.9); color: white;">
-                                        <th style="padding:5px;">
-                                            Software Name
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Amount
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Unit
-                                        </th>
-
-                                        <th style="padding:5px;">
-                                            Description
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Total
-                                        </th>
-                                        <th style="padding:5px;">
-                                            Action
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @if (ViewBag.list != null)
-                                    {
-                                        foreach (var ct in ViewBag.list as List<Macreel_Project.Models.Bussiness.quatation>)
-                                        {
-                                            <tr class='selectWrapper'>
-                                                <td>
-                                                    <input type="text" class="form-control Softwares" value="@ct.SoftName" id="SoftName" placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control Amountss" value="@ct.SoftAmount" id="SoftAmount" placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control Units" value="@ct.SoftUnit" id="SoftUnit" placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <textarea class="form-control-sm Descriptions" placeholder="Description" id="SoftDescription" rows="1" style="width:100%;">@ct.SoftDescription </textarea>
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="form-control SAmounts" value="@ct.SoftTotal" id="SoftTotal" placeholder="Amount">
-                                                </td>
-                                                <td>
-                                                    <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a>
-                                                </td>
-                                            </tr>
-                                        }
-                                    }
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="6" class="text-right">
-                                            <a id="LnkAddFileRowS" style="margin: 10px 15px;" class="btn btn-info btn-sm  badge-success icon-btn ml-2 mb-2 SoftwareServices" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus SoftwareServices"></i></a>
-                                        </th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div style="display:none;" id="tblIndentFilesH1">
+                        <div id="tblIndentFilesH1">
                             <h6 style="text-align:center;">
                                 Add Hardware
                             </h6>
                             <table id="tblIndentFilesH" class="cell-border table" cellspacing="1" border="1" style="border:1px solid #dddddd; width:100%;">
-                                @*<thead>
-            <tr class="font">
-                <th>
-                    Product Name
-                </th>
-                <th>
-                    Unit Price
-                </th>
-                <th>
-                    Unit
-                </th>
-                <th>
-                    Total
-                </th>
-                <th>Naration</th>
-                <th>
-                </th>
-            </tr>
-        </thead>*@
-
                                 <thead style="line-height: normal; height: 1px !important;">
                                     <tr style="background-color: rgba(22,160,133,0.9); color: white;">
                                         <th style="padding:5px;">
@@ -528,6 +313,12 @@
                                         </th>
                                         <th style="padding:5px;">
                                             Naration
+                                        </th>
+                                        <th style="padding:5px;">
+                                            AMC(Amount/Date)
+                                        </th>
+                                        <th style="padding:5px;">
+                                            Renewable(Amount/Date)
                                         </th>
                                         <th style="padding:5px;">
                                             Action
@@ -552,8 +343,51 @@
                                                 <td>
                                                     <input type="text" class="form-control Amount" value="@ct.HwTotal" id="HwTotal" placeholder="Amount">
                                                 </td>
+
+
                                                 <td>
                                                     <textarea class="form-control-sm Description" placeholder="Description" id="HNaration" rows="1" style="width:100%;">@ct.HNaration </textarea>
+                                                </td>
+
+                                                <td>
+                                                    @if (ct.Amc1 == "Yes")
+                                                    {
+                                                        <select class="form-control AMC" style="display:none">
+                                                            <option value="Yes" selected>Yes</option>
+                                                            <option value="No" >No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control AMC_amount" value="@ct.AMC_amount" id="AMC_amount" placeholder="AMC_amount">
+                                                        <input type="text" class="form-control AMC_date" value="@ct.AMC_date" id="AMC_date" placeholder="AMC_date" style="margin-top:2px">
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-control AMC">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No" selected>No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control AMC_amount" readonly style="display:none">
+                                                        <input type="text" class="form-control AMC_date" readonly style="display:none">
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (ct.Renew == "Yes")
+                                                    {
+                                                       <select class="form-control Renewable" style="display:none">
+                                                           <option value="Yes" selected>Yes</option>
+                                                           <option value="No">No</option>
+                                                       </select>
+                                                        <input type="text" class="form-control REWAmount" value="@ct.REW_amount" id="AMC_amount" placeholder="AMC_amount">
+                                                        <input type="text" class="form-control REW_date" value="@ct.REW_date" id="AMC_date" placeholder="AMC_date" style="margin-top:2px">
+                                                    }
+                                                    else
+                                                    {
+                                                        <select class="form-control Renewable">
+                                                            <option value="Yes">Yes</option>
+                                                            <option value="No" selected>No</option>
+                                                        </select>
+                                                        <input type="text" class="form-control REWAmount" readonly style="display:none">
+                                                        <input type="text" class="form-control REW_date" readonly style="display:none">
+                                                    }
                                                 </td>
 
                                                 <td>
@@ -565,7 +399,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th colspan="6" class="text-right">
+                                        <th colspan="8" class="text-right">
                                             <a id="LnkAddFileRowH" style="margin: 10px 15px;" class="btn btn-info btn-sm badge-success icon-btn ml-2 mb-2" title="Add More"><i class="mdi mdi-plus font-weight-bold fa fa-plus"></i></a>
                                         </th>
                                     </tr>
@@ -622,6 +456,29 @@
 
                     </div>
                 </div>
+
+                <div id="amcPopup" class="popup">
+                    <h2 style="padding: 0px 50px">AMC Information</h2>
+                    <hr />
+                    <label for="amcAmount">AMC Amount:</label>
+                    <input type="text" id="amcAmount" class="form-control AMCAmount" required><br>
+                    <label for="amcStartDate">AMC Start Date:</label>
+                    <input type="date" id="amcStartDate" class="form-control AMCStartDate" required><br><br>
+                    @*<button type="submit" class="btn btn-primary">Submit</button>*@
+                    <button id="amcPopupSubmit" class="btn btn-primary">Submit</button>
+                    <button id="amcPopupClose" class="btn btn-danger">Close</button>
+                </div>
+
+                <div id="renewablePopup" class="popup">
+                    <h2>Renewable Information</h2>
+                    <hr />
+                    <label for="renewableAMCAmount">Renewable Amount:</label>
+                    <input type="text" id="renewableAMCAmount" class="form-control RenewableAmount" required><br>
+                    <label for="renewableAMCStartDate">Renewable Start Date:</label>
+                    <input type="date" id="renewableAMCStartDate" class="form-control RenewableStartDate" required><br><br>
+                    <button id="rewPopupSubmit" class="btn btn-primary">Submit</button>
+                    <button type="button" id="rewPopupClose" class="btn btn-danger">Close</button>
+                </div>
             </form>
         </div>
     </div>
@@ -631,25 +488,50 @@
 <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js" defer></script>
 <script src="~/scripts/alert.js" defer></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
     $(document).ready(function () {
-        var Type = '';
-        Type = $('#Type').val();
-        if (Type == 'Other') {
-            $('#tblIndentFiles1').show();
-            $('#tblIndentFilesS1').hide();
-            $('#tblIndentFilesH1').hide();
-        }
-        else if (Type == 'Hardware') {
-            $('#tblIndentFiles1').hide();
-            $('#tblIndentFilesS1').hide();
-            $('#tblIndentFilesH1').show();
-        }
-        else if (Type == 'Software') {
-            $('#tblIndentFiles1').hide();
-            $('#tblIndentFilesS1').show();
-            $('#tblIndentFilesH1').hide();
-        }
+
+        $('#CompanyName').change(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+            });
+            var ClientId = {
+                ClientId: $(this).val()
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetCompanyDetail",
+                data: JSON.stringify(ClientId),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData != null) {
+                        $('#Company').text(resultData.CompanyName);
+                        $('#ContectPerson').text(resultData.ContactPerson);
+                        $('#Mobile').text(resultData.ContactNo);
+                        $('#Gst').text(resultData.GSTNo);
+                        $('#EmailId').text(resultData.EmailId);
+                        $('#StateName').text(resultData.StateName);
+                        $('#CityName').text(resultData.CityName);
+                        $("#ClientName").val(resultData.ContactPerson);
+                        $("#Clients").show();
+                    }
+                }
+            });
+        });
+
+        $('#tblIndentFilesH1').show();
+
         var ClientId = {
             ClientId: $("#CompanyName").val()
         }
@@ -673,246 +555,23 @@
                 }
             }
         });
-        $('#Services').attr("disabled", true);
-    });
-    jQuery(document).ready(function ($) {
-        $('#Services').fSelect({
-            placeholder: 'Select Services',
-            numDisplayed: 3,
-            overflowText: '{n} selected',
-            noResultsText: 'No results found',
-            searchText: 'Search',
-            showSearch: true,
-
-        })
-    });
-</script>
-<script>
-
-    function TotalofEachRowForSoftware() {
-        var sum = 0;
-
-        $('#tblIndentFilesS tbody tr').each(function () {
-            var ab = $(this).closest('tr').find('.SAmounts').val();
-            if (!isNaN($(this).closest('tr').find('.SAmounts').val()) && $(this).closest('tr').find('.SAmounts').val().length != 0) {
-                sum += parseFloat($(this).closest('tr').find('.SAmounts').val());
-            }
-        });
-        $('#Total').val(sum.toFixed(2));
-        $('#AfterDiscountAmount').val(sum.toFixed(2));
-    }
-    $(document).on("change", ".Units", function () {
-        var currentRow = $(this).closest("tr");
-        var unit = currentRow.find("input.Units").val();
-        var Price = parseFloat(currentRow.find("input.Amountss").val());
-        var Total = Price * unit;
-        currentRow.find('input.SAmounts').val(Total);
-        TotalofEachRowForSoftware();
-    })
-    $(document).on("change", ".Amountss", function () {
-        var currentRow = $(this).closest("tr");
-        var unit = currentRow.find("input.Units").val();
-        var Price = parseFloat(currentRow.find("input.Amountss").val());
-        var Total = Price * unit;
-        currentRow.find('input.SAmounts').val(Total);
-        TotalofEachRowForSoftware();
 
     });
-       $("#LnkAddFileRowS").unbind("click");
-       $("#LnkAddFileRowS").click(function (e) {
-           e.preventDefault()
-           var counts = 1;
-           $('#tblIndentFilesS tbody tr').each(function () {
-               counts++;
-           });
-           var NewRow = '<tr class=selectWrapper id="counts">';
-           NewRow += '<td>  <input type="text" class="form-control Softwares"  placeholder="Software Name"></td>';
-           NewRow += '<td><input type="text" class="form-control Amountss" value="" id="Amounts" placeholder="Amount"></td>';
-           NewRow += '<td><input type="text" class="form-control Units" value="" id="Unit" placeholder="Unit"></td>';
-           NewRow += '<td> <textarea class="form-control-sm  Descriptions"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
-           NewRow += '<td><input type="text" class="form-control SAmounts" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
-           NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
-           NewRow += '</tr>';
-           var count = 0;
-           $('#tblIndentFilesS tbody tr').each(function () {
-               count++;
-               counts++;
-           });
-           if (count <= 18)
-               $('#tblIndentFilesS tbody').append(NewRow);
-           $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").unbind("click");
-           ImplementDeleteFileRowForsW();
-           rebindLastSelectBox2();
-           function rebindLastSelectBox2() {
-               $('input.Units').change(function () {
-                   $(this).unbind('change');
-                   $.ajaxSetup({
-                       beforeSend: function () {
-                           $(".processing").show();
-                       },
-                       complete: function () {
-                           $(".processing").hide();
-                       }
-                   });
-                   var currentRow = $(this).closest("tr");
-                   var unit = currentRow.find("input.Units").val();
-                   var Price = parseFloat(currentRow.find("input.Amountss").val());
-                   var Product = {
-                       Price: Price,
-                       Unit: unit,
-                   };
-                   $.ajax({
-                       type: "POST",
-                       dataType: "json",
-                       data: Product,
-                       url: "/Admin/TotalAmountOfProduct",
-                       Contenttype: "application/json; charset=utf-8",
-                       success: function (resultData) {
-                           currentRow.find('input.SAmounts').val(resultData.toFixed(2));
-                           TotalofEachRowForSoftware();
-                       }
-                   });
-                   rebindLastSelectBox2();
-               })
-               $('input.Amounts').change(function () {
-                   $(this).unbind('change');
-                   $.ajaxSetup({
-                       beforeSend: function () {
-                           $(".processing").show();
-                       },
-                       complete: function () {
-                           $(".processing").hide();
-                       }
-                   });
-                   var currentRow = $(this).closest("tr");
-                   var unit = currentRow.find("input.Units").val();
-                   var Price = parseFloat(currentRow.find("input.Amountss").val());
-                   var Product = {
-                       Price: Price,
-                       Unit: unit,
-                   };
-                   $.ajax({
-                       type: "POST",
-                       dataType: "json",
-                       data: Product,
-                       url: "/Admin/TotalAmountOfProduct",
-                       Contenttype: "application/json; charset=utf-8",
-                       success: function (resultData) {
-                           currentRow.find('input.SAmounts').val(resultData.toFixed(2));
-                           TotalofEachRowForSoftware();
-                       }
-                   });
-                   rebindLastSelectBox2();
-               })
-           }
-           rebindLastSelectBox2();
-           function TotalofEachRowForSoftware() {
-               var sum = 0;
-               var totalwithtax = 0;
-               var sum = 0;
-               $('#tblIndentFilesS .SAmounts').each(function () {
-                   if (!isNaN(this.value) && this.value.length != 0) {
-                       sum += parseFloat(this.value);
-                   }
-                   var ProjectAmount = '';
-                   var Total = '';
-                   ProjectAmount = 0;
-                   Total = parseFloat(ProjectAmount) + sum;
-                   $('#Total').val(Total.toFixed(2));
-                   $('#AfterDiscountAmount').val(Total.toFixed(2));
-               });
+    //jQuery(document).ready(function ($) {
+    //    $('#Services').fSelect({
+    //        placeholder: 'Select Services',
+    //        numDisplayed: 3,
+    //        overflowText: '{n} selected',
+    //        noResultsText: 'No results found',
+    //        searchText: 'Search',
+    //        showSearch: true,
 
-           }
-           function ImplementDeleteFileRowForsW() {
-               $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").click(function (e) {
-                   e.preventDefault();
-                   var CurrRow = $(this).closest("tr");
-                   CurrRow.remove();
-                   TotalofEachRowForSoftware();
-               });
-           }
-       });
+    //    })
+    //});
 </script>
 
-<script>
-    function BindServices() {
 
-        $.ajax({
-            type: "GET",
-            url: "/Admin/BindServices",
-            success: function (resultData) {
-                // $('.projects').empty();
-                var row = '';
-                $('.Services').append("<option>Select</option>");
-                $.each(resultData, function (key, value) {
-                    row += '<option value="' + value.Value + '">' + value.Text + '</option>';
-                });
-                $('.Services').append(row);
-            }
-        });
-    }
-    function ImplementDeleteFileRow() {
-        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").click(function (e) {
-            e.preventDefault();
-            var CurrRow = $(this).closest("tr");
-            CurrRow.remove();
-            TotalofEachRow();
-        });
-    }
-    $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
-    $("#tblIndentFiles tbody tr .input.Task").unbind("keyup");
-    $("#tblIndentFiles tbody tr .input.Hour").unbind("keyup");
-    ImplementDeleteFileRow();
-    $("#LnkAddFileRow").unbind("click");
-    $("#LnkAddFileRow").click(function (e) {
-        e.preventDefault();
-        var counts = 1;
-        $('#tblIndentFiles tbody tr').each(function () {
-            counts++;
-        });
-        var NewRow = '<tr class=selectWrapper id="counts">';
-        NewRow += '<td> <select class="form-control  Services" value="" id="Services" ></select></td>';
-        NewRow += '<td> <select class="form-control Duration" id="Duration"  ><option value="0">Select Duration</option><option value="1">Monthly</option><option value="12">Yearly</option></select></td>';
-        NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amount" placeholder="Amount"></td>';
-        NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
-        NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
-        NewRow += '</tr>';
-        var count = 0;
-        $('#tblIndentFiles tbody tr').each(function () {
-            count++;
-            counts++;
-        });
-        if (count <= 18)
-         $('#tblIndentFiles tbody').append(NewRow);
-        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
-        BindServices();
-        ImplementDeleteFileRow();
-    });
-    function TotalofEachRow() {
-        var sum = 0;
-        var totalwithtax = 0;
-        var sum = 0;
-        $('#tblIndentFiles .Amount').each(function () {
-            if (!isNaN(this.value) && this.value.length != 0) {
-                sum += parseFloat(this.value);
-            }
-            var ProjectAmount = '';
-            var Total = '';
-            ProjectAmount = 0;
-            Total = parseFloat(ProjectAmount) + sum;
-            $('#Total').val(Total.toFixed(2));
-            $('#AfterDiscountAmount').val(Total.toFixed(2));
-        });
 
-    }
-    rebindLastSelectBox();
-    function rebindLastSelectBox() {
-        $("#tblIndentFiles").on('change', '.Amount', function () {
-            TotalofEachRow();
-        });
-        rebindLastSelectBox();
-    }
-</script>
 <script>
     $("#LnkAddFileRowH").unbind("click");
     $("#LnkAddFileRowH").click(function (e) {
@@ -921,13 +580,15 @@
         $('#tblIndentFilesH tbody tr').each(function () {
             counts++;
         });
-        var NewRow = '<tr class=selectWrapper id="counts">';
-        NewRow += '<td><input type="text" class="form-control ProductName" value="" id="ProductName" placeholder="ProductName"></td>';
-        NewRow += '<td><input type="text" class="form-control Amounts" value="" id="Amounts" placeholder="Amount"></td>';
-        NewRow += '<td><input type="text" class="form-control Unit" value="" id="Unit" placeholder="Unit"></td>';
-        NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amounts" readonly placeholder="Total Amount"></td>';
-        NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Naration" id="Description" rows="2" style="width:100%;"></textarea></td>';
-        NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+        var NewRow = '<tr class="selectWrapper">';
+        NewRow += '<td><input type="text" class="form-control ProductName" value="" placeholder="ProductName"></td>';
+        NewRow += '<td><input type="text" class="form-control Amounts" value="" placeholder="Amount"></td>';
+        NewRow += '<td><input type="text" class="form-control Unit" value="" placeholder="Quantity"></td>';
+        NewRow += '<td><input type="text" class="form-control Amount" value="" readonly placeholder="Total Amount"></td>';
+        NewRow += '<td><textarea class="form-control-sm Description" placeholder="Naration" rows="2" style="width:100%;"></textarea></td>';
+        NewRow += '<td><select class="form-control AMC"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select><input type="text" class="form-control AMC_amount" readonly style="display:none"><input type="text" class="form-control AMC_date" readonly style="display:none"></td>';
+        NewRow += '<td><select class="form-control Renewable"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select><input type="text" class="form-control REWAmount" readonly style="display:none"><input type="text" class="form-control REW_date" readonly style="display:none"></td>';
+        NewRow += '<td><a class="btn btn-danger btn-sm icon-btn ml-2 LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
         NewRow += '</tr>';
         var count = 0;
         $('#tblIndentFilesH tbody tr').each(function () {
@@ -1150,91 +811,68 @@
             }
         });
         if (flag == 1) return;
-        WorkScope = CKEDITOR.instances["WorkScope"].getData();
-        var val = '';
-        var Type = '';
-        val = $('#Services').val();
-        if (val == "SerSof178709") {
-            var SoftwareName = [];
-            var SAmount = [];
-            var SUnit = [];
-            var SDescription = [];
-            var STotal = [];
-            $('table#tblIndentFilesS > tbody > tr').each(function () {
-                SoftwareName.push($('td input[type="text"].Softwares', this).val());
-                SAmount.push($('td input[type="text"].Amountss', this).val());
-                SUnit.push($('td input[type="text"].Units', this).val());
-                SDescription.push($('td textarea.Descriptions', this).val());
-                STotal.push($('td input[type="text"].SAmounts', this).val());
-            });
-            Type = "Software";
-        }
-        else if (val == "SerHar493914") {
-            var HardWareName = [];
-            var HardWareId = [];
-            var HSNNo = [];
-            var HAmount = [];
-            var HUnit = [];
-            var HTotal = [];
-            var HDescription = [];
-            $('table#tblIndentFilesH > tbody > tr').each(function () {
-                HardWareName.push($('td input[type="text"].ProductName', this).val());
-                HAmount.push($('td input[type="text"].Amounts', this).val());
-                HUnit.push($('td input[type="text"].Unit', this).val());
-                HTotal.push($('td input[type="text"].Amount', this).val());
-                HDescription.push($('td textarea.Description', this).val());
-            });
-            Type = "Hardware";
-        }
-        else if (val == "SerSEO473798") {
-            var Services = [];
-            var Duration = [];
-            var ServicesName = [];
-            var DurationTime = [];
-            var Date = [];
-            var Amount = [];
-            var Description = [];
-            $('table#tblIndentFiles > tbody > tr').each(function () {
-                Services.push($('td select.Services', this).val());
-                ServicesName.push($('td select.Services option:selected', this).text());
-                Duration.push($('td select.Duration', this).val());
-                DurationTime.push($('td select.Duration option:selected', this).text());
-                Amount.push($('td input[type="text"].Amount', this).val());
-                Description.push($('td textarea.Description', this).val());
-            });
-            Type = "Other";
-        }
+        var WorkScope = CKEDITOR.instances["WorkScope"].getData();
+        var Services = $('#Services').val();;
+        var TotalAmount = $('#Total').val();
+        var DiscountQty = $('#Discount').val();
+        var DiscountAmount = $('#DiscountAmount').val();
+        var AfterDiscountAmount = $('#AfterDiscountAmount').val();
+        var CompanyId = $('#CompanyName').val();
+        var CompanyName = $('#CompanyName').find("option:selected").text();
+        var ProjectName = $('#ProjectName').val();
+        var QuatationNo = $('#QuatationNo').val();
+        var ProjectAmount = $('#ProjectAmount').val();
+
+        var HSNNo = [];
+        var HardWareName = [];
+        var HAmount = [];
+        var HUnit = [];
+        var HTotal = [];
+        var HDescription = [];
+        var AMC = [];
+        var AMCamount = [];
+        var AMCdate = [];
+        var Renewable = [];
+        var REWamount = [];
+        var REWdate = [];
+        $('table#tblIndentFilesH > tbody > tr').each(function () {
+            HardWareName.push($('td input[type="text"].ProductName', this).val());
+            HAmount.push($('td input[type="text"].Amounts', this).val());
+            HUnit.push($('td input[type="text"].Unit', this).val());
+            HTotal.push($('td input[type="text"].Amount', this).val());
+            HDescription.push($('td textarea.Description', this).val());
+            AMC.push($('td select.AMC', this).val());
+            AMCamount.push($('td input[type="text"].AMC_amount', this).val());
+            AMCdate.push($('td input[type="text"].AMC_date', this).val());
+            Renewable.push($('td select.Renewable', this).val());
+            REWamount.push($('td input[type="text"].REWAmount', this).val());
+            REWdate.push($('td input[type="text"].REW_date', this).val());
+        });
         var service = {
-            Services: Services,
-            Duration: Duration,
-            Amount: Amount,
-            Description: Description,
-            WorkScope: WorkScope,
-            ServicesName: ServicesName,
-            DurationTime: DurationTime,
-            TotalAmount: $('#Total').val(),
-            DiscountQty: $('#Discount').val(),
-            DiscountAmount: $('#DiscountAmount').val(),
-            AfterDiscountAmount: $('#AfterDiscountAmount').val(),
-            CompanyId: $('#CompanyName').val(),
-            CompanyName: $('#CompanyName').find("option:selected").text(),
-            ProjectName: $('#ProjectName').val(),
-            QuatationNo: $('#QuatationNo').val(),
-            ProjectAmount: $('#ProjectAmount').val(),
-            SoftwareName: SoftwareName,
-            SAmount: SAmount,
-            SUnit: SUnit,
-            SDescription: SDescription,
-            STotal: STotal,
-            HardWareId: HardWareId,
+            ServicesId: Services,
+            TotalAmount: TotalAmount,
+            DiscountQty: DiscountQty,
+            DiscountAmount: DiscountAmount,
+            AfterDiscountAmount: AfterDiscountAmount,
+            CompanyId: CompanyId,
+            CompanyName: CompanyName,
+            ProjectName: ProjectName,
+            QuatationNo: QuatationNo,
+            ProjectAmount: ProjectAmount,
             HardWareName: HardWareName,
             HSNNo: HSNNo,
             HAmount: HAmount,
             HUnit: HUnit,
             HTotal: HTotal,
-            Type: Type,
             Naration: HDescription,
-        }
+            AMC: AMC,
+            AMCamount: AMCamount,
+            AMCdate: AMCdate,
+            Renewable: Renewable,
+            REWamount: REWamount,
+            REWdate: REWdate,
+            WorkScope: WorkScope
+        };
         try {
             $.ajax({
                 type: "POST",
@@ -1242,13 +880,29 @@
                 data: JSON.stringify(service),
                 contentType: "application/json",
                 dataType: "json",
-                success: function (resultData) {
-                    if (resultData.split(',')[1] == "danger")
-                        MsgBox(resultData.split(',')[0], resultData.split(',')[1]);
-
+                success: function (message) {
+                    if (message == "success") {
+                        swal.fire({
+                            title: "Success",
+                            text: "Successfully Updated!",
+                            icon: "success",
+                            showCancelButton: false, // Hide the cancel button
+                            confirmButtonText: "OK", // Customize the OK button text
+                            confirmButtonColor: "#3085d6", // Custom color for the confirm button
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                window.location.href = "/Admin/GenrateQuatationList";
+                                Reset(); // Call Reset function if needed
+                            }
+                        });
+                    }
                     else {
-                        MsgBoxRedirect(resultData.split(',')[0], resultData.split(',')[1], "/Admin/GenrateQuatationList");
-
+                        swal.fire({
+                            title: "Error",
+                            text: message,
+                            icon: "error",
+                            timer: 6000,
+                        });
                     }
                 }
             });
@@ -1266,528 +920,836 @@
         });
     }
 </script>
-<div id="modal-primary" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="margin-left: -107px;width: 972px;border-color: #75ccce;">
-            <div class="modal-header bg-primary" style="background:#115a5a;color: white;height: 50px;padding: 15px;">
+<script>
+    $(document).ready(function () {
+        // Hide the AMC popup initially
+        $('#amcPopup').hide();
 
-                <h4 class="modal-title">Add Company </h4><span id="Errer" style="color:red"></span>
-                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
-            </div>
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="TypeValidation" class="form-horizontal">
-                            <div class="card ">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Add Company</h4>
-                                </div>
-                                <div class="card-body ">
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Company Name</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="CompanyName1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Contact Person</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="ContactPerson1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
+        // Event delegation for AMC dropdown change
+        $('#tblIndentFilesH1').on('change', 'select.AMC', function () {
+            var selectedOption = $(this).val();
+            var currentRow = $(this).closest("tr");
+            if (selectedOption === "Yes") {
+                // Open the AMC popup for the current row
+                $('#amcPopup').data('currentRow', currentRow);
+                $('#amcPopup').show();
+            } else {
+                // If "No" is selected, hide the AMC details fields and popup for the current row
+                currentRow.find('.AMC_amount').val('');
+                currentRow.find('.AMC_date').val('');
+                $('#amcPopup').hide();
+            }
+        });
+
+        // Event handler for submitting AMC details
+        $('#amcPopupSubmit').click(function () {
+            var currentRow = $('#amcPopup').data('currentRow');
+            var amcAmountInput = currentRow.find('.AMC_amount');
+            var amcDateInput = currentRow.find('.AMC_date');
+            var amcAmount = $('#amcAmount').val();
+            var amcStartDate = $('#amcStartDate').val();
+            amcAmountInput.val(amcAmount);
+            amcDateInput.val(amcStartDate);
+            $('#amcPopup').hide();
+            document.getElementById("amcAmount").value = "";
+            document.getElementById("amcStartDate").value = "";
+        });
+
+        // Event handler for closing the AMC popup
+        $('#amcPopupClose').click(function () {
+            $('#amcPopup').hide();
+        });
+
+
+
+        $('#renewablePopup').hide();
+
+        // Event delegation for Renewable dropdown change
+        $('#tblIndentFilesH1').on('change', 'select.Renewable', function () {
+            var selectedOption = $(this).val();
+            var currentRow = $(this).closest("tr");
+            if (selectedOption === "Yes") {
+                // Open the renewable popup for the current row
+                $('#renewablePopup').data('currentRow', currentRow);
+                $('#renewablePopup').show();
+            } else {
+                // If "No" is selected, hide the renewable details fields and popup for the current row
+                currentRow.find('.REWAmount').val('');
+                currentRow.find('.REW_date').val('');
+                $('#renewablePopup').hide();
+            }
+        });
+
+        // Event handler for submitting renewable details
+        $('#rewPopupSubmit').click(function () {
+            var currentRow = $('#renewablePopup').data('currentRow');
+            var renewableAmountInput = currentRow.find('.REWAmount');
+            var renewableDateInput = currentRow.find('.REW_date');
+            var renewableAmount = $('#renewableAMCAmount').val();
+            var renewableStartDate = $('#renewableAMCStartDate').val();
+            renewableAmountInput.val(renewableAmount);
+            renewableDateInput.val(renewableStartDate);
+            $('#renewablePopup').hide();
+            document.getElementById("renewableAMCAmount").value = "";
+            document.getElementById("renewableAMCStartDate").value = "";
+        });
+
+        // Event handler for closing the renewable popup
+        $('#rewPopupClose').click(function () {
+            $('#renewablePopup').hide();
+        });
+    });
+</script>
+
+@*<div id="modal-primary" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-left: -107px;width: 972px;border-color: #75ccce;">
+                <div class="modal-header bg-primary" style="background:#115a5a;color: white;height: 50px;padding: 15px;">
+
+                    <h4 class="modal-title">Add Company </h4><span id="Errer" style="color:red"></span>
+                    <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+                </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="TypeValidation" class="form-horizontal">
+                                <div class="card ">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Add Company</h4>
                                     </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Contact No</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="ContactNo1" type="text" name="required" required="true" />
+                                    <div class="card-body ">
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Company Name</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="CompanyName1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Contact Person</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="ContactPerson1" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <label class="col-sm-2 col-form-label">GST No</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="GSTNo1" type="text" name="required" required="true" />
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Contact No</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="ContactNo1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">GST No</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="GSTNo1" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">State</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <select id="State1" class="form-control sn-required1">
-                                                    <option>--Select State--</option>
-                                                    @if (ViewBag.STATE != null)
-                                                    {
-                                                        foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">State</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select id="State1" class="form-control sn-required1">
+                                                        <option>--Select State--</option>
+                                                        @if (ViewBag.STATE != null)
                                                         {
+                                                            foreach (var item in ViewBag.STATE as List<SelectListItem>)
+                                                            {
 
-                                                            <option value="@item.Value">@item.Text</option>
+                                                                <option value="@item.Value">@item.Text</option>
 
+                                                            }
                                                         }
-                                                    }
-                                                </select>
+                                                    </select>
 
+                                                </div>
                                             </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">City</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <select id="City1" class="form-control sn-required1">
-                                                    <option>--Select City--</option>
-                                                    @if (ViewBag.City != null)
-                                                    {
-                                                        foreach (var item in ViewBag.City as List<SelectListItem>)
+                                            <label class="col-sm-2 col-form-label">City</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select id="City1" class="form-control sn-required1">
+                                                        <option>--Select City--</option>
+                                                        @if (ViewBag.City != null)
                                                         {
+                                                            foreach (var item in ViewBag.City as List<SelectListItem>)
+                                                            {
 
-                                                            <option value="@item.Value">@item.Text</option>
+                                                                <option value="@item.Value">@item.Text</option>
 
+                                                            }
                                                         }
-                                                    }
-                                                </select>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Address</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group sn-required1">
+                                                    <textarea style="width: 100%;" class="sn-required1" id="Address1"></textarea>
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Statecode</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="Statecode1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Pincode</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="Pincode1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Pan No</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="PanNo1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">E-mail Id</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="EmailId1" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Designation</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required1" id="Designation1" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Address</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group sn-required1">
-                                                <textarea style="width: 100%;" class="sn-required1" id="Address1"></textarea>
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Statecode</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="Statecode1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Pincode</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="Pincode1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Pan No</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="PanNo1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">E-mail Id</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="EmailId1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Designation</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required1" id="Designation1" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
+                                    <div class="card-footer text-center">
+
+                                        <button type="button" class="btn btn-primary" id="btnSubmit1">Submit</button>
+
                                     </div>
                                 </div>
-                                <div class="card-footer text-center">
+                            </form>
+                        </div>
 
-                                    <button type="button" class="btn btn-primary" id="btnSubmit1">Submit</button>
-
-                                </div>
-                            </div>
-                        </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div id="modal-primary1" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-        <div class="modal-content" style="margin-left: -107px;width: 972px;border-color: #75ccce;">
-            <div class="modal-header bg-primary" style="background:#115a5a;color: white;height: 50px;padding: 15px;">
+    <div id="modal-primary1" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="margin-left: -107px;width: 972px;border-color: #75ccce;">
+                <div class="modal-header bg-primary" style="background:#115a5a;color: white;height: 50px;padding: 15px;">
 
-                <h4 class="modal-title">Add Project </h4><span id="Errer" style="color:red"></span>
-                <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
-            </div>
+                    <h4 class="modal-title">Add Project </h4><span id="Errer" style="color:red"></span>
+                    <button type="button" class="close" data-dismiss="modal" style="color: #fff6f7;opacity: inherit;">&times;</button>
+                </div>
 
-            <div class="content">
-                <div class="row">
-                    <div class="col-md-12">
-                        <form id="TypeValidation" class="form-horizontal">
-                            <div class="card ">
-                                <div class="card-header ">
-                                    <h4 class="card-title">Add Project</h4>
-                                </div>
-                                <div class="card-body ">
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Company Name</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <select id="CompanyName2" class="form-control sn-required2">
-                                                    <option>--Select Client--</option>
-                                                    @if (ViewBag.client != null)
-                                                    {
-                                                        foreach (var item in ViewBag.client as List<SelectListItem>)
-                                                        {
-
-                                                            <option value="@item.Value">@item.Text</option>
-
-                                                        }
-                                                    }
-                                                </select>
-
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Client Name</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2" readonly id="ClientName2" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
+                <div class="content">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form id="TypeValidation" class="form-horizontal">
+                                <div class="card ">
+                                    <div class="card-header ">
+                                        <h4 class="card-title">Add Project</h4>
                                     </div>
-                                    <div id="Clients2" style="display:none;">
-                                        <h4 style="text-align:center;">
-                                            Company Detail
-                                        </h4>
+                                    <div class="card-body ">
                                         <div class="row">
-                                            <div class="col-md-12 ">
-                                                <div class="table-bg">
-                                                    <div class="table-responsive">
-                                                        <table class="table">
-                                                            <thead class="bg-info">
-                                                                <tr class="head-title">
-                                                                    <th>Comapny Name</th>
-                                                                    <th>Contect Person</th>
-                                                                    <th>Mobile</th>
-                                                                    <th>Email-Id</th>
-                                                                    <th>StateName</th>
-                                                                    <th>CityName</th>
-                                                                    <th>GSTN</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td><span id="Company2"></span>  </td>
-                                                                    <td><span id="ContectPerson2"></span></td>
-                                                                    <td><span id="Mobile2"></span></td>
-                                                                    <td><span id="EmailId2"></span></td>
-                                                                    <td><span id="StateName2"></span></td>
-                                                                    <td><span id="CityName2"></span></td>
-                                                                    <td><span id="Gst2"></span></td>
-                                                                </tr>
+                                            <label class="col-sm-2 col-form-label">Company Name</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <select id="CompanyName2" class="form-control sn-required2">
+                                                        <option>--Select Client--</option>
+                                                        @if (ViewBag.client != null)
+                                                        {
+                                                            foreach (var item in ViewBag.client as List<SelectListItem>)
+                                                            {
 
-                                                            </tbody>
-                                                        </table>
+                                                                <option value="@item.Value">@item.Text</option>
 
+                                                            }
+                                                        }
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Client Name</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2" readonly id="ClientName2" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div id="Clients2" style="display:none;">
+                                            <h4 style="text-align:center;">
+                                                Company Detail
+                                            </h4>
+                                            <div class="row">
+                                                <div class="col-md-12 ">
+                                                    <div class="table-bg">
+                                                        <div class="table-responsive">
+                                                            <table class="table">
+                                                                <thead class="bg-info">
+                                                                    <tr class="head-title">
+                                                                        <th>Comapny Name</th>
+                                                                        <th>Contect Person</th>
+                                                                        <th>Mobile</th>
+                                                                        <th>Email-Id</th>
+                                                                        <th>StateName</th>
+                                                                        <th>CityName</th>
+                                                                        <th>GSTN</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr>
+                                                                        <td><span id="Company2"></span>  </td>
+                                                                        <td><span id="ContectPerson2"></span></td>
+                                                                        <td><span id="Mobile2"></span></td>
+                                                                        <td><span id="EmailId2"></span></td>
+                                                                        <td><span id="StateName2"></span></td>
+                                                                        <td><span id="CityName2"></span></td>
+                                                                        <td><span id="Gst2"></span></td>
+                                                                    </tr>
+
+                                                                </tbody>
+                                                            </table>
+
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Project Name</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2" id="ProjectName2" type="text" name="required" required="true" />
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Project Name</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2" id="ProjectName2" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <label class="col-sm-2 col-form-label">Project Starting Date</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2 datepicker" id="ProjectStartingDate2" type="text" name="required" required="true" />
+                                            <label class="col-sm-2 col-form-label">Project Starting Date</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2 datepicker" id="ProjectStartingDate2" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="row">
+                                        <div class="row">
 
-                                        <label class="col-sm-2 col-form-label">Completion Date</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2 datepicker" id="CompletionDate2" type="text" name="required" required="true" />
+                                            <label class="col-sm-2 col-form-label">Completion Date</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2 datepicker" id="CompletionDate2" type="text" name="required" required="true" />
+                                                </div>
+                                            </div>
+                                            <label class="col-sm-2 col-form-label">Project Delivery Date</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2 datepicker" id="ProjectDeliveryDate2" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
                                         </div>
-                                        <label class="col-sm-2 col-form-label">Project Delivery Date</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2 datepicker" id="ProjectDeliveryDate2" type="text" name="required" required="true" />
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Total Amount</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+                                                    <input class="form-control sn-required2" id="TotalAmount2" type="text" name="required" required="true" />
+                                                </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Total Amount</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
-                                                <input class="form-control sn-required2" id="TotalAmount2" type="text" name="required" required="true" />
-                                            </div>
-                                        </div>
-                                        <label class="col-sm-2 col-form-label">Add Documentation</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                            <label class="col-sm-2 col-form-label">Add Documentation</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
 
-                                                <div class="form-group form-file-upload form-file-multiple">
-                                                    <input type="file" id="Documentation2" name="Documentation2" multiple="" class="inputFileHidden">
-                                                    <input type="text" class="form-control inputFileVisible" placeholder="Please Select Project Documentation" multiple="">
+                                                    <div class="form-group form-file-upload form-file-multiple">
+                                                        <input type="file" id="Documentation2" name="Documentation2" multiple="" class="inputFileHidden">
+                                                        <input type="text" class="form-control inputFileVisible" placeholder="Please Select Project Documentation" multiple="">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <label class="col-sm-2 col-form-label">Project Status</label>
+                                            <div class="col-sm-4">
+                                                <div class="form-group">
+
+                                                    <select id="ProjectStatus2" class="form-control sn-required2">
+                                                        <option value="Pending">select Status</option>
+                                                        <option value="Pending">Pending</option>
+                                                        <option value="Working">Working</option>
+                                                        <option value="Completed">Completed</option>
+                                                        <option value="Delivered">Delivered</option>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <label class="col-sm-2 col-form-label">Project Status</label>
-                                        <div class="col-sm-4">
-                                            <div class="form-group">
+                                    <div class="card-footer text-center">
 
-                                                <select id="ProjectStatus2" class="form-control sn-required2">
-                                                    <option value="Pending">select Status</option>
-                                                    <option value="Pending">Pending</option>
-                                                    <option value="Working">Working</option>
-                                                    <option value="Completed">Completed</option>
-                                                    <option value="Delivered">Delivered</option>
-                                                </select>
-                                            </div>
-                                        </div>
+                                        <button type="button" class="btn btn-primary" id="btnSubmit2">Submit</button>
+
                                     </div>
                                 </div>
-                                <div class="card-footer text-center">
+                            </form>
+                        </div>
 
-                                    <button type="button" class="btn btn-primary" id="btnSubmit2">Submit</button>
-
-                                </div>
-                            </div>
-                        </form>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script>
-    $('#State1').change(function () {
-        $.ajax({
-            url: '/Employee/City',
-            datatype: 'json',
-            data: { StateId: $(this).val() },
-            method: 'Post',
-            success: function (data) {
-                $('#City1').empty();
-                $('#City1').append('<option value=""> Select City </option>');
-                $(data).each(function (index, item) {
-                    $('#City1').append($('<option/>', { Value: item.Value, text: item.Text }))
-                });
-            }
-        });
-    });
-    $("#btnSubmit1").click(function () {
-        $.ajaxSetup({
-            beforeSend: function () {
-                $(".processing").show();
-            },
-            complete: function () {
-                $(".processing").hide();
-            }
-        });
-        var flag = 0;
-        var cntrl;
-        $('input.sn-required1,select.sn-required1,textarea.sn-required1').each(function () {
-            cntrl = $(this);
-            if (cntrl.val().toString().length == 0) {
-                flag = 1;
-                if (!cntrl.hasClass('sn-error'))
-                    cntrl.removeClass('border-success');
-                cntrl.addClass('sn-error');
-                swal.fire({
-                    title: "Error",
-                    text: "Something is missing",
-                    icon: "error",
-                    timer: 6000,
-                });
-            }
-            else {
-                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
-            }
-        });
-        if (flag == 1) return;
-        var client = {
-            Id: $("#Id").val(),
-            CompanyName: $("#CompanyName1").val(),
-            ContactPerson: $("#ContactPerson1").val(),
-            ContactNo: $("#ContactNo1").val(),
-            GSTNo: $("#GSTNo1").val(),
-            State: $("#State1").val(),
-            City: $("#City1").val(),
-            StateName: $("#State1").find("option:selected").text(),
-            CityName: $("#City1").find("option:selected").text(),
-            Address: $("#Address1").val(),
-            Statecode: $("#Statecode1").val(),
-            Pincode: $("#Pincode1").val(),
-            PanNo: $("#PanNo1").val(),
-            EmailId: $("#EmailId1").val(),
-            Designation: $("#Designation1").val(),
-        }
-        $.ajax({
-            type: "POST",
-            dataType: "json",
-            data: client,
-            url: "/Admin/InsertClient",
-            Contenttype: "application/json; charset=utf-8",
-            success: function (message) {
-                if (message == "success") {
-                    swal.fire({
-                        title: "Success",
-                        text: "Successfully Added!",
-                        icon: "success",
-                        timer: 6000,
+    <script>
+        $('#State1').change(function () {
+            $.ajax({
+                url: '/Employee/City',
+                datatype: 'json',
+                data: { StateId: $(this).val() },
+                method: 'Post',
+                success: function (data) {
+                    $('#City1').empty();
+                    $('#City1').append('<option value=""> Select City </option>');
+                    $(data).each(function (index, item) {
+                        $('#City1').append($('<option/>', { Value: item.Value, text: item.Text }))
                     });
-                    window.location.href = "/Admin/GenrateQuatation";
                 }
-                else {
+            });
+        });
+        $("#btnSubmit1").click(function () {
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                },
+                complete: function () {
+                    $(".processing").hide();
+                }
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required1,select.sn-required1,textarea.sn-required1').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
                     swal.fire({
                         title: "Error",
-                        text: "Something Wrong!",
+                        text: "Something is missing",
                         icon: "error",
                         timer: 6000,
                     });
                 }
-
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            if (flag == 1) return;
+            var client = {
+                Id: $("#Id").val(),
+                CompanyName: $("#CompanyName1").val(),
+                ContactPerson: $("#ContactPerson1").val(),
+                ContactNo: $("#ContactNo1").val(),
+                GSTNo: $("#GSTNo1").val(),
+                State: $("#State1").val(),
+                City: $("#City1").val(),
+                StateName: $("#State1").find("option:selected").text(),
+                CityName: $("#City1").find("option:selected").text(),
+                Address: $("#Address1").val(),
+                Statecode: $("#Statecode1").val(),
+                Pincode: $("#Pincode1").val(),
+                PanNo: $("#PanNo1").val(),
+                EmailId: $("#EmailId1").val(),
+                Designation: $("#Designation1").val(),
             }
-        });
-    });
-    $('#CompanyName2').change(function () {
-        var me = $(this);
-        $.ajaxSetup({
-            beforeSend: function () {
-                $(".processing").show();
-                me.attr('disabled', 'disabled');
-            },
-            complete: function () {
-                $(".processing").hide();
-                me.attr('disabled', false);
-            }
-        });
-        var ClientId = {
-            ClientId: $(this).val()
-        }
-        $.ajax({
-            type: "POST",
-            url: "/Admin/GetCompanyDetail",
-            data: JSON.stringify(ClientId),
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (resultData) {
-                if (resultData != null) {
-
-                    $('#Company2').text(resultData.CompanyName);
-                    $('#ContectPerson2').text(resultData.ContactPerson);
-                    $('#Mobile2').text(resultData.ContactNo);
-                    $('#Gst2').text(resultData.GSTNo);
-                    $('#EmailId2').text(resultData.EmailId);
-                    $('#StateName2').text(resultData.StateName);
-                    $('#CityName2').text(resultData.CityName);
-                    $("#ClientName2").val(resultData.ContactPerson);
-                    $("#Clients2").show();
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                data: client,
+                url: "/Admin/InsertClient",
+                Contenttype: "application/json; charset=utf-8",
+                success: function (message) {
+                    if (message == "success") {
+                        swal.fire({
+                            title: "Success",
+                            text: "Successfully Added!",
+                            icon: "success",
+                            timer: 6000,
+                        });
+                        window.location.href = "/Admin/GenrateQuatation";
+                    }
+                    else {
+                        swal.fire({
+                            title: "Error",
+                            text: "Something Wrong!",
+                            icon: "error",
+                            timer: 6000,
+                        });
+                    }
 
                 }
-            }
+            });
         });
+        $('#CompanyName2').change(function () {
+            var me = $(this);
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                    me.attr('disabled', 'disabled');
+                },
+                complete: function () {
+                    $(".processing").hide();
+                    me.attr('disabled', false);
+                }
+            });
+            var ClientId = {
+                ClientId: $(this).val()
+            }
+            $.ajax({
+                type: "POST",
+                url: "/Admin/GetCompanyDetail",
+                data: JSON.stringify(ClientId),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (resultData) {
+                    if (resultData != null) {
 
-    });
-    $("#btnSubmit2").click(function () {
-        $.ajaxSetup({
-            beforeSend: function () {
-                $(".processing").show();
-            },
-            complete: function () {
-                $(".processing").hide();
-            }
+                        $('#Company2').text(resultData.CompanyName);
+                        $('#ContectPerson2').text(resultData.ContactPerson);
+                        $('#Mobile2').text(resultData.ContactNo);
+                        $('#Gst2').text(resultData.GSTNo);
+                        $('#EmailId2').text(resultData.EmailId);
+                        $('#StateName2').text(resultData.StateName);
+                        $('#CityName2').text(resultData.CityName);
+                        $("#ClientName2").val(resultData.ContactPerson);
+                        $("#Clients2").show();
+
+                    }
+                }
+            });
+
         });
-        var flag = 0;
-        var cntrl;
-        $('input.sn-required2,select.sn-required2,textarea.sn-required2').each(function () {
-            cntrl = $(this);
-            if (cntrl.val().toString().length == 0) {
-                flag = 1;
-                if (!cntrl.hasClass('sn-error'))
-                    cntrl.removeClass('border-success');
-                cntrl.addClass('sn-error');
-                swal.fire({
-                    title: "Error",
-                    text: "Something is missing",
-                    icon: "error",
-                    timer: 6000,
+        $("#btnSubmit2").click(function () {
+            $.ajaxSetup({
+                beforeSend: function () {
+                    $(".processing").show();
+                },
+                complete: function () {
+                    $(".processing").hide();
+                }
+            });
+            var flag = 0;
+            var cntrl;
+            $('input.sn-required2,select.sn-required2,textarea.sn-required2').each(function () {
+                cntrl = $(this);
+                if (cntrl.val().toString().length == 0) {
+                    flag = 1;
+                    if (!cntrl.hasClass('sn-error'))
+                        cntrl.removeClass('border-success');
+                    cntrl.addClass('sn-error');
+                    swal.fire({
+                        title: "Error",
+                        text: "Something is missing",
+                        icon: "error",
+                        timer: 6000,
+                    });
+                }
+                else {
+                    if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
+                }
+            });
+            // var EmployeeId = []
+            //// var EmployeeName = []
+            // $("#EmployeeName :selected").map(function (i, el) {
+            //     var emp = $(el).val();
+            //    // var emname = $(el).find("option:selected").text()
+            //     EmployeeId.push(emp)
+            //    // EmployeeName.push(emname)
+
+            // });
+            if (flag == 1) return;
+            if (window.FormData !== undefined) {
+                //var fileUpload = $("#Documentation").get(0);
+                //var files = fileUpload.files;
+
+                // Create FormData object
+                var fileData = new FormData();
+
+                // Looping over all files and add it to FormData object
+                var totalFiles = document.getElementById("Documentation2").files.length;
+                for (var i = 0; i < totalFiles; i++) {
+                    var file = document.getElementById("Documentation2").files[i];
+                    fileData.append("Documentation2", file);
+                }
+            }
+            fileData.append("Id", $("#Id").val()),
+            fileData.append("CompanyId", $("#CompanyName2").val()),
+            fileData.append("CompanyName", $('#CompanyName2').find("option:selected").text()),
+            fileData.append("ClientName", $("#ClientName2").val()),
+            fileData.append("ProjectName", $("#ProjectName2").val()),
+            fileData.append("ProjectStartingDate", $("#ProjectStartingDate2").val()),
+            fileData.append("CompletionDate", $("#CompletionDate2").val()),
+            fileData.append("ProjectDeliveryDate", $("#ProjectDeliveryDate2").val()),
+            fileData.append("TotalAmount", $("#TotalAmount2").val()),
+            fileData.append("ProjectStatus", $("#ProjectStatus2").val()),
+            fileData.append("ProjectCode", $("#ProjectCode2").val()),
+          $.ajax
+          ({
+              type: "Post",
+              url: "/Admin/InsertProject",
+              data: fileData,
+              contentType: false,
+              dataType: "json",
+              processData: false,
+              success: function (message) {
+                  if (message == "success") {
+                      swal.fire({
+                          title: "Success",
+                          text: "Successfully Added!",
+                          icon: "success",
+                          timer: 6000,
+                      });
+                      window.location.href = "/Admin/GenrateQuatation";
+                  }
+                  else {
+                      swal.fire({
+                          title: "Error",
+                          text: "Something Wrong!",
+                          icon: "error",
+                          timer: 6000,
+                      });
+                  }
+              }
+          });
+        });
+    </script>*@
+
+@*<script>
+        function BindServices() {
+
+            $.ajax({
+                type: "GET",
+                url: "/Admin/BindServices",
+                success: function (resultData) {
+                    // $('.projects').empty();
+                    var row = '';
+                    $('.Services').append("<option>Select</option>");
+                    $.each(resultData, function (key, value) {
+                        row += '<option value="' + value.Value + '">' + value.Text + '</option>';
+                    });
+                    $('.Services').append(row);
+                }
+            });
+        }
+        function ImplementDeleteFileRow() {
+            $("#tblIndentFiles tbody tr .LnkDeleteFileRow").click(function (e) {
+                e.preventDefault();
+                var CurrRow = $(this).closest("tr");
+                CurrRow.remove();
+                TotalofEachRow();
+            });
+        }
+        $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+        $("#tblIndentFiles tbody tr .input.Task").unbind("keyup");
+        $("#tblIndentFiles tbody tr .input.Hour").unbind("keyup");
+        ImplementDeleteFileRow();
+        $("#LnkAddFileRow").unbind("click");
+        $("#LnkAddFileRow").click(function (e) {
+            e.preventDefault();
+            var counts = 1;
+            $('#tblIndentFiles tbody tr').each(function () {
+                counts++;
+            });
+            var NewRow = '<tr class=selectWrapper id="counts">';
+            NewRow += '<td> <select class="form-control  Services" value="" id="Services" ></select></td>';
+            NewRow += '<td> <select class="form-control Duration" id="Duration"  ><option value="0">Select Duration</option><option value="1">Monthly</option><option value="12">Yearly</option></select></td>';
+            NewRow += '<td><input type="text" class="form-control Amount" value="" id="Amount" placeholder="Amount"></td>';
+            NewRow += '<td> <textarea class="form-control-sm  Description"  placeholder="Description" id="Description" rows="2" style="width:100%;"></textarea></td>';
+            NewRow += '<td> <a class="btn btn-danger btn-sm icon-btn ml-2  LnkDeleteFileRow" title="Remove"  style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+            NewRow += '</tr>';
+            var count = 0;
+            $('#tblIndentFiles tbody tr').each(function () {
+                count++;
+                counts++;
+            });
+            if (count <= 18)
+                $('#tblIndentFiles tbody').append(NewRow);
+            $("#tblIndentFiles tbody tr .LnkDeleteFileRow").unbind("click");
+            BindServices();
+            ImplementDeleteFileRow();
+        });
+        function TotalofEachRow() {
+            var sum = 0;
+            var totalwithtax = 0;
+            var sum = 0;
+            $('#tblIndentFiles .Amount').each(function () {
+                if (!isNaN(this.value) && this.value.length != 0) {
+                    sum += parseFloat(this.value);
+                }
+                var ProjectAmount = '';
+                var Total = '';
+                ProjectAmount = 0;
+                Total = parseFloat(ProjectAmount) + sum;
+                $('#Total').val(Total.toFixed(2));
+                $('#AfterDiscountAmount').val(Total.toFixed(2));
+            });
+
+        }
+        rebindLastSelectBox();
+        function rebindLastSelectBox() {
+            $("#tblIndentFiles").on('change', '.Amount', function () {
+                TotalofEachRow();
+            });
+            rebindLastSelectBox();
+        }
+    </script>*@
+@*<script>
+
+        //function TotalofEachRowForSoftware() {
+        //    var sum = 0;
+
+        //    $('#tblIndentFilesS tbody tr').each(function () {
+        //        var ab = $(this).closest('tr').find('.SAmounts').val();
+        //        if (!isNaN($(this).closest('tr').find('.SAmounts').val()) && $(this).closest('tr').find('.SAmounts').val().length != 0) {
+        //            sum += parseFloat($(this).closest('tr').find('.SAmounts').val());
+        //        }
+        //    });
+        //    $('#Total').val(sum.toFixed(2));
+        //    $('#AfterDiscountAmount').val(sum.toFixed(2));
+        //}
+        $(document).on("change", ".Units", function () {
+            var currentRow = $(this).closest("tr");
+            var unit = currentRow.find("input.Units").val();
+            var Price = parseFloat(currentRow.find("input.Amountss").val());
+            var Total = Price * unit;
+            currentRow.find('input.SAmounts').val(Total);
+            TotalofEachRowForSoftware();
+        })
+        $(document).on("change", ".Amountss", function () {
+            var currentRow = $(this).closest("tr");
+            var unit = currentRow.find("input.Units").val();
+            var Price = parseFloat(currentRow.find("input.Amountss").val());
+            var Total = Price * unit;
+            currentRow.find('input.SAmounts').val(Total);
+            TotalofEachRowForSoftware();
+
+        });
+        $("#LnkAddFileRowS").unbind("click");
+        $("#LnkAddFileRowS").click(function (e) {
+            e.preventDefault()
+            var counts = 1;
+            $('#tblIndentFilesS tbody tr').each(function () {
+                counts++;
+            });
+            var NewRow = '<tr class=selectWrapper id="counts">';
+            NewRow += '<td><input type="text" class="form-control ProductName" value="" placeholder="ProductName"></td>';
+            NewRow += '<td><input type="text" class="form-control Amounts" value="" placeholder="Amount"></td>';
+            NewRow += '<td><input type="text" class="form-control Unit" value="" placeholder="Quantity"></td>';
+            NewRow += '<td><input type="text" class="form-control Amount" value="" readonly placeholder="Total Amount"></td>';
+            NewRow += '<td><textarea class="form-control-sm Description" placeholder="Naration" rows="2" style="width:100%;"></textarea></td>';
+            NewRow += '<td><select class="form-control AMC"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select><input type="hidden" class="form-control AMC_amount" readonly><input type="hidden" class="form-control AMC_date" readonly></td>';
+            NewRow += '<td><select class="form-control Renewable"><option value="">Select</option><option value="Yes">Yes</option><option value="No">No</option></select><input type="hidden" class="form-control REWAmount" readonly><input type="hidden" class="form-control REW_date" readonly></td>';
+            NewRow += '<td><a class="btn btn-danger btn-sm icon-btn ml-2 LnkDeleteFileRow" title="Remove" style="padding:2px;"><i class="mdi mdi-delete fa fa-trash sn-delete"></i></a></td>';
+            NewRow += '</tr>';
+            var count = 0;
+            $('#tblIndentFilesS tbody tr').each(function () {
+                count++;
+                counts++;
+            });
+            if (count <= 18)
+                $('#tblIndentFilesS tbody').append(NewRow);
+            $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").unbind("click");
+            ImplementDeleteFileRowForsW();
+            rebindLastSelectBox2();
+            function rebindLastSelectBox2() {
+                $('input.Units').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Units").val();
+                    var Price = parseFloat(currentRow.find("input.Amountss").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.SAmounts').val(resultData.toFixed(2));
+                            TotalofEachRowForSoftware();
+                        }
+                    });
+                    rebindLastSelectBox2();
+                })
+                $('input.Amounts').change(function () {
+                    $(this).unbind('change');
+                    $.ajaxSetup({
+                        beforeSend: function () {
+                            $(".processing").show();
+                        },
+                        complete: function () {
+                            $(".processing").hide();
+                        }
+                    });
+                    var currentRow = $(this).closest("tr");
+                    var unit = currentRow.find("input.Units").val();
+                    var Price = parseFloat(currentRow.find("input.Amountss").val());
+                    var Product = {
+                        Price: Price,
+                        Unit: unit,
+                    };
+                    $.ajax({
+                        type: "POST",
+                        dataType: "json",
+                        data: Product,
+                        url: "/Admin/TotalAmountOfProduct",
+                        Contenttype: "application/json; charset=utf-8",
+                        success: function (resultData) {
+                            currentRow.find('input.SAmounts').val(resultData.toFixed(2));
+                            TotalofEachRowForSoftware();
+                        }
+                    });
+                    rebindLastSelectBox2();
+                })
+            }
+            rebindLastSelectBox2();
+            function TotalofEachRowForSoftware() {
+                var sum = 0;
+                var totalwithtax = 0;
+                var sum = 0;
+                $('#tblIndentFilesS .SAmounts').each(function () {
+                    if (!isNaN(this.value) && this.value.length != 0) {
+                        sum += parseFloat(this.value);
+                    }
+                    var ProjectAmount = '';
+                    var Total = '';
+                    ProjectAmount = 0;
+                    Total = parseFloat(ProjectAmount) + sum;
+                    $('#Total').val(Total.toFixed(2));
+                    $('#AfterDiscountAmount').val(Total.toFixed(2));
+                });
+
+            }
+            function ImplementDeleteFileRowForsW() {
+                $("#tblIndentFilesS tbody tr .LnkDeleteFileRow").click(function (e) {
+                    e.preventDefault();
+                    var CurrRow = $(this).closest("tr");
+                    CurrRow.remove();
+                    TotalofEachRowForSoftware();
                 });
             }
-            else {
-                if (cntrl.hasClass('sn-error')) cntrl.removeClass('sn-error');
-            }
         });
-        // var EmployeeId = []
-        //// var EmployeeName = []
-        // $("#EmployeeName :selected").map(function (i, el) {
-        //     var emp = $(el).val();
-        //    // var emname = $(el).find("option:selected").text()
-        //     EmployeeId.push(emp)
-        //    // EmployeeName.push(emname)
-
-        // });
-        if (flag == 1) return;
-        if (window.FormData !== undefined) {
-            //var fileUpload = $("#Documentation").get(0);
-            //var files = fileUpload.files;
-
-            // Create FormData object
-            var fileData = new FormData();
-
-            // Looping over all files and add it to FormData object
-            var totalFiles = document.getElementById("Documentation2").files.length;
-            for (var i = 0; i < totalFiles; i++) {
-                var file = document.getElementById("Documentation2").files[i];
-                fileData.append("Documentation2", file);
-            }
-        }
-        fileData.append("Id", $("#Id").val()),
-        fileData.append("CompanyId", $("#CompanyName2").val()),
-        fileData.append("CompanyName", $('#CompanyName2').find("option:selected").text()),
-        fileData.append("ClientName", $("#ClientName2").val()),
-        fileData.append("ProjectName", $("#ProjectName2").val()),
-        fileData.append("ProjectStartingDate", $("#ProjectStartingDate2").val()),
-        fileData.append("CompletionDate", $("#CompletionDate2").val()),
-        fileData.append("ProjectDeliveryDate", $("#ProjectDeliveryDate2").val()),
-        fileData.append("TotalAmount", $("#TotalAmount2").val()),
-        fileData.append("ProjectStatus", $("#ProjectStatus2").val()),
-        fileData.append("ProjectCode", $("#ProjectCode2").val()),
-      $.ajax
-      ({
-          type: "Post",
-          url: "/Admin/InsertProject",
-          data: fileData,
-          contentType: false,
-          dataType: "json",
-          processData: false,
-          success: function (message) {
-              if (message == "success") {
-                  swal.fire({
-                      title: "Success",
-                      text: "Successfully Added!",
-                      icon: "success",
-                      timer: 6000,
-                  });
-                  window.location.href = "/Admin/GenrateQuatation";
-              }
-              else {
-                  swal.fire({
-                      title: "Error",
-                      text: "Something Wrong!",
-                      icon: "error",
-                      timer: 6000,
-                  });
-              }
-          }
-      });
-    });
-</script>
-
+    </script>*@
